@@ -63,7 +63,7 @@ test('match: logische uitkomsten', () => {
   assert.equal(KASSA_IDS.length + PIN_IDS.length, IDS.length);
 });
 
-test('partnerlinks: leeg tot goedkeuring voor kassamatch.nl; gevuld = sponsored nofollow + label', () => {
+test('partnerlinks: alleen goedgekeurd voor kassamatch.nl; gevuld = sponsored nofollow + label', () => {
   for (const [id, href] of Object.entries(PARTNERLINKS)) { assert.ok(AANBIEDERS[id], id); assert.match(href, /^https:\/\//); }
   for (const id of IDS) {
     const o = uitgaand(id);

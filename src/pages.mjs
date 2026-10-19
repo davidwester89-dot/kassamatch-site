@@ -38,7 +38,7 @@ const NIET = {
 const homeFaq = [
   ['Wat is de goedkoopste pinautomaat?', `Dat hangt af van hoeveel je pint. Bij weinig betalingen ben je het goedkoopst uit zonder vaste kosten, zoals bij SumUp of myPOS One. Pin je veel, dan wint een vast bedrag per betaling, zoals bij CCV (€ 0,068) of myPOS Pro (€ 0,06). Zie <a href="/goedkoopste-pinautomaat/">goedkoopste pinautomaat</a>.`],
   ['Waar komen de bedragen vandaan?', 'Van de prijspagina\'s van de aanbieders zelf. Op de pagina <a href="/bronnen/">bronnen</a> staat per aanbieder de link en de datum waarop we het controleerden. Publiceert een aanbieder iets niet, dan staat er "onbekend" of "op offerte".'],
-  ['Verdient KassaMatch aan de aanbevelingen?', 'Nu niet. In de toekomst kunnen we via een partnerlink een vergoeding krijgen. Zo\'n link krijgt altijd het label "partnerlink" en telt nooit mee in de match of de volgorde.'],
+  ['Verdient KassaMatch aan de aanbevelingen?', 'Soms. Bij een aanbieder met een partnerlink kunnen we een vergoeding krijgen als je via ons een account opent. Zo\'n link krijgt altijd het label "partnerlink" en telt nooit mee in de match of de volgorde.'],
 ];
 const ex = vergelijkPin(300, 25);
 export const home = {
@@ -363,7 +363,7 @@ export const disclaimer = {
 <p>KassaMatch geeft een overzicht van pinautomaten en kassasystemen op basis van wat de aanbieders zelf publiceren. We doen ons best om alles juist en actueel te houden, en zetten bij elke pagina de datum van de laatste controle.</p>
 <h2>Bedragen en tarieven</h2><p>Alle bedragen komen van de sites van de aanbieders, op de datum die bij de pagina staat. Aanbieders kunnen hun tarieven en acties wijzigen. Wat de aanbieder je in een offerte of contract aanbiedt, gaat altijd voor. De rekenvoorbeelden gaan uit van betalingen met een Nederlandse consumentenbetaalpas.</p>
 <h2>De match</h2><p>De match is een hulpmiddel op basis van vaste regels en je antwoorden. Het is een eerste selectie, geen persoonlijk advies over je bedrijf. Over fiscale vragen lees je meer bij de Belastingdienst.</p>
-<h2>Partnerlinks</h2><p>Bij sommige aanbieders kunnen we in de toekomst een vergoeding krijgen als je via ons een account opent. Zo'n link heeft altijd het label "partnerlink". Partnerlinks hebben geen invloed op de match, de rekentool of de volgorde.</p>
+<h2>Partnerlinks</h2><p>Bij sommige aanbieders kunnen we een vergoeding krijgen als je via ons een account opent. Zo'n link heeft altijd het label "partnerlink". Partnerlinks hebben geen invloed op de match, de rekentool of de volgorde.</p>
 <h2>Merken</h2><p>Merknamen zijn van de betreffende aanbieders. KassaMatch is niet verbonden aan een van deze aanbieders.</p>
 <h2>Fout gezien?</h2><p>Mail naar <a href="mailto:${SITE.email}">${SITE.email}</a>, dan passen we het aan.</p></article>`,
 };

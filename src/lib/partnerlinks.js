@@ -1,10 +1,11 @@
-// Goedgekeurde partnerlinks per aanbieder-id. LEEG zolang er geen goedgekeurd programma VOOR KASSAMATCH.NL is.
-// Shopify (impact.com, account 7989613) is goedgekeurd voor de media property shopmatch.nl, niet voor kassamatch.nl.
-// Die link hergebruiken we hier pas als kassamatch.nl in impact.com als property is toegevoegd en goedgekeurd.
+// Goedgekeurde partnerlinks per aanbieder-id. Alleen programma's die voor kassamatch.nl zijn goedgekeurd.
+// Shopify POS: impact.com, publisher-account 7989613, programma 13624; kassamatch.nl is daar geverifieerde property (19-10-2026).
 // De match en de kostenrekentool lezen dit bestand NOOIT: partnerlinks hebben geen invloed op het advies of de volgorde.
 import { AANBIEDERS } from './aanbieders.js';
 
-export const PARTNERLINKS = {};
+export const PARTNERLINKS = {
+  shopify: 'https://shopify.pxf.io/c/7989613/1061744/13624?u=https%3A%2F%2Fwww.shopify.com%2Fnl%2Fpos',
+};
 
 /** Uitgaande link: partnerlink (rel sponsored nofollow, met label) als die er is, anders de officiële site. */
 export function uitgaand(id, partnerlinks = PARTNERLINKS) {

@@ -19,10 +19,12 @@ test('build (productie): pagina’s, sitemap, robots, IndexNow, regels', () => {
   assert.equal(readFileSync('dist/CNAME', 'utf8').trim(), 'kassamatch.nl');
   const key = readdirSync('dist').find((f) => /^[0-9a-f]{32}\.txt$/.test(f));
   assert.ok(key && readFileSync(join('dist', key), 'utf8') === key.replace('.txt', ''));
-  const verboden = [/Dave/i, /Wester/i, /batterijmatch/i, /goodfellas/i, /reddit/i, /prijs op aanvraag/i, /geraadpleegd op/i, /check altijd/i, /dit is geen advies/i, /★/, /aggregateRating/, /reviewCount/, /ratingValue/, /sterrenbeoordeling/i, /klantbeoordeling/i, /<img [^>]*\.(jpe?g|webp)/i, /shopmatch-site|shopmatch\.nl\/shop-match/, /pxf\.io/];
+  const verboden = [/Dave/i, /Wester/i, /batterijmatch/i, /goodfellas/i, /reddit/i, /prijs op aanvraag/i, /geraadpleegd op/i, /check altijd/i, /dit is geen advies/i, /★/, /aggregateRating/, /reviewCount/, /ratingValue/, /sterrenbeoordeling/i, /klantbeoordeling/i, /<img [^>]*\.(jpe?g|webp)/i, /shopmatch-site|shopmatch\.nl\/shop-match/];
   for (const f of html) {
     const s = readFileSync(f, 'utf8');
     for (const r of verboden) assert.ok(!r.test(s), `${f} bevat ${r}`);
+    // Affiliate-URL's alleen als goedgekeurde partnerlink uit partnerlinks.js.
+    for (const m of s.matchAll(/https:\/\/[^"' ]*(pxf\.io|impact\.com|awin1|tradetracker|daisycon)[^"' ]*/g)) assert.ok(Object.values(PARTNERLINKS).includes(m[0]), `${f}: niet-goedgekeurde affiliate-URL ${m[0]}`);
     if (!f.endsWith('404.html')) { assert.match(s, /<link rel="canonical" href="https:\/\/kassamatch.nl\//); assert.ok(!s.includes('noindex'), f); }
     const title = unesc(s.match(/<title>(.*?)<\/title>/)[1]); assert.ok(title.length <= 60, `${f}: titel te lang (${title.length}) ${title}`);
     assert.match(s, /Ook van ons/);
