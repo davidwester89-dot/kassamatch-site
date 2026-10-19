@@ -25,7 +25,14 @@ function prijs(r, a) {
   const p = AANBIEDERS[r.id];
   const n = REKEN.aantal[a.aantal]; const b = REKEN.bedrag[a.bedrag];
   if (p.soort === 'pin') {
-    const hw = p.hardware ? `pinapparaat vanaf € ${Math.min(...p.hardware.map((h) => h[1]))} excl. btw` : 'prijs pinapparaat onbekend';
+    let hw = 'prijs pinapparaat onbekend';
+    if (p.hardware && p.hardware.length) {
+      // Bij kassa-vraag: toon kassaprijs (niet het goedkoopste pinapparaat).
+      const kassa = a.nodig === 'kassa' ? p.hardware.find((h) => /kassa/i.test(h[0])) : null;
+      const gekozen = kassa || p.hardware.reduce((m, h) => (h[1] < m[1] ? h : m));
+      const label = kassa ? 'kassa' : 'pinapparaat vanaf';
+      hw = `${label} € ${gekozen[1]} excl. btw`;
+    }
     return `<strong>${fmtEur(r.pinkosten)} per maand</strong> aan pinkosten (${esc(r.plan.naam)}, bij ${n.toLocaleString('nl-NL')} betalingen van € ${b}) · ${hw}`;
   }
   return `<strong>${esc(p.vanafTekst)}</strong>`;

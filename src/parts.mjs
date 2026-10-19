@@ -28,7 +28,13 @@ export const faqHtml = (faq) => `<h2>Veelgestelde vragen</h2>${faq.map(([q, a]) 
 // ---- Bedragen ----
 export const eur = (n) => (n === 0 ? '€ 0' : '€ ' + n.toLocaleString('nl-NL', { minimumFractionDigits: n % 1 ? 2 : 0, maximumFractionDigits: 3 }));
 export { fmtEur };
-export const hwTekst = (id) => { const h = goedkoopsteHardware(id); return h == null ? 'onbekend (niet gepubliceerd)' : `vanaf ${eur(h)} excl. btw`; };
+export const hwTekst = (id) => {
+  const list = AANBIEDERS[id].hardware;
+  if (!list) return 'onbekend (niet gepubliceerd)';
+  const [naam, prijs] = list.reduce((m, h) => (h[1] < m[1] ? h : m));
+  const noot = /aanbieding/i.test(naam) ? ' (aanbieding nieuwe klanten)' : '';
+  return `vanaf ${eur(prijs)} excl. btw${noot}`;
+};
 export const planTekst = (pl) => `${pl.maand ? eur(pl.maand) + ' per maand' : 'geen vaste kosten'} · ${pl.tarief}`;
 
 /** Tabel: pinkosten per aanbieder bij een vast voorbeeld (goedkoopste plan bij dat volume). */
