@@ -138,7 +138,7 @@ const kassaPrijs = (id) => (id === 'sumup' ? 'Software € 0, of € 49 per maan
 const kassaFaq = [
   ['Wat kost een kassasysteem per maand?', 'Van € 0 voor de kassasoftware van SumUp of Zettle tot € 249 per maand voor Lightspeed Horeca Pro. Lightspeed begint bij € 89 (horeca) of € 99 (retail). unTill Air begint bij € 19. Mplus en het volledige unTill werken op offerte.'],
   ['Heb ik een keurmerkkassa nodig?', 'Volgens de Belastingdienst mag je bij een keurmerkkassa ervan uitgaan dat je kassa-administratie aan de eisen voldoet. Verplicht is een keurmerk niet; de gegevens in je kassa horen bij je administratie en bewaar je 7 jaar. Zie <a href="/kassasysteem-kiezen/">kassasysteem kiezen</a>.'],
-  ['Kan ik mijn kassa koppelen aan een webshop?', 'Shopify POS deelt producten en voorraad met een Shopify-webshop. De retailpakketten van Lightspeed hebben Lightspeed eCom ingebouwd. Voor het kiezen van een webshop: zie ShopMatch.'],
+  ['Kan ik mijn kassa koppelen aan een webshop?', 'Shopify POS deelt producten en voorraad met een Shopify-webshop. De retailpakketten van Lightspeed hebben Lightspeed eCom ingebouwd. Voor het kiezen van een webshop: zie <a href="https://shopmatch.nl/">ShopMatch</a>.'],
 ];
 export const kassaVergelijk = {
   path: '/kassasysteem-vergelijken/', title: 'Kassasysteem vergelijken: prijzen en functies | KassaMatch', h1: 'Kassasysteem vergelijken voor winkel en horeca', crumb: 'Kassasystemen vergelijken', og: 'kassa',
@@ -205,6 +205,8 @@ ${pin ? `<h2>Plannen en tarieven</h2><ul class="pkg-grid">${p.plannen.map((pl) =
 <h2>Voor wie?</h2><ul><li><strong>Horeca:</strong> ${p.horeca ? 'ja, de aanbieder richt zich op horeca.' : 'niet de focus van deze aanbieder.'}</li><li><strong>Winkel:</strong> ${p.winkel ? 'ja.' : 'niet de focus van deze aanbieder.'}</li><li><strong>Webshop of online:</strong> ${p.online.ja ? esc(p.online.t) : 'niet vermeld.'}</li></ul>`}
 <h2>Goed om te weten</h2><ul>${p.extra.map((x) => `<li>${esc(x)}</li>`).join('')}</ul>
 ${RELATED[id]?.length ? `<p>Lees ook: ${RELATED[id].map(([h, t]) => `<a href="${h}">${esc(t)}</a>`).join(' · ')}</p>` : ''}
+${id === 'shopify' ? `<p>Shopify POS deelt producten en voorraad met je Shopify-webshop. Een webshopplatform kiezen doe je op <a href="https://shopmatch.nl/platformen/shopify/">ShopMatch</a>.</p>` : ''}
+${id === 'lightspeed' ? `<p>De retailpakketten van Lightspeed hebben Lightspeed eCom ingebouwd. Een webshopplatform kiezen doe je op <a href="https://shopmatch.nl/platformen/lightspeed/">ShopMatch</a>.</p>` : ''}
 <div class="actions">${knop(id, 'aanbieder_bottom')}</div>
 ${matchCta(`Past ${esc(kortNaam(id))} bij jou?`, 'aanbieder_match')}${bron(p.bronnen)}</article>`,
   };
@@ -282,7 +284,7 @@ export const kiezen = {
 <p>Een keurmerkkassa is niet verplicht. Met een keurmerkkassa mag je er volgens de Belastingdienst wel van uitgaan dat je administratie op deze punten aan de eisen voldoet.</p>
 <h2>Stap 4: wat kost het?</h2><ul><li><strong>Gratis kassasoftware:</strong> SumUp (€ 0, of € 49 per maand voor POS Plus) en Zettle (€ 0). Je betaalt per pinbetaling en voor de hardware.</li><li><strong>Instap voor horeca:</strong> unTill Air vanaf € 19 per maand, op je eigen Apple- of Android-hardware.</li><li><strong>Uitgebreid:</strong> Lightspeed vanaf € 89 per maand (horeca) of € 99 (retail), tot € 249.</li><li><strong>Met webshop:</strong> Shopify POS vanaf US$ 39 per maand; een europrijs zagen we niet.</li><li><strong>Op offerte:</strong> MplusKASSA en het volledige unTill.</li></ul>
 <p>Alle bedragen naast elkaar: <a href="/kassasysteem-vergelijken/">kassasystemen vergelijken</a>.</p>
-<h2>Stap 5: vragen voor je tekent</h2><ul><li>Hoe lang loopt het contract en hoe zeg je op?</li><li>Wat kost de hardware, en kun je eigen hardware gebruiken?</li><li>Welke transactiekosten gelden, en zit je vast aan de betaaldienst van de kassa?</li><li>Kun je je gegevens exporteren, ook na opzeggen?</li><li>Is er een koppeling met je boekhoudprogramma? Een boekhoudprogramma kiezen doe je op BoekhoudMatch.</li></ul>
+<h2>Stap 5: vragen voor je tekent</h2><ul><li>Hoe lang loopt het contract en hoe zeg je op?</li><li>Wat kost de hardware, en kun je eigen hardware gebruiken?</li><li>Welke transactiekosten gelden, en zit je vast aan de betaaldienst van de kassa?</li><li>Kun je je gegevens exporteren, ook na opzeggen?</li><li>Is er een koppeling met je boekhoudprogramma? Een boekhoudprogramma kiezen doe je op <a href="https://boekhoudmatch.nl/">BoekhoudMatch</a>.</li></ul>
 ${faqHtml(kiezenFaq)}
 ${matchCta('Welke kassa past bij jouw zaak?', 'gids_match')}${bron(BD, bronnenVan('sumup', 'zettle', 'mypos', ...KASSA_IDS))}</article>`,
 };
