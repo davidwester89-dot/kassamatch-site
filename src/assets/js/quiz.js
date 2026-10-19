@@ -3,9 +3,13 @@ import { score, compleet, VRAGEN, REKEN } from './lib/match.js';
 import { AANBIEDERS } from './lib/aanbieders.js';
 import { fmtEur } from './lib/kosten.js';
 import { knop } from './lib/partnerlinks.js';
+import { track } from './consent.js';
 
 const BASE = document.body.dataset.base || '';
 const form = document.getElementById('form');
+// Statistieken (alleen na toestemming, zie consent.js): quiz_start = eerste eigen antwoord, één keer per paginaweergave.
+let qStart = false;
+form.addEventListener('change', (e) => { if (e.isTrusted && !qStart) { qStart = true; track('quiz_start', {}); } });
 const out = document.getElementById('result');
 const prog = document.getElementById('q-prog');
 const bar = document.getElementById('q-bar');
