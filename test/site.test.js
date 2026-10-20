@@ -1,4 +1,5 @@
 import { test } from 'node:test';
+import { NETWERK_PRIVACY } from '../src/privacy-avg.mjs';
 import assert from 'node:assert/strict';
 import { execSync } from 'node:child_process';
 import { readFileSync, existsSync, readdirSync, statSync } from 'node:fs';
@@ -24,7 +25,7 @@ test('build (productie): pagina’s, sitemap, robots, IndexNow, regels', () => {
     const s = readFileSync(f, 'utf8');
     for (const r of verboden) assert.ok(!r.test(s), `${f} bevat ${r}`);
     // Affiliate-URL's alleen als goedgekeurde partnerlink uit partnerlinks.js.
-    for (const m of s.matchAll(/https:\/\/[^"' ]*(pxf\.io|impact\.com|awin1|tradetracker|daisycon)[^"' ]*/g)) assert.ok(Object.values(PARTNERLINKS).includes(m[0]), `${f}: niet-goedgekeurde affiliate-URL ${m[0]}`);
+    for (const m of s.matchAll(/https:\/\/[^"' ]*(pxf\.io|impact\.com|awin1|tradetracker|daisycon)[^"' ]*/g)) assert.ok(Object.values(PARTNERLINKS).includes(m[0]) || NETWERK_PRIVACY.includes(m[0]), `${f}: niet-goedgekeurde affiliate-URL ${m[0]}`);
     if (!f.endsWith('404.html')) { assert.match(s, /<link rel="canonical" href="https:\/\/kassamatch.nl\//); assert.ok(!s.includes('noindex'), f); }
     const title = unesc(s.match(/<title>(.*?)<\/title>/)[1]); assert.ok(title.length <= 60, `${f}: titel te lang (${title.length}) ${title}`);
     assert.match(s, /Ook van ons/);
