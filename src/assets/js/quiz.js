@@ -42,6 +42,13 @@ function prijs(r, a) {
   return `<strong>${esc(p.vanafTekst)}</strong>`;
 }
 
+/** Label op de kaart. Bij de vraag 'kassa' tonen we bij een pinaanbieder de kassaprijs, dus dan ook dat label (alleen tekst; volgorde en prijzen ongewijzigd). */
+function soortLabel(p, a) {
+  if (p.soort !== 'pin') return 'Kassasysteem';
+  const heeftKassa = a.nodig === 'kassa' && (p.hardware || []).some((h) => /kassa/i.test(h[0]));
+  return heeftKassa ? 'Pinaanbieder met kassa' : 'Pinautomaat';
+}
+
 function toon(a, scroll) {
   const top = score(a).slice(0, 3);
   const b = top[0]; const pb = AANBIEDERS[b.id];
@@ -49,7 +56,7 @@ function toon(a, scroll) {
     + `<div class="match-cta">${knop(b.id, 'match_1', 'btn')}<a class="vlink" href="${BASE}/aanbieders/${pb.slug}/">Lees alles over ${esc(kort(b.id))} →</a></div>`
     + `<h3>Top 3</h3><ol class="mtop">${top.map((r, i) => {
       const p = AANBIEDERS[r.id];
-      return `<li${i === 0 ? ' class="first"' : ''}>${i === 0 ? '<span class="badge">Beste match</span> ' : ''}<span class="tag best">${p.soort === 'pin' ? 'Pinautomaat' : 'Kassasysteem'}</span><div class="mhead"><h3>${i + 1}. ${esc(p.naam)}</h3></div><p class="pc-price">${prijs(r, a)}</p>`
+      return `<li${i === 0 ? ' class="first"' : ''}>${i === 0 ? '<span class="badge">Beste match</span> ' : ''}<span class="tag best">${soortLabel(p, a)}</span><div class="mhead"><h3>${i + 1}. ${esc(p.naam)}</h3></div><p class="pc-price">${prijs(r, a)}</p>`
         + (r.waarom.length ? `<p class="lbl ok" style="margin:8px 0 0">Waarom het past</p><ul class="why">${r.waarom.map((w) => `<li>${esc(w)}</li>`).join('')}</ul>` : '')
         + (p.extra && p.extra[0] ? `<p class="lbl warn" style="margin:8px 0 0">Goed om te weten</p><ul class="why"><li>${esc(r.id === 'ccv' ? p.hardwareNoot : p.extra[0])}</li></ul>` : '')
         + (i > 0 ? `<div class="mini-cta">${knop(r.id, 'match_' + (i + 1), 'btn ghost sm')}<a href="${BASE}/aanbieders/${p.slug}/">Alles over ${esc(kort(r.id))}</a></div>` : '') + '</li>';

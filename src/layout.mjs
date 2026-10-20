@@ -1,4 +1,5 @@
 import { readFileSync } from 'node:fs';
+import { a11yTabellen } from './a11y-tabellen.mjs';
 import { GA_ID as GA_CONFIG } from './analytics.config.mjs';
 import { GA_ID_RE } from './lib/consent.js';
 import { networkFor } from './network.mjs';
@@ -81,7 +82,7 @@ ${robots}${p.noindex ? '' : `<link rel="canonical" href="${url}">`}
 ${p.article ? `<meta property="article:published_time" content="${p.article.date}"><meta property="article:modified_time" content="${p.article.updated}">` : ''}
 <meta name="theme-color" content="${SITE.theme}">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="icon" href="/favicon-32.png" sizes="32x32"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<link rel="preload" href="/fonts/inter-400.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="/fonts/inter-800.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/inter-400.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="/fonts/inter-600.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="/fonts/inter-800.woff2" as="font" type="font/woff2" crossorigin>
 <style>${CSS}</style>
 ${ld.map((x) => `<script type="application/ld+json">${JSON.stringify(x).replace(/</g, '\\u003c')}</script>`).join('\n')}
 </head>
@@ -95,7 +96,7 @@ ${PREVIEW ? '<p class="preview">Preview van KassaMatch.nl, nog niet live</p>' : 
 </div></header>
 <main id="inhoud"><div class="wrap">
 ${crumbs}
-${withStamp(p.body, p.stamp)}
+${a11yTabellen(withStamp(p.body, p.stamp))}
 ${foutGezien(url)}
 </div></main>
 <footer class="site"><div class="wrap">
@@ -109,7 +110,7 @@ ${networkFooter()}
 <p class="fine">© 2026 ${SITE.name}. Partnerlinks hebben nooit invloed op de volgorde of de match.</p>
 </div></footer>
 ${hasCta ? `<a class="stickycta" href="/kassa-match/" data-cta="sticky_match">${ICONS.match}<span>Bekijk jouw match in 1 minuut</span></a>` : ''}
-${[...(GA_ID ? ['/js/consent.js'] : []), ...(p.scripts || [])].map((s) => `<script type="module" src="${s}"></script>`).join('\n')}
+${['/js/menu.js', ...(GA_ID ? ['/js/consent.js'] : []), ...(p.scripts || [])].map((s) => `<script type="module" src="${s}"></script>`).join('\n')}
 </body>
 </html>`;
   return withBase(html);
