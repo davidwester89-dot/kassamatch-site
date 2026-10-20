@@ -1,5 +1,6 @@
 import { SITE, esc, ORG, GA_ID, ICONS, fmtDate } from './layout.mjs';
-import { AANBIEDERS as A, IDS, PIN_IDS, KASSA_IDS, CHECKED, goedkoopsteHardware } from './lib/aanbieders.js';
+import { AANBIEDERS as A, IDS, PIN_IDS, KASSA_IDS, CHECKED, checkedVan, goedkoopsteHardware } from './lib/aanbieders.js';
+import { TEKSTEN } from './aanbieder-teksten.mjs';
 import { vergelijkPin, besteplan, fmtEur } from './lib/kosten.js';
 import { knop } from './lib/partnerlinks.js';
 import { VRAGEN, REKEN } from './lib/match.js';
@@ -27,10 +28,10 @@ const NIET = {
   mypos: 'Offerte op maat voor grote volumes.',
   zettle: 'Aangepaste tarieven (op aanvraag); online betalen niet op de prijspagina.',
   mollie: 'Volumeprijzen vanaf € 100.000 per maand (op aanvraag); btw bij de terminals niet vermeld.',
-  ccv: 'Prijs van de betaalautomaat: onbekend.',
+  ccv: 'Btw bij de huur- en koopprijzen niet vermeld; CCV-tarieven voor 2027 niet gepubliceerd.',
   lightspeed: 'Hardwareprijzen en verwerkingskosten per betaling.',
-  shopify: 'Prijzen en transactiekosten in euro.',
-  untill: 'Prijs van het volledige systeem (op offerte); tarieven unTill Payments.',
+  shopify: 'Prijzen, transactiekosten en hardware in euro: onbekend.',
+  untill: 'Prijs van unTill Prime (op offerte); tarieven unTill Payments.',
   mplus: 'Alle prijzen (op offerte).',
 };
 
@@ -186,14 +187,21 @@ export const aanbiederPages = IDS.map((id) => {
   const p = A[id]; const path = `/aanbieders/${p.slug}/`;
   const pin = p.soort === 'pin';
   const voorbeelden = pin ? [[50, 20], [300, 25], [1000, 25]].map(([n, b]) => { const r = besteplan(id, n, b); return `<tr><td data-l="Voorbeeld">${fmtN(n)} × ${eur(b)}</td><td data-l="Goedkoopste plan">${esc(r.plan.naam)}</td><td class="n" data-l="Kosten per maand"><strong>${fmtEur(r.totaal)}</strong></td></tr>`; }).join('') : '';
-  const title = `${kortNaam(id)}: ${pin ? 'kosten en tarieven' : 'prijzen'} 2026 | KassaMatch`;
+  // Optionele extra tekst per aanbieder (aanbieder-teksten.mjs). Zonder tekst blijft de pagina zoals ze was.
+  const T = TEKSTEN[id] || {};
+  const checked = checkedVan(id);
+  const secties = (lijst) => (lijst || []).map(([h, html]) => `<h2>${esc(h)}</h2>${typeof html === 'function' ? html() : html}`).join('\n');
+  const title = T.title || `${kortNaam(id)}: ${pin ? 'kosten en tarieven' : 'prijzen'} 2026 | KassaMatch`;
+  const h1 = T.h1 || `${p.naam}: ${pin ? 'kosten, tarieven en pinapparaten' : 'prijzen en voor wie het past'}`;
   return {
-    path, title, h1: `${p.naam}: ${pin ? 'kosten, tarieven en pinapparaten' : 'prijzen en voor wie het past'}`, crumb: kortNaam(id), parents: [['/aanbieders/', 'Aanbieders']], og: `a-${id}`, lastmod: CHECKED,
-    description: (pin ? `Wat kost ${kortNaam(id)}? Vaste kosten, tarief per pinbetaling, prijs van het pinapparaat en een rekenvoorbeeld. Alles van de eigen site, met bron.` : `Wat kost ${kortNaam(id)}? De pakketten en prijzen zoals de aanbieder ze toont, wat niet gepubliceerd is en voor welke zaak het past. Met bron.`).slice(0, 155),
-    stamp: { checked: CHECKED },
-    body: `<article class="prose"><h1>${esc(p.naam)}: ${pin ? 'kosten, tarieven en pinapparaten' : 'prijzen en voor wie het past'}</h1>${by(CHECKED)}
+    path, title, h1, crumb: kortNaam(id), parents: [['/aanbieders/', 'Aanbieders']], og: `a-${id}`, lastmod: checked,
+    description: T.description || (pin ? `Wat kost ${kortNaam(id)}? Vaste kosten, tarief per pinbetaling, prijs van het pinapparaat en een rekenvoorbeeld. Alles van de eigen site, met bron.` : `Wat kost ${kortNaam(id)}? De pakketten en prijzen zoals de aanbieder ze toont, wat niet gepubliceerd is en voor welke zaak het past. Met bron.`).slice(0, 155),
+    stamp: { checked },
+    ...(T.faq?.length ? { schema: [faqSchema(T.faq)] } : {}),
+    body: `<article class="prose"><h1>${esc(h1)}</h1>${by(checked)}
 <p class="lead">${esc(p.wat)}</p>
 <div class="actions">${knop(id, 'aanbieder_top')}</div>
+${secties(T.voor)}
 ${pin ? `<h2>Plannen en tarieven</h2><ul class="pkg-grid">${p.plannen.map((pl) => `<li><div class="pkg-card"><h3>${esc(pl.naam)}</h3><p class="pkg-price"><strong>${pl.maand ? eur(pl.maand) : '€ 0'}</strong> <span>per maand</span></p><p class="pkg-facts">${esc(pl.tarief)}</p></div></li>`).join('')}</ul>
 <h2>Pinapparaten</h2>${p.hardware ? `<ul>${p.hardware.map(([n, pr]) => `<li>${esc(n)}: <strong>${eur(pr)}</strong></li>`).join('')}</ul>` : ''}<p>${esc(p.hardwareNoot)}</p>
 <h2>Rekenvoorbeeld</h2><p>Kosten per maand bij betalingen met een Nederlandse consumentenbetaalpas, met het goedkoopste plan van ${nm(id)} bij dat volume. Het pinapparaat komt er eenmalig bij.</p>
@@ -204,6 +212,8 @@ ${pin ? `<h2>Plannen en tarieven</h2><ul class="pkg-grid">${p.plannen.map((pl) =
 <h2>Hardware en betalingen</h2><ul><li><strong>Hardware:</strong> ${esc(p.hardwareNoot)}</li><li><strong>Betalingen:</strong> ${esc(p.transactie)}</li></ul>
 <h2>Voor wie?</h2><ul><li><strong>Horeca:</strong> ${p.horeca ? 'ja, de aanbieder richt zich op horeca.' : 'niet de focus van deze aanbieder.'}</li><li><strong>Winkel:</strong> ${p.winkel ? 'ja.' : 'niet de focus van deze aanbieder.'}</li><li><strong>Webshop of online:</strong> ${p.online.ja ? esc(p.online.t) : 'niet vermeld.'}</li></ul>`}
 <h2>Goed om te weten</h2><ul>${p.extra.map((x) => `<li>${esc(x)}</li>`).join('')}</ul>
+${secties(T.na)}
+${T.faq?.length ? faqHtml(T.faq) : ''}
 ${RELATED[id]?.length ? `<p>Lees ook: ${RELATED[id].map(([h, t]) => `<a href="${h}">${esc(t)}</a>`).join(' · ')}</p>` : ''}
 ${id === 'shopify' ? `<p>Shopify POS deelt producten en voorraad met je Shopify-webshop. Een webshopplatform kiezen doe je op <a href="https://shopmatch.nl/platformen/shopify/">ShopMatch</a>.</p>` : ''}
 ${id === 'lightspeed' ? `<p>De retailpakketten van Lightspeed hebben Lightspeed eCom ingebouwd. Een webshopplatform kiezen doe je op <a href="https://shopmatch.nl/platformen/lightspeed/">ShopMatch</a>.</p>` : ''}
@@ -254,7 +264,7 @@ export const goedkoopste = {
   crumb: 'Goedkoopste pinautomaat',
   body: `<article class="prose"><h1>Goedkoopste pinautomaat 2026: wat kost pinnen echt?</h1>${by()}
 <p class="lead">De goedkoopste pinautomaat bestaat niet. Wat het goedkoopst is, hangt af van hoeveel je pint en hoe hoog je bedragen zijn. Hieronder drie rekenvoorbeelden met de tarieven van de aanbieders zelf.</p>
-<h2>Waaruit bestaan de kosten?</h2><ul><li><strong>Het apparaat.</strong> Eenmalig. Het goedkoopste apparaat per aanbieder kost ${eur(HWMIN)} tot ${eur(HWMAX)} (CCV: onbekend).</li><li><strong>Vaste kosten per maand.</strong> € 0 bij plannen zonder abonnement, tot € 39 bij myPOS Pro.</li><li><strong>Transactiekosten.</strong> Een percentage van het bedrag, een vast bedrag per betaling, of een combinatie.</li></ul>
+<h2>Waaruit bestaan de kosten?</h2><ul><li><strong>Het apparaat.</strong> Eenmalig. Het goedkoopste apparaat per aanbieder kost ${eur(HWMIN)} tot ${eur(HWMAX)} (CCV: huur vanaf € 25 per maand of koop vanaf € 399 plus maandkosten).</li><li><strong>Vaste kosten per maand.</strong> € 0 bij plannen zonder abonnement, tot € 39 bij myPOS Pro.</li><li><strong>Transactiekosten.</strong> Een percentage van het bedrag, een vast bedrag per betaling, of een combinatie.</li></ul>
 <h2>Weinig pinnen: 50 betalingen van € 20</h2><p>Goedkoopst per maand: ${wk(50, 20)}. Vaste kosten wegen hier zwaar, dus een plan zonder abonnement wint vaak. Zonder enig abonnement: ${wk0(50, 20)}.</p>
 ${pinVoorbeeld(50, 20)}
 <h2>Gemiddeld: 300 betalingen van € 25</h2><p>Goedkoopst per maand: ${wk(300, 25)}. Zonder abonnement: ${wk0(300, 25)}.</p>
@@ -310,11 +320,42 @@ ${faqHtml(transFaq)}
 ${matchCta('Wat kost pinnen bij jouw aantallen?', 'gids_match')}${bron(bronnenVan(...PIN_IDS))}</article>`,
 };
 export const guides = [goedkoopste, kiezen, transactie];
+// Gidsen-hub: per thema een korte samenvatting + link (geen volledige antwoorden, om de gidsen zelf niet te beconcurreren).
+// Bedragen alleen uit AANBIEDERS (zelfde bronnen als de aanbiederpagina's).
+const pctT = (n) => n.toLocaleString('nl-NL') + '%';
+const hubFaq = [
+  ['Wat kost een pinautomaat per maand?', `Dat hangt af van hoeveel je pint. Zonder abonnement betaal je geen vaste kosten, alleen per betaling: bijvoorbeeld ${pctT(A.sumup.plannen[0].pct)} bij SumUp of ${pctT(A.zettle.plannen[0].pct)} bij Zettle. Met een abonnement betaal je vaste kosten, zoals ${eur(A.sumup.plannen[1].maand)} per maand bij SumUp Betalingen Plus of ${eur(A.ccv.plannen[0].maand)} per automaat bij CCV, en minder per betaling. Reken het uit met jouw aantallen in <a href="/pinautomaat-vergelijken/">pinautomaat vergelijken</a>.`],
+  ['Kan ik een pinautomaat zonder abonnement krijgen?', `Ja. PayPal noemt bij Zettle geen contracten of terugkerende kosten, en SumUp, myPOS en Mollie hebben een plan zonder vaste kosten per maand. Je betaalt dan per betaling en eenmalig voor het apparaat. Zie <a href="/transactiekosten-vergelijken/">transactiekosten vergelijken</a>.`],
+  ['Is een kassasysteem verplicht?', `De Belastingdienst stelt eisen aan je administratie. Gebruik je een kassasysteem, dan hoort dat volgens de Belastingdienst bij je administratie, en moet je het volgens de wettelijke regels inrichten en bewaren. Lees de <a href="${BD[0][1]}" rel="noopener">brochure van de Belastingdienst</a> en onze gids <a href="/kassasysteem-kiezen/">kassasysteem kiezen</a>.`],
+  ['Huren of kopen: wat is goedkoper?', `Dat hangt af van hoe lang je het apparaat gebruikt en welke maandkosten erbij komen. Bij CCV huur je bijvoorbeeld vanaf € 25 per maand of koop je vanaf € 399 plus maandkosten vanaf € 16. Leg de bedragen voor jouw termijn naast elkaar, en vergelijk de kosten per betaling in het rekenvoorbeeld op <a href="/pinautomaat-vergelijken/">pinautomaat vergelijken</a>.`],
+];
 export const gidsHub = {
-  path: '/gidsen/', title: 'Gidsen over pinautomaten en kassa\'s | KassaMatch', h1: 'Gidsen', crumb: 'Gidsen', og: 'gidsen',
-  description: 'Gidsen van KassaMatch: de goedkoopste pinautomaat, een kassasysteem kiezen en transactiekosten vergelijken. Met rekenvoorbeelden en bronnen.',
-  body: `<h1>Gidsen</h1><p class="lead">Uitleg en rekenvoorbeelden, met de tarieven van de aanbieders en de regels van de Belastingdienst.</p>
+  path: '/gidsen/', title: 'Gidsen: pinautomaat en kassasysteem kiezen | KassaMatch', h1: 'Gidsen over pinautomaten en kassasystemen', crumb: 'Gidsen', og: 'gidsen',
+  description: 'Welke pinautomaat of kassa past bij je zaak? Gidsen over kosten per pinbetaling, huren of kopen, een kassasysteem kiezen en wat de Belastingdienst vraagt.',
+  schema: [faqSchema(hubFaq)],
+  body: `<h1>Gidsen over pinautomaten en kassasystemen</h1><p class="lead">Uitleg en rekenvoorbeelden, met de tarieven van de aanbieders en de regels van de Belastingdienst.</p>
 <div class="grid cards">${[...GIDSEN, ['/sumup-vs-zettle/', 'SumUp of Zettle', 'Tarief, apparaat en kassa-app naast elkaar.']].map(([h, t, d]) => `<a class="card" href="${h}"><h2>${esc(t)}</h2><p>${esc(d)}</p><span class="more">Lees verder →</span></a>`).join('')}</div>
+<div class="prose">
+<h2>Waar begin je?</h2>
+<p>Begin bij je eigen vraag. Wil je alleen pinbetalingen aannemen, bijvoorbeeld op de markt of bij klanten thuis? Dan zoek je een pinautomaat, en draait het vooral om de kosten per betaling. Wil je ook producten, voorraad, tafels of personeel beheren? Dan zoek je een kassasysteem, met een pinkoppeling erbij.</p>
+<p>Twijfel je nog? <a href="/kassa-match/">Doe de match</a>. Je beantwoordt zes korte vragen en krijgt de opties die het best passen.</p>
+<h2>Wat kost pinnen?</h2>
+<p>Een pinautomaat kost je op drie manieren: het apparaat, vaste kosten per maand en een bedrag per betaling. Het goedkoopste los te kopen apparaat per aanbieder kost ${eur(HWMIN)} tot ${eur(HWMAX)} (zoals de aanbieders het tonen). Wat je per maand kwijt bent, hangt vooral af van hoeveel je pint en hoe hoog je bedragen zijn.</p>
+<p>In <a href="/goedkoopste-pinautomaat/">de goedkoopste pinautomaat</a> rekenen we drie voorbeelden door, van weinig tot veel betalingen.</p>
+<h2>Pinautomaat met of zonder abonnement</h2>
+<p>Zonder abonnement betaal je een percentage per betaling, bijvoorbeeld ${pctT(A.sumup.plannen[0].pct)} bij SumUp of ${pctT(A.zettle.plannen[0].pct)} bij Zettle. Met een abonnement betaal je een vast bedrag per maand en minder per betaling. Bij myPOS Pro is dat ${eur(A.mypos.plannen[2].maand)} per maand en ${eur(A.mypos.plannen[2].vast)} per betaling, bij CCV ${eur(A.ccv.plannen[0].maand)} per maand en ${eur(A.ccv.plannen[0].vast)} per betaling.</p>
+<p>Pin je weinig, dan is een percentage meestal goedkoper. Pin je veel of hoge bedragen, dan wint vaak een vast bedrag. Waar dat omslagpunt ligt, lees je in <a href="/transactiekosten-vergelijken/">transactiekosten vergelijken</a>.</p>
+<h2>Huren of kopen</h2>
+<p>De meeste pinaanbieders verkopen het apparaat. CCV laat je kiezen: huren kan vanaf € 25 per maand, met de transactieverwerking in de huurprijs. Kopen kan vanaf € 399 eenmalig plus maandelijkse kosten vanaf € 16. Wat voor jou goedkoper is, hangt af van hoe lang je het apparaat gebruikt. Alle bedragen per model staan op de pagina over <a href="/aanbieders/ccv/">CCV</a>.</p>
+<h2>Een kassasysteem kiezen</h2>
+<p>Een kassasysteem kies je op wat je zaak nodig heeft: tafels en een keuken in de horeca, voorraad en een webshop in een winkel. Sommige pinaanbieders hebben een eenvoudige kassa-app erbij. Uitgebreide systemen werken met een abonnement per maand of op offerte.</p>
+<p>Welke functies je nodig hebt, lees je in <a href="/kassasysteem-kiezen/">kassasysteem kiezen</a>. Alle systemen naast elkaar staan in <a href="/kassasysteem-vergelijken/">kassasysteem vergelijken</a>, en alleen pinautomaten in <a href="/pinautomaat-vergelijken/">pinautomaat vergelijken</a>. Alle aanbieders op een rij vind je bij <a href="/aanbieders/">aanbieders</a>.</p>
+<h2>Wat vraagt de Belastingdienst van je kassa?</h2>
+<p>Gebruik je een kassasysteem, dan is dat volgens de Belastingdienst onderdeel van je administratie. Die moet je volgens de wettelijke regels inrichten en bewaren. Welke eisen precies gelden, hangt volgens de Belastingdienst af van onder meer de aard, omvang en complexiteit van je onderneming.</p>
+<p>Meer uitleg staat in <a href="/kassasysteem-kiezen/">kassasysteem kiezen</a>, en bij de Belastingdienst zelf: ${BD.map(([t, u]) => `<a href="${u}" rel="noopener">${esc(t)}</a>`).join(' en ')}.</p>
+${faqHtml(hubFaq)}
+${bron(A.ccv.bronnen.filter(([, u]) => /huren|kopen|tarieven/.test(u)), A.zettle.bronnen.slice(0, 1), A.sumup.bronnen.slice(0, 1), A.mypos.bronnen.slice(0, 1), A.mollie.bronnen.slice(0, 1), BD)}
+</div>
 ${matchCta()}`,
 };
 
@@ -324,9 +365,9 @@ export const bronnen = {
   description: 'Alle bronnen van KassaMatch: de prijspagina\'s van de aanbieders en de Belastingdienst, met de datum waarop we ze controleerden.',
   stamp: { checked: CHECKED },
   body: `<article class="prose"><h1>Bronnen</h1><p class="lead">Elk bedrag op KassaMatch komt van de eigen site van de aanbieder. Hier staan alle pagina's die we gebruiken, met de datum van de laatste controle.</p>
-<div class="table-wrap"><table class="data stack"><thead><tr><th scope="col">Aanbieder</th><th scope="col">Bron</th><th scope="col">Gecontroleerd</th><th scope="col">Wat staat er niet</th></tr></thead><tbody>${IDS.map((id) => `<tr><th scope="row">${link(id)}</th><td data-l="Bron">${A[id].bronnen.map(([t, u]) => `<a href="${u}" rel="noopener">${esc(t)}</a>`).join('<br>')}</td><td data-l="Gecontroleerd"><time datetime="${CHECKED}">${fmtDate(CHECKED)}</time></td><td data-l="Wat staat er niet">${esc(NIET[id])}</td></tr>`).join('')}</tbody></table></div>
+<div class="table-wrap"><table class="data stack"><thead><tr><th scope="col">Aanbieder</th><th scope="col">Bron</th><th scope="col">Gecontroleerd</th><th scope="col">Wat staat er niet</th></tr></thead><tbody>${IDS.map((id) => `<tr><th scope="row">${link(id)}</th><td data-l="Bron">${A[id].bronnen.map(([t, u]) => `<a href="${u}" rel="noopener">${esc(t)}</a>`).join('<br>')}</td><td data-l="Gecontroleerd"><time datetime="${checkedVan(id)}">${fmtDate(checkedVan(id))}</time></td><td data-l="Wat staat er niet">${esc(NIET[id])}</td></tr>`).join('')}</tbody></table></div>
 <h2>Regels en uitleg</h2><ul>${BD.map(([t, u]) => `<li><a href="${u}" rel="noopener">${esc(t)}</a></li>`).join('')}</ul>
-<h2>Hoe we controleren</h2><ul><li>We lezen de openbare prijspagina's, zonder in te loggen en zonder formulieren in te vullen.</li><li>De site van Lightspeed blokkeert geautomatiseerde verzoeken van onze server. De bedragen van Lightspeed hebben we via een andere ophaalmethode op de eigen prijspagina van Lightspeed gelezen.</li><li>Shopify stuurt de Nederlandse POS-prijspagina door naar een internationale pagina met US$. Daarom tonen we Shopify POS in dollars.</li><li>Ziet een aanbieder een fout, of veranderen tarieven? Mail <a href="mailto:${SITE.email}">${SITE.email}</a>, dan passen we het aan met bron.</li></ul></article>`,
+<h2>Hoe we controleren</h2><ul><li>We lezen de openbare prijspagina's, zonder in te loggen en zonder formulieren in te vullen.</li><li>De site van Lightspeed blokkeert geautomatiseerde verzoeken van onze server. De bedragen van Lightspeed hebben we via een andere ophaalmethode op de eigen prijspagina van Lightspeed gelezen.</li><li>Shopify toont ook op de Nederlandse POS-prijspagina de prijzen in US$. Daarom tonen we Shopify POS in dollars.</li><li>Ziet een aanbieder een fout, of veranderen tarieven? Mail <a href="mailto:${SITE.email}">${SITE.email}</a>, dan passen we het aan met bron.</li></ul></article>`,
 };
 
 // ---- Over, privacy, disclaimer, contact, 404 ----

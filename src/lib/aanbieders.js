@@ -4,6 +4,8 @@
 // Partnerlinks staan NIET hier maar in partnerlinks.js; match.js en kosten.js lezen die nooit.
 
 export const CHECKED = '2026-10-19';
+/** Controledatum per aanbieder: `checked` in de aanbieder als die later opnieuw gecontroleerd is, anders CHECKED. */
+export const checkedVan = (id) => AANBIEDERS[id].checked || CHECKED;
 
 /**
  * Pinplannen voor de kostenrekentool. Per plan:
@@ -61,8 +63,9 @@ export const AANBIEDERS = {
     kassaSoftware: 0,
     kassa: { v: 'ja', t: 'PayPal Point of Sale-kassasoftware zonder extra kosten: producten, voorraad, cadeaubonnen en omzetrapporten.' },
     abonnementNodig: false,
-    extra: ['Tap to Pay op je telefoon zonder extra hardware.', 'Aangepaste tarieven zijn beschikbaar, volgens PayPal.'],
-    bronnen: [['PayPal Point of Sale (Zettle): prijsstelling', 'https://www.zettle.com/nl/prijsstelling']],
+    extra: ['Tap to Pay op je telefoon zonder extra hardware.', 'Aangepaste tarieven zijn beschikbaar, volgens PayPal.', 'Je geld staat doorgaans binnen enkele minuten op je zakelijke PayPal-rekening; automatisch overschrijven naar je bank kost niets extra.'],
+    bronnen: [['PayPal Point of Sale (Zettle): prijsstelling', 'https://www.zettle.com/nl/prijsstelling'], ['Zettle by PayPal wordt PayPal Point of Sale', 'https://www.zettle.com/nl/help/articles/0383603-zettle-by-paypal-wordt-paypal-point-of-sale']],
+    checked: '2026-10-20',
   },
   mollie: {
     naam: 'Mollie', slug: 'mollie', soort: 'pin', url: 'https://www.mollie.com/nl',
@@ -87,13 +90,16 @@ export const AANBIEDERS = {
     plannen: [
       { id: 'ccv', naam: 'CCV-transactieverwerking', maand: 4.25, pct: 0, vast: 0.068, tarief: '€ 0,068 per betaling met een Nederlandse consumentenbetaalpas' },
     ],
+    // Geen losse koopprijs in de rekentool: bij CCV horen bij huur en koop ook maandbedragen. Wel de bedragen in tekst.
     hardware: null,
-    hardwareNoot: 'De prijs van de betaalautomaat staat niet op de tarievenpagina. Onbekend.',
+    hardwareKort: 'huur vanaf € 25 per maand of koop vanaf € 399 + maandkosten',
+    hardwareNoot: 'Huren kan vanaf € 25 per maand (Clover Flex Pocket), met transactieverwerking in de huurprijs. Kopen kan vanaf € 399 eenmalig plus maandelijkse kosten vanaf € 16. In de vergelijking rekenen we met de transactiekosten, zonder het apparaat.',
     online: { ja: null, t: '' },
     kassa: { v: null, t: '' },
     abonnementNodig: true,
-    extra: ['€ 4,25 per maand per betaalautomaat.', 'Opties: retourpinnen € 4,25 per maand, variabele boekingsperiode € 2,95, fooi € 1,95. Chargeback € 25.', 'Creditcards: 1,3% (consument, EER), zakelijke kaarten 2,3%, AMEX vanaf 1,5%.'],
-    bronnen: [['CCV: tarieven transactieverwerking', 'https://www.ccv.eu/nl/betaaloplossingen/transactieverwerking/tarieven']],
+    extra: ['€ 4,25 per maand per betaalautomaat.', 'Opties: retourpinnen € 4,25 per maand, variabele boekingsperiode € 2,95, fooi € 1,95. Chargeback € 25.', 'Creditcards: 1,3% (consument, EER), zakelijke kaarten 2,3%, AMEX vanaf 1,5%.', 'CCV Tap to Pay (Android): € 0,25 per betaling met een Nederlandse betaalpas, € 0 bij 0 transacties.'],
+    bronnen: [['CCV: tarieven transactieverwerking', 'https://www.ccv.eu/nl/betaaloplossingen/transactieverwerking/tarieven'], ['CCV: transactieverwerking', 'https://www.ccv.eu/nl/betaaloplossingen/transactieverwerking'], ['CCV: pinautomaat huren', 'https://www.ccv.eu/nl/betaaloplossingen/pinautomaten/pinautomaat-huren'], ['CCV: pinautomaat kopen', 'https://www.ccv.eu/nl/betaaloplossingen/pinautomaten/pinautomaat-kopen'], ['CCV: Clover-actie', 'https://www.ccv.eu/nl/betaaloplossingen/clover-alles-in-een'], ['CCV: Tap to Pay', 'https://www.ccv.eu/nl/betaaloplossingen/apps-diensten/tap-to-pay']],
+    checked: '2026-10-20',
   },
   lightspeed: {
     naam: 'Lightspeed', slug: 'lightspeed', soort: 'kassa', url: 'https://www.lightspeedhq.nl/',
@@ -114,6 +120,7 @@ export const AANBIEDERS = {
     horeca: true, winkel: true,
     extra: ['Lightspeed: "Prijzen kunnen variëren en extra servicekosten kunnen van toepassing zijn, afhankelijk van het soort onderneming en de bedrijfssector."', 'Veel functies voor horeca zijn add-ons met extra kosten.'],
     bronnen: [['Lightspeed: prijzen retail', 'https://www.lightspeedhq.nl/kassasysteem/retail/prijzen/'], ['Lightspeed: prijzen horeca', 'https://www.lightspeedhq.nl/kassasysteem/restaurant/prijzen/']],
+    checked: '2026-10-20',
   },
   shopify: {
     naam: 'Shopify POS', slug: 'shopify-pos', soort: 'kassa', url: 'https://www.shopify.com/nl/pos',
@@ -131,24 +138,30 @@ export const AANBIEDERS = {
     usd: true,
     online: { ja: true, t: 'Webshop en kassa in één systeem.' },
     horeca: false, winkel: true,
-    extra: ['De Nederlandse prijspagina stuurde ons door naar de internationale pagina met prijzen in US$. De europrijs hangt af van je land en zie je pas bij aanmelden.', 'Shopify bood op 19 oktober 2026 een proefperiode: 3 dagen gratis, daarna 3 maanden $ 1 per maand.'],
-    bronnen: [['Shopify: POS-prijzen', 'https://www.shopify.com/nl/pos/prijzen']],
+    extra: ['Ook de Nederlandse prijspagina toont de prijzen in US$. Een europrijs staat er niet bij.', 'POS Pro (+ US$ 89 per maand per locatie) wordt jaarlijks in rekening gebracht.', 'Shopify bood op 20 oktober 2026 een proefperiode: 3 dagen gratis, daarna 3 maanden US$ 1 per maand.'],
+    bronnen: [['Shopify: POS-prijzen', 'https://www.shopify.com/nl/pos/prijzen'], ['Shopify: POS-betalingen', 'https://www.shopify.com/nl/pos/betalingen'], ['Shopify POS', 'https://www.shopify.com/nl/pos'], ['Shopify Help: landen met Shopify Payments', 'https://help.shopify.com/en/manual/payments/shopify-payments/supported-countries']],
+    domeinen: ['help.shopify.com'],
+    checked: '2026-10-20',
   },
   untill: {
     naam: 'unTill', slug: 'untill', soort: 'kassa', url: 'https://untill.com/',
-    kort: 'Horecakassa, van eenvoudig (Air) tot maatwerk',
-    wat: 'unTill maakt kassasystemen voor horeca. unTill Air is de eenvoudige cloudkassa die je zelf instelt; het volledige unTill-systeem loopt via een lokale partner.',
+    kort: 'Horecakassa, van eenvoudig (Air) tot maatwerk (Prime)',
+    wat: 'unTill maakt kassasystemen voor horeca. unTill Air is de kassa-app die je zelf instelt; unTill Prime is het volledige systeem op maat, via een unTill-partner.',
     pakketten: [
-      ['unTill Air', 'vanaf € 19 per maand', 'Maandelijks opzegbaar, eigen Apple- of Android-hardware'],
-      ['unTill (volledig)', 'op offerte', '"Custom pricing, matched to your setup", via een unTill-partner'],
+      ['unTill Air Basis', '€ 19 per maand bij jaarabonnement', 'Maandabonnement € 21,85. Excl. btw, voor 1 apparaat'],
+      ['unTill Air Standaard', '€ 29 per maand bij jaarabonnement', 'Maandabonnement € 33,85. Excl. btw, met rekeningen en keukenbonnen printen'],
+      ['unTill Air Horeca', '€ 39 per maand bij jaarabonnement', 'Maandabonnement € 44,85. Excl. btw, met tafelplan en gangen'],
+      ['unTill Prime', 'offerte op maat', 'Inclusief hardware, installatie, training en service, via een unTill-partner'],
     ],
-    vanaf: 19, vanafTekst: 'unTill Air vanaf € 19 per maand; volledig systeem op offerte',
-    hardware: null, hardwareNoot: 'unTill Air werkt op je eigen hardware. Hardware voor het volledige systeem: op offerte.',
-    transactie: 'unTill Payments: tarieven staan niet op de site.',
+    vanaf: 19, vanafTekst: 'unTill Air vanaf € 19 per maand (jaarabonnement, excl. btw); unTill Prime op offerte',
+    hardware: null, hardwareNoot: 'unTill Air werkt op je eigen Apple- of Android-apparaat; de abonnementen zijn exclusief hardware. Bij unTill Prime zit de hardware in de offerte.',
+    transactie: 'unTill Payments: betalen per transactie, zonder vast contract. Tarieven staan niet op de site.',
     online: { ja: null, t: '' },
     horeca: true, winkel: false,
-    extra: ['De site van unTill is in het Engels.'],
-    bronnen: [['unTill: site en unTill Air', 'https://untill.com/']],
+    extra: ['€ 19 is de prijs per maand bij een jaarabonnement (met maandfacturering). Een maandabonnement kost € 21,85 per maand. Beide excl. btw.', 'unTill Air kun je 14 dagen gratis proberen, zonder betaalmethode.', 'Een Air-abonnement geldt standaard voor 1 apparaat; extra apparaten kosten een meerprijs.'],
+    bronnen: [['unTill Air: prijzen', 'https://untillair.nl/prijzen/'], ['unTill: tarieven', 'https://untill.nl/tarieven/'], ['unTill: Prime en Air', 'https://untill.com/'], ['unTill Air', 'https://untillair.com/'], ['unTill Payments', 'https://untill.com/untill-payments'], ['unTill: partners', 'https://untill.com/resellers/']],
+    domeinen: ['untill.nl', 'untillair.nl', 'untillair.com'],
+    checked: '2026-10-20',
   },
   mplus: {
     naam: 'MplusKASSA', slug: 'mpluskassa', soort: 'kassa', url: 'https://www.mpluskassa.nl/',
@@ -157,11 +170,12 @@ export const AANBIEDERS = {
     pakketten: [['MplusKASSA', 'op offerte', 'Geen bedragen op de site; je krijgt een vrijblijvend prijsoverzicht op maat']],
     vanaf: null, vanafTekst: 'op offerte (geen prijzen op de site)',
     hardware: null, hardwareNoot: 'Op offerte.',
-    transactie: 'Niet vermeld.',
-    online: { ja: null, t: '' },
+    transactie: 'Pinkoppelingen met onder meer Pay., CCV en Worldline, en een eigen betaalplatform (MplusKASSA Pay). Tarieven staan niet op de site.',
+    online: { ja: true, t: 'Webshopkoppelingen met onder meer WooCommerce en Magento, via partners van MplusKASSA.' },
     horeca: true, winkel: true,
-    extra: ['Prijzen alleen via offerte of demo.', 'Hulp en installatie via een netwerk van MplusKASSA-leveranciers.'],
-    bronnen: [['MplusKASSA: site', 'https://www.mpluskassa.nl/']],
+    extra: ['Je betaalt eenmalig voor hardware en software; voor aanvullende service en online diensten kunnen maandelijkse kosten gelden.', 'Prijzen alleen via een prijsoverzicht op maat of een demo.', 'Hulp en installatie via een netwerk van MplusKASSA-leveranciers.'],
+    bronnen: [['MplusKASSA: site', 'https://www.mpluskassa.nl/'], ['MplusKASSA: kassa samenstellen', 'https://www.mpluskassa.nl/kassa-samenstellen'], ['MplusKASSA: webshopkoppelingen', 'https://www.mpluskassa.nl/koppelingen/webshop'], ['MplusKASSA: dealers', 'https://www.mpluskassa.nl/dealers']],
+    checked: '2026-10-20',
   },
 };
 

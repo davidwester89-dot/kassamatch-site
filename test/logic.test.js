@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { score, VRAGEN, compleet } from '../src/lib/match.js';
 import { planKosten, besteplan, vergelijkPin } from '../src/lib/kosten.js';
-import { AANBIEDERS, IDS, PIN_IDS, KASSA_IDS, CHECKED } from '../src/lib/aanbieders.js';
+import { AANBIEDERS, IDS, PIN_IDS, KASSA_IDS, CHECKED, checkedVan } from '../src/lib/aanbieders.js';
 import { uitgaand, knop, PARTNERLINKS } from '../src/lib/partnerlinks.js';
 
 test('data: elke aanbieder heeft bron(nen) op de eigen site, geen verzonnen velden', () => {
@@ -12,12 +12,22 @@ test('data: elke aanbieder heeft bron(nen) op de eigen site, geen verzonnen veld
     const p = AANBIEDERS[id];
     assert.ok(p.bronnen.length >= 1, id);
     const host = new URL(p.url).hostname.replace(/^www\./, '');
-    for (const [, u] of p.bronnen) { assert.match(u, /^https:\/\//); assert.ok(new URL(u).hostname.replace(/^www\./, '') === host, `${id}: bron ${u} niet op eigen site ${host}`); }
+    // Eigen site = het domein van url, plus eventueel extra officiële domeinen van dezelfde aanbieder (domeinen).
+    const hosts = [host, ...(p.domeinen || [])];
+    for (const [, u] of p.bronnen) { assert.match(u, /^https:\/\//); assert.ok(hosts.includes(new URL(u).hostname.replace(/^www\./, '')), `${id}: bron ${u} niet op eigen site ${hosts}`); }
+    if (p.checked) assert.match(p.checked, /^\d{4}-\d{2}-\d{2}$/);
+    assert.ok(checkedVan(id) >= CHECKED, id);
     for (const k of ['rating', 'review', 'sterren', 'score']) assert.ok(!(k in p), `${id}.${k}`);
   }
   for (const id of PIN_IDS) for (const pl of AANBIEDERS[id].plannen) { assert.ok(pl.maand >= 0 && pl.pct >= 0 && pl.vast >= 0); assert.ok(pl.tarief); }
-  // CCV publiceert de prijs van de automaat niet: die moet onbekend blijven.
-  assert.equal(AANBIEDERS.ccv.hardware, null);
+  // CCV: huur en koop hebben ook maandbedragen, dus geen losse koopprijs in de rekentool; wel als tekst.
+  assert.equal(AANBIEDERS.ccv.hardware, null); assert.match(AANBIEDERS.ccv.hardwareKort, /€ 25/); assert.match(AANBIEDERS.ccv.hardwareKort, /€ 399/);
+  // Alleen de opnieuw gecontroleerde aanbieders krijgen een nieuwere datum; SumUp, myPOS en Mollie houden CHECKED.
+  for (const id of ['sumup', 'mypos', 'mollie']) assert.equal(checkedVan(id), CHECKED, id);
+  // unTill: € 19 is het jaarabonnement, maandabonnement € 21,85; het volledige systeem heet unTill Prime.
+  const ut = JSON.stringify(AANBIEDERS.untill); assert.match(ut, /jaarabonnement/); assert.match(ut, /21,85/); assert.match(ut, /unTill Prime/); assert.ok(!/maandelijks opzegbaar|in het Engels/i.test(ut));
+  // MplusKASSA noemt webshop- en pinkoppelingen.
+  assert.equal(AANBIEDERS.mplus.online.ja, true); assert.match(AANBIEDERS.mplus.transactie, /CCV/);
   // Shopify alleen in dollars; Mplus op offerte; nergens 'prijs op aanvraag' bij Lightspeed.
   assert.equal(AANBIEDERS.shopify.vanaf, null); assert.ok(AANBIEDERS.shopify.usd);
   assert.equal(AANBIEDERS.mplus.vanaf, null);

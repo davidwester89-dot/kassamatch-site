@@ -30,7 +30,7 @@ export const eur = (n) => (n === 0 ? '€ 0' : '€ ' + n.toLocaleString('nl-NL'
 export { fmtEur };
 export const hwTekst = (id) => {
   const list = AANBIEDERS[id].hardware;
-  if (!list) return 'onbekend (niet gepubliceerd)';
+  if (!list) return AANBIEDERS[id].hardwareKort || 'onbekend (niet gepubliceerd)';
   const [naam, prijs] = list.reduce((m, h) => (h[1] < m[1] ? h : m));
   const noot = /aanbieding/i.test(naam) ? ' (aanbieding nieuwe klanten)' : '';
   return `vanaf ${eur(prijs)} excl. btw${noot}`;
