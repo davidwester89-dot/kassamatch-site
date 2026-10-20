@@ -227,7 +227,7 @@ ${matchCta(`Past ${esc(kortNaam(id))} bij jou?`, 'aanbieder_match')}${bron(p.bro
 // ---- SumUp of Zettle ----
 const vsRows = [[50, 15], [200, 25], [800, 25]];
 const vsFaq = [
-  ['Is SumUp of Zettle goedkoper?', `Per betaling met een Nederlandse pas is SumUp goedkoper: 1,49% zonder abonnement tegen 1,95% bij Zettle. Het goedkoopste apparaat is bij Zettle goedkoper: de PayPal Reader kost € 29 voor nieuwe zakelijke gebruikers, de SumUp Solo Lite € 44 (beide excl. btw).`],
+  ['Is SumUp of Zettle goedkoper?', `Per betaling met een Nederlandse pas is SumUp goedkoper: 1,49% zonder abonnement tegen 1,95% bij Zettle. Het goedkoopste apparaat is bij Zettle goedkoper: de PayPal Reader kost € 29 voor nieuwe zakelijke gebruikers, de SumUp Solo Lite ${eur(goedkoopsteHardware('sumup'))} (beide excl. btw; met oplaadstation € 44).`],
   ['Heeft Zettle een abonnement?', 'Nee. PayPal noemt geen contracten of terugkerende kosten voor Zettle (PayPal Point of Sale): je betaalt per transactie en voor de hardware.'],
 ];
 export const sumupVsZettle = {
@@ -238,7 +238,7 @@ export const sumupVsZettle = {
 <div class="table-wrap"><table class="data side"><thead><tr><th scope="col"></th><th scope="col">SumUp</th><th scope="col">Zettle (PayPal)</th></tr></thead><tbody>
 <tr><th scope="row">Vaste kosten</th><td data-l="SumUp">€ 0, of € 19 per maand (Betalingen Plus)</td><td data-l="Zettle">€ 0</td></tr>
 <tr><th scope="row">Per pinbetaling</th><td data-l="SumUp">1,49%, met Plus 0,99%</td><td data-l="Zettle">1,95% voor de belangrijkste kaarten, ook AMEX</td></tr>
-<tr><th scope="row">Goedkoopste apparaat</th><td data-l="SumUp">Solo Lite € 44 excl. btw</td><td data-l="Zettle">PayPal Reader € 29 excl. btw (aanbieding nieuwe gebruikers)</td></tr>
+<tr><th scope="row">Goedkoopste apparaat</th><td data-l="SumUp">Solo Lite ${eur(goedkoopsteHardware('sumup'))} excl. btw (met oplaadstation € 44; SumUp, gecontroleerd 20-10-2026)</td><td data-l="Zettle">PayPal Reader € 29 excl. btw (aanbieding nieuwe gebruikers)</td></tr>
 <tr><th scope="row">Terminal met eigen scherm</th><td data-l="SumUp">Terminal met printer € 169</td><td data-l="Zettle">PayPal Terminal € 199</td></tr>
 <tr><th scope="row">Kassasoftware</th><td data-l="SumUp">€ 0, of € 49 per maand voor POS Plus</td><td data-l="Zettle">Kassa-app zonder extra kosten</td></tr>
 <tr><th scope="row">Online betalen</th><td data-l="SumUp">2,50% per onlinebetaling</td><td data-l="Zettle">Niet vermeld op de prijspagina</td></tr>

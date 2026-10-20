@@ -23,8 +23,9 @@ export const AANBIEDERS = {
       { id: 'sumup-0', naam: 'Betaal naar gebruik', maand: 0, pct: 1.49, vast: 0, tarief: '1,49% per betaling met een betaalpas' },
       { id: 'sumup-plus', naam: 'Betalingen Plus', maand: 19, pct: 0.99, vast: 0, tarief: '0,99% per fysieke betaling (AMEX en premium passen 1,49%)' },
     ],
-    hardware: [['Solo Lite met oplaadstation (werkt met je telefoon)', 44], ['Terminal met printer', 169], ['Kassa met twee schermen', 399]],
-    hardwareNoot: 'Excl. btw, zoals SumUp het toont.',
+    // Solo Lite los € 34, met oplaadstation € 44 (excl. btw): https://www.sumup.com/nl-nl/solo-lite-pinapparaat/ (gecontroleerd 20-10-2026).
+    hardware: [['Solo Lite (werkt met je telefoon)', 34], ['Solo Lite met oplaadstation', 44], ['Terminal met printer', 169], ['Kassa met twee schermen', 399]],
+    hardwareNoot: 'Excl. btw, zoals SumUp het toont. Solo Lite: € 34 los of € 44 met oplaadstation (sumup.com/nl-nl/solo-lite-pinapparaat, gecontroleerd 20-10-2026).',
     online: { ja: true, t: 'Onlinebetalingen: 2,50% per transactie.' },
     kassaSoftware: 0, horeca: true, winkel: true,
     kassa: { v: 'ja', t: 'SumUp Kassa (hardware € 399). Software € 0 per maand, of € 49 per maand voor POS Plus met plattegrond, boekhoudkoppeling en barcodescanner.' },

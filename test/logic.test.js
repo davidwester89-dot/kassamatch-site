@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { score, VRAGEN, compleet } from '../src/lib/match.js';
 import { planKosten, besteplan, vergelijkPin } from '../src/lib/kosten.js';
-import { AANBIEDERS, IDS, PIN_IDS, KASSA_IDS, CHECKED, checkedVan } from '../src/lib/aanbieders.js';
+import { AANBIEDERS, IDS, PIN_IDS, KASSA_IDS, CHECKED, checkedVan, goedkoopsteHardware } from '../src/lib/aanbieders.js';
 import { uitgaand, knop, PARTNERLINKS } from '../src/lib/partnerlinks.js';
 
 test('data: elke aanbieder heeft bron(nen) op de eigen site, geen verzonnen velden', () => {
@@ -21,6 +21,9 @@ test('data: elke aanbieder heeft bron(nen) op de eigen site, geen verzonnen veld
   }
   for (const id of PIN_IDS) for (const pl of AANBIEDERS[id].plannen) { assert.ok(pl.maand >= 0 && pl.pct >= 0 && pl.vast >= 0); assert.ok(pl.tarief); }
   // CCV: huur en koop hebben ook maandbedragen, dus geen losse koopprijs in de rekentool; wel als tekst.
+  // SumUp Solo Lite: € 34 los, € 44 met oplaadstation (sumup.com/nl-nl/solo-lite-pinapparaat, 20-10-2026); goedkoopste = € 34.
+  assert.equal(goedkoopsteHardware('sumup'), 34); assert.ok(AANBIEDERS.sumup.hardware.some(([n, p]) => /oplaadstation/.test(n) && p === 44));
+  assert.equal(goedkoopsteHardware('zettle'), 29); assert.ok(goedkoopsteHardware('zettle') < goedkoopsteHardware('sumup'));
   assert.equal(AANBIEDERS.ccv.hardware, null); assert.match(AANBIEDERS.ccv.hardwareKort, /€ 25/); assert.match(AANBIEDERS.ccv.hardwareKort, /€ 399/);
   // SumUp, myPOS en Mollie zijn op 20-10 opnieuw gecontroleerd (uitgebreide pagina's).
   for (const id of ['sumup', 'mypos', 'mollie']) assert.equal(checkedVan(id), '2026-10-20', id);

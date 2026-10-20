@@ -59,6 +59,9 @@ test('build (productie): pagina’s, sitemap, robots, IndexNow, regels', () => {
   // CCV: huur- en koopprijzen van ccv.eu zichtbaar, geen 'onbekend' meer voor de automaat.
   const ccv = readFileSync('dist/aanbieders/ccv/index.html', 'utf8');
   assert.match(ccv, /€ 25/); assert.match(ccv, /€ 399/); assert.ok(!/0,069|4,37/.test(ccv), 'geen CCV-tarieven 2027');
+  // SumUp Solo Lite € 34 (los) op de vergelijkingspagina; € 44 alleen met oplaadstation.
+  const vs = readFileSync('dist/sumup-vs-zettle/index.html', 'utf8');
+  assert.match(vs, /Solo Lite € 34 excl\. btw/); assert.ok(!/Solo Lite € 44/.test(vs)); assert.match(vs, /met oplaadstation € 44/);
   // Uitgebreide aanbiederpagina's: zichtbare FAQ + FAQPage, eigen controledatum, ≥ 600 woorden in <main>.
   for (const slug of ['ccv', 'lightspeed', 'mpluskassa', 'shopify-pos', 'untill', 'zettle', 'sumup', 'mypos', 'mollie']) {
     const s = readFileSync(`dist/aanbieders/${slug}/index.html`, 'utf8');
