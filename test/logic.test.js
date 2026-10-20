@@ -22,8 +22,8 @@ test('data: elke aanbieder heeft bron(nen) op de eigen site, geen verzonnen veld
   for (const id of PIN_IDS) for (const pl of AANBIEDERS[id].plannen) { assert.ok(pl.maand >= 0 && pl.pct >= 0 && pl.vast >= 0); assert.ok(pl.tarief); }
   // CCV: huur en koop hebben ook maandbedragen, dus geen losse koopprijs in de rekentool; wel als tekst.
   assert.equal(AANBIEDERS.ccv.hardware, null); assert.match(AANBIEDERS.ccv.hardwareKort, /€ 25/); assert.match(AANBIEDERS.ccv.hardwareKort, /€ 399/);
-  // Alleen de opnieuw gecontroleerde aanbieders krijgen een nieuwere datum; SumUp, myPOS en Mollie houden CHECKED.
-  for (const id of ['sumup', 'mypos', 'mollie']) assert.equal(checkedVan(id), CHECKED, id);
+  // SumUp, myPOS en Mollie zijn op 20-10 opnieuw gecontroleerd (uitgebreide pagina's).
+  for (const id of ['sumup', 'mypos', 'mollie']) assert.equal(checkedVan(id), '2026-10-20', id);
   // unTill: € 19 is het jaarabonnement, maandabonnement € 21,85; het volledige systeem heet unTill Prime.
   const ut = JSON.stringify(AANBIEDERS.untill); assert.match(ut, /jaarabonnement/); assert.match(ut, /21,85/); assert.match(ut, /unTill Prime/); assert.ok(!/maandelijks opzegbaar|in het Engels/i.test(ut));
   // MplusKASSA noemt webshop- en pinkoppelingen.
