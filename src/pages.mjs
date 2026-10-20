@@ -6,6 +6,7 @@ import { TEKSTEN } from './aanbieder-teksten.mjs';
 import { vergelijkPin, besteplan, fmtEur } from './lib/kosten.js';
 import { knop } from './lib/partnerlinks.js';
 import { VRAGEN, REKEN } from './lib/match.js';
+import { HERO_ART } from './hero-art.mjs';
 import { by, bron, bronnenVan, matchCta, article, faqHtml, faqSchema, eur, hwTekst, planTekst, pinVoorbeeld, tarievenTabel, acard, methodBox, kortNaam, vlag } from './parts.mjs';
 
 const BD = [['Belastingdienst: Het kassasysteem in uw bedrijf (brochure)', 'https://www.belastingdienst.nl/wps/wcm/connect/bldcontentnl/themaoverstijgend/brochures_en_publicaties/uw_bedrijf_en_het_kassasysteem'], ['Belastingdienst ODB: informatie afrekensystemen', 'https://odb.belastingdienst.nl/afrekensystemen-kassa/informatie-afrekensystemen-kassa/']];
@@ -48,31 +49,40 @@ export const home = {
   path: '/', title: 'Pinautomaat of kassasysteem kiezen? | KassaMatch', ogTitle: 'KassaMatch: welke pinautomaat of kassa past bij jouw zaak?', h1: 'Pinautomaat of kassa kiezen? Reken het eerst uit.', og: 'home',
   description: 'Vergelijk SumUp, myPOS, Zettle, Mollie, CCV, Lightspeed, Shopify POS, unTill en MplusKASSA op kosten per maand. Doe de match en zie je top 3.',
   schema: [faqSchema(homeFaq)],
-  body: `<section class="hero"><div>
+  body: `<section class="hero sec"><div class="hero-txt">
 <p class="h1-brand">Kassa<b>Match</b>.nl</p>
 <h1 class="tagline">Pinautomaat of kassa kiezen? Reken het eerst uit.</h1>
 <p class="lead">Wat kost pinnen jou per maand? We zetten ${PIN_IDS.length} pinaanbieders en ${KASSA_IDS.length} kassasystemen naast elkaar, met de tarieven van hun eigen site. Beantwoord 6 korte vragen en zie je top 3.</p>
 <div class="actions"><a class="btn" href="/kassa-match/" data-cta="home_hero">Start de match</a><a class="btn ghost" href="/pinautomaat-vergelijken/">Reken je pinkosten uit</a></div>
 </div>
+<div class="hero-side">
+${HERO_ART}
 <div class="hero-q"><p class="hero-q-step">Vraag 1 van ${VRAGEN.length}</p><p class="hero-q-title" id="hq">${esc(VRAGEN[0].vraag)}</p><div class="hero-q-opts" role="group" aria-labelledby="hq">${VRAGEN[0].opties.map(([v, l]) => `<a class="choice" href="/kassa-match/?type=${v}" rel="nofollow" data-cta="home_q1">${esc(l)}<span aria-hidden="true">→</span></a>`).join('')}</div><p class="hero-q-foot">Daarna nog ${VRAGEN.length - 1} korte vragen. Gratis, zonder account.</p></div>
-</section>
+</div>
 <ul class="trustbar">
 <li>${ICONS.kalender}<span>Tarieven gecontroleerd op <time datetime="${CHECKED}">${fmtDate(CHECKED)}</time></span></li>
 <li>${ICONS.bron}<span>Bron bij elk bedrag</span></li>
 <li>${ICONS.schild}<span>Volgorde nooit betaald</span></li>
 <li>${ICONS.gratis}<span>Gratis, zonder account</span></li>
 </ul>
+</section>
+<section class="sec">
 <h2>Wat kost pinnen per maand?</h2>
 <p class="sub">Voorbeeld: 300 pinbetalingen per maand van gemiddeld € 25 met een Nederlandse betaalpas. Per aanbieder het goedkoopste plan bij dit volume, goedkoopste eerst. Het pinapparaat betaal je eenmalig.</p>
 ${pinVoorbeeld(300, 25)}
 <p>Bij dit voorbeeld is ${link(ex[0].id)} het goedkoopst per maand${ex[0].id === 'ccv' ? ', maar CCV publiceert de prijs van de betaalautomaat niet' : ''}. Met andere aantallen kan de volgorde omdraaien. <a href="/pinautomaat-vergelijken/">Reken het uit met je eigen aantallen →</a></p>
+</section>
+<section class="sec tint">
 <h2>Kassasystemen op een rij</h2>
 <p class="sub">Prijs zoals de aanbieder die toont. Shopify toont ons alleen dollars, Mplus en het volledige unTill werken op offerte.</p>
 <div class="table-wrap"><table class="data stack"><thead><tr><th scope="col">Kassasysteem</th><th scope="col">Prijs</th><th scope="col">Horeca</th><th scope="col">Winkel</th><th scope="col">Webshop of online</th></tr></thead><tbody>${['sumup', 'zettle', ...KASSA_IDS].map((id) => `<tr><th scope="row">${link(id)}</th><td data-l="Prijs">${esc(A[id].soort === 'pin' ? (id === 'sumup' ? 'Software € 0 of € 49 per maand, kassa € 399' : 'Kassa-app € 0, terminal € 199') : A[id].vanafTekst)}</td><td data-l="Horeca">${vlag(A[id].horeca ?? null)}</td><td data-l="Winkel">${vlag(A[id].winkel ?? null)}</td><td data-l="Webshop of online">${vlag(A[id].online.ja)}</td></tr>`).join('')}</tbody></table></div>
 <p><a href="/kassasysteem-vergelijken/">Alle kassasystemen vergelijken →</a></p>
+</section>
+<section class="sec">
 <h2>Gidsen</h2>
 <div class="grid cards">${GIDSEN.map(([h, t, d]) => `<a class="card" href="${h}"><h3>${esc(t)}</h3><p>${esc(d)}</p><span class="more">Lees de gids →</span></a>`).join('')}</div>
-<section class="band method-band">
+</section>
+<section class="band method-band sec">
 <h2>Zo vergelijken we</h2>
 <ol class="steps">
 <li><strong>Tarieven van de aanbieder zelf.</strong> Elk bedrag komt van de prijspagina van de aanbieder, met link op de pagina <a href="/bronnen/">bronnen</a>.</li>
@@ -81,7 +91,12 @@ ${pinVoorbeeld(300, 25)}
 </ol>
 <p class="author">Door <a href="/over/">${SITE.owner}</a> · <a href="/over/#methode">Hoe de match werkt</a></p>
 </section>
-${faqHtml(homeFaq)}`,
+<section class="sec tint"><div class="faq-sec">
+${faqHtml(homeFaq)}
+</div></section>
+<section class="sec band-sec">
+<div class="cta-band"><div><h2>Welke pinautomaat of kassa past bij jou?</h2><p>Beantwoord ${VRAGEN.length} korte vragen en zie je top 3. Gratis, zonder account.</p></div><a class="btn" href="/kassa-match/" data-cta="home_band">Start de match</a></div>
+</section>`,
 };
 
 // ---- Match ----
