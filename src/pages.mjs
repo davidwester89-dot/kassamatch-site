@@ -84,7 +84,7 @@ ${faqHtml(homeFaq)}`,
 
 // ---- Match ----
 export const quiz = {
-  path: '/kassa-match/', title: 'Pinautomaat of kassa kiezen: doe de KassaMatch', h1: 'Welke pinautomaat of kassa past bij jou?', crumb: 'De match', og: 'match', noCta: true,
+  path: '/kassa-match/', title: 'Keuzehulp pinautomaat en kassa: doe de KassaMatch', h1: 'Welke pinautomaat of kassa past bij jou?', crumb: 'De match', og: 'match', noCta: true,
   description: 'Zes vragen over je zaak, je pinbetalingen en vaste kosten. Je krijgt de drie pinautomaten of kassasystemen die het best passen, met kosten.',
   scripts: ['/js/quiz.js'],
   schema: [{ '@context': 'https://schema.org', '@type': 'WebApplication', name: 'KassaMatch', applicationCategory: 'BusinessApplication', operatingSystem: 'Web', url: SITE.domain + '/kassa-match/', offers: { '@type': 'Offer', price: '0', priceCurrency: 'EUR' }, publisher: ORG }],

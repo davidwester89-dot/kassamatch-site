@@ -30,7 +30,8 @@ export const AANBIEDERS = {
     kassa: { v: 'ja', t: 'SumUp Kassa (hardware € 399). Software € 0 per maand, of € 49 per maand voor POS Plus met plattegrond, boekhoudkoppeling en barcodescanner.' },
     abonnementNodig: false,
     extra: ['Boven € 10.000 omzet per maand biedt SumUp aangepaste tarieven op aanvraag.', 'SumUp noemt een omzet van minimaal € 4.645 per maand als punt waarop Betalingen Plus voordeliger is.', 'Online betalingen, buitenlandse en zakelijke passen hebben andere tarieven.'],
-    bronnen: [['SumUp: prijzen', 'https://www.sumup.com/nl-nl/prijzen/'], ['SumUp: kassasysteem', 'https://www.sumup.com/nl-nl/sumup-kassa/']],
+    bronnen: [['SumUp: prijzen', 'https://www.sumup.com/nl-nl/prijzen/'], ['SumUp: kassasysteem', 'https://www.sumup.com/nl-nl/sumup-kassa/'], ['SumUp: pinapparaten', 'https://www.sumup.com/nl-nl/pinapparaten/'], ['SumUp: Solo Lite', 'https://www.sumup.com/nl-nl/solo-lite-pinapparaat/'], ['SumUp: Solo', 'https://www.sumup.com/nl-nl/solo-pinapparaat/'], ['SumUp: Terminal', 'https://www.sumup.com/nl-nl/terminal-pinapparaat/']],
+    checked: '2026-10-20',
   },
   mypos: {
     naam: 'myPOS', slug: 'mypos', soort: 'pin', url: 'https://www.mypos.com/nl-nl/',
@@ -49,6 +50,7 @@ export const AANBIEDERS = {
     abonnementNodig: false,
     extra: ['Plus noemt myPOS voordelig vanaf € 4.000 per maand.', 'American Express en andere kaarten: 2,69% (One), 2,49% (Plus), 2,29% (Pro).', 'Geen contract of langetermijnverbintenis, volgens myPOS.'],
     bronnen: [['myPOS: prijzen en kosten', 'https://www.mypos.com/nl-nl/pricing-and-fees'], ['myPOS: pinapparaten', 'https://www.mypos.com/nl-nl/kopen-mobiel-pinapparaat']],
+    checked: '2026-10-20',
   },
   zettle: {
     naam: 'Zettle (PayPal Point of Sale)', slug: 'zettle', soort: 'pin', url: 'https://www.zettle.com/nl',
@@ -76,12 +78,13 @@ export const AANBIEDERS = {
       { id: 'mollie-pro', naam: 'Pro', maand: 20, pct: 1.5, vast: 0.1, tarief: '€ 0,10 + 1,50% per betaling met "andere consumentenkaarten" (Maestro en V PAY € 0,06 + 0,20%)' },
     ],
     hardware: [['Tap-terminal', 95], ['Mobiele POS-terminal', 350], ['Vaste POS-terminal', 350]],
-    hardwareNoot: 'Normale prijzen zoals Mollie ze toont. Op 19 oktober 2026 gaf Mollie 50% korting op de Tap-terminal en de mobiele terminal.',
+    hardwareNoot: 'Normale prijzen zoals Mollie ze toont. Op 20 oktober 2026 gaf Mollie 50% korting op de Tap-terminal (€ 47,50) en de mobiele terminal (€ 175).',
     online: { ja: true, t: 'Online betalingen, betaallinks en iDEAL | Wero (€ 0,32 per betaling).' },
     kassa: { v: 'nee', t: 'Mollie levert terminals en betalingen; een eigen kassasoftware noemt Mollie niet op de prijspagina.' },
     abonnementNodig: false,
     extra: ['Pay as you go: maximaal 1 terminal. Pro: € 20 per maand per extra terminal.', 'Pro noemt Mollie de beste keuze vanaf € 2.000 per maand.', 'Mollie noemt Debit Mastercard en Visa Debit niet apart. We rekenen daarom met het tarief voor "andere consumentenkaarten".'],
     bronnen: [['Mollie: tarieven', 'https://www.mollie.com/nl/pricing'], ['Mollie: betalingen in de winkel', 'https://www.mollie.com/nl/products/pos-payments']],
+    checked: '2026-10-20',
   },
   ccv: {
     naam: 'CCV', slug: 'ccv', soort: 'pin', url: 'https://www.ccv.eu/nl/',

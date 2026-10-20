@@ -169,4 +169,82 @@ ${tabel(['Pakket', 'Jaarabonnement', 'Maandabonnement', 'Wat erin zit'], [['Basi
       ['Kan ik met Zettle pinnen op mijn telefoon?', 'Ja. Met Tap to Pay in de PayPal Point of Sale-app accepteer je contactloze kaarten en wallets op je telefoon. Je hebt geen extra hardware nodig en het kost niets extra: je betaalt 1,95% per betaling.'],
     ],
   },
+
+  sumup: {
+    title: 'SumUp kosten 2026: tarieven en pinapparaten | KassaMatch',
+    description: 'Wat kost SumUp? 1,49% per pinbetaling zonder abonnement, 0,99% met Betalingen Plus (€ 19 per maand). Solo Lite vanaf € 34, Terminal € 169 excl. btw.',
+    h1: 'SumUp: kosten, tarieven en pinapparaten',
+    voor: [['Wat kost SumUp?', `<p>Bij SumUp betaal je een keer voor je pinapparaat en daarna een percentage per betaling. Zonder abonnement (Betaal naar gebruik) is dat 1,49% per betaling met een betaalpas, ook voor American Express en premium passen. Er zijn geen vaste maandkosten, geen installatiekosten en geen huur voor het apparaat.</p>
+<p>Met het abonnement Betalingen Plus betaal je € 19 per maand en dan 0,99% per fysieke betaling. Voor American Express, premium passen en passen van buiten de EU blijft het 1,49%. Volgens SumUp loont Plus vanaf een omzet van € 4.645 per maand. Je kunt Plus 7 dagen gratis proberen en opzeggen wanneer je wilt.</p>`]],
+    na: [
+      ['Pinapparaten van SumUp', `${tabel(['Apparaat', 'Prijs excl. btw', 'Wat het is'], [['Tap to Pay', '€ 0', 'Contactloos betalen op je eigen telefoon, met de SumUp Business-app'], ['Solo Lite', '€ 34 (met oplaadstation € 44)', 'Klein pinapparaat dat je aan je telefoon koppelt'], ['Solo', '€ 79 (met vaste of mobiele printer € 109)', 'Zelfstandig pinapparaat, zonder telefoon'], ['Terminal', '€ 169', 'Draagbaar betaal- en bestelapparaat met touchscreen en ingebouwde bonnenprinter'], ['SumUp Kassa', '€ 399 (€ 482,79 incl. btw)', 'Kassasysteem met een scherm van 13,3 inch voor jou en 8 inch voor de klant']])}
+<p>SumUp toont de prijzen exclusief btw. Elk apparaat kun je volgens SumUp 30 dagen vrijblijvend proberen, en op alle hardware zit 1 jaar garantie. In onze rekentool rekenen we met de Solo Lite met oplaadstation (€ 44).</p>`],
+      ['Rekenvoorbeeld: zonder abonnement of Betalingen Plus', `<p>Stel: je pint € 5.000 per maand met gewone betaalpassen.</p>
+<ul><li><strong>Betaal naar gebruik:</strong> 1,49% van € 5.000 = € 74,50 per maand.</li><li><strong>Betalingen Plus:</strong> € 19 + 0,99% van € 5.000 (€ 49,50) = € 68,50 per maand.</li></ul>
+<p>Bij € 2.000 per maand is het andersom: zonder abonnement € 29,80, met Plus € 19 + € 19,80 = € 38,80. Pin je weinig of wisselt je omzet sterk per seizoen, dan past Betaal naar gebruik beter. Boven € 10.000 per maand biedt SumUp tarieven op maat. Reken je eigen aantallen uit in <a href="/transactiekosten-vergelijken/">transactiekosten vergelijken</a>.</p>`],
+      ['Uitbetaling en andere kosten', `<p>Je geld staat volgens SumUp de volgende dag om 7.00 uur op je rekening, ook in het weekend en op feestdagen, zonder extra kosten. Een afgewezen betaling kost niets: je betaalt alleen voor geslaagde betalingen. Contante betalingen registreer je in de SumUp Business-app, zonder transactiekosten.</p>
+<p>Online betalingen kosten 2,50% per transactie, bij beide plannen.</p>`],
+      ['SumUp Kassa en POS Plus', `<p>SumUp Kassa is een kassasysteem voor op de balie, met een scherm voor jou en een voor je klant. De kassasoftware kost € 0 per maand. Met het abonnement POS Plus (€ 49 per maand) krijg je volgens SumUp onder meer plattegrondbeheer, een koppeling met boekhoudsoftware en een barcodescanner, en kun je bestellingen aan tafel opnemen en naar de keuken sturen.</p>
+<p>SumUp noemt de Kassa geschikt voor kleine en middelgrote zaken: cafés, restaurants, bakkerijen, winkels en beautysalons. Printers, kassalades en een kiosk kun je erbij aansluiten.</p>`],
+      ['SumUp of een andere aanbieder?', () => `<p>Vergeleken met <a href="/aanbieders/zettle/">Zettle</a> (${pct(A.zettle.plannen[0].pct)}) is SumUp zonder abonnement goedkoper per betaling met een Nederlandse pas. Bij <a href="/aanbieders/mypos/">myPOS</a> zijn de tarieven van One en Plus gelijk aan die van SumUp, maar krijg je er een zakelijke rekening bij. Pin je veel, kijk dan ook naar aanbieders met een vast bedrag per betaling, zoals <a href="/aanbieders/ccv/">CCV</a> (${eur(A.ccv.plannen[0].vast)}). Alles naast elkaar: <a href="/sumup-vs-zettle/">SumUp of Zettle</a> en <a href="/goedkoopste-pinautomaat/">de goedkoopste pinautomaat</a>.</p>`],
+    ],
+    faq: [
+      ['Wat kost SumUp per transactie?', 'Zonder abonnement 1,49% per betaling met een betaalpas, ook American Express. Met Betalingen Plus (€ 19 per maand) 0,99% per fysieke betaling; American Express, premium passen en passen van buiten de EU blijven 1,49%. Online betalingen kosten 2,50%.'],
+      ['Heeft SumUp vaste maandkosten?', 'Niet bij Betaal naar gebruik: je betaalt alleen het apparaat en een percentage per betaling. Betalingen Plus kost € 19 per maand. Voor de kassasoftware betaal je € 0, of € 49 per maand voor POS Plus.'],
+      ['Wat is het goedkoopste pinapparaat van SumUp?', 'Tap to Pay op je telefoon kost € 0. Het goedkoopste losse apparaat is de Solo Lite voor € 34 excl. btw (met oplaadstation € 44). Die koppel je aan je telefoon. De zelfstandige Solo kost € 79.'],
+      ['Wanneer staat mijn geld op mijn rekening?', 'Volgens SumUp de volgende dag om 7.00 uur, ook in het weekend en op feestdagen, zonder extra kosten.'],
+    ],
+  },
+
+  mypos: {
+    title: 'myPOS kosten 2026: plannen en pinapparaten | KassaMatch',
+    description: 'Wat kost myPOS? One € 0, Plus € 19 en Pro € 39 per maand, vanaf € 0,06 per pinbetaling. Go 2 € 39, Flex € 69, Ultra € 179 excl. btw. Met rekenvoorbeeld.',
+    h1: 'myPOS: kosten, plannen en pinapparaten',
+    voor: [['Wat kost myPOS?', `<p>myPOS heeft drie accountplannen. Bij One betaal je niets per maand en 1,49% per betaling met een Nederlandse consumentenbetaalpas. Plus kost € 19 per maand, met 0,99%. Pro kost € 39 per maand, met een vast bedrag van € 0,06 per betaling met zo'n pas. Volgens myPOS is Plus voordelig vanaf € 4.000 per maand.</p>
+<p>Er is geen contract en geen minimale looptijd: je kunt elke maand wisselen of opzeggen. Daarnaast koop je eenmalig een pinapparaat, of je pint met je telefoon (myPOS Glass).</p>`]],
+    na: [
+      ['Tarieven per kaartsoort', `${tabel(['Kaart (in de winkel)', 'One', 'Plus', 'Pro'], [['Nederlandse consumentenbetaalpas', '1,49%', '0,99%', '€ 0,06'], ['Nederlandse consumentencreditcard en betaalpassen uit de EER', '1,49%', '0,99%', '0,89%'], ['Alle andere kaarten, ook American Express', '2,69%', '2,49%', '2,29%']])}
+<p>Online (kaart niet aanwezig) is het bij One 1,99% + € 0,20 voor een Nederlandse betaalpas, bij Plus 1,49% + € 0,15 en bij Pro 0,50% + € 0,10. Betaallinks, QR-codes en Tap to Pay zitten in alle drie de plannen.</p>`],
+      ['Rekenvoorbeeld: welk plan past?', `<p>Stel: je doet 200 betalingen van € 25 per maand (€ 5.000), allemaal met een Nederlandse betaalpas.</p>
+<ul><li><strong>One:</strong> 1,49% van € 5.000 = € 74,50.</li><li><strong>Plus:</strong> € 19 + 0,99% van € 5.000 (€ 49,50) = € 68,50.</li><li><strong>Pro:</strong> € 39 + 200 × € 0,06 (€ 12) = € 51.</li></ul>
+<p>Bij Pro telt het aantal betalingen, niet het bedrag. Bij grote bedragen per betaling is Pro dus sneller voordelig; bij weinig betalingen is One het goedkoopst. Je eigen aantallen reken je uit in <a href="/pinautomaat-vergelijken/">pinautomaat vergelijken</a>.</p>`],
+      ['Pinapparaten van myPOS', `${tabel(['Apparaat', 'Prijs excl. btw', 'Wat het is'], [['myPOS Glass', 'geen apparaat nodig', 'Tap to Pay: contactloos betalen op je telefoon'], ['myPOS Go 2', '€ 39', 'Zelfstandig mobiel pinapparaat met 4G en wifi'], ['myPOS Flex', '€ 69', 'Compact pinapparaat voor onderweg of op de balie'], ['myPOS Ultra', '€ 179', 'Androidterminal met ingebouwde bonnenprinter'], ['myPOS Sigma', '€ 499', 'Kaartlezer voor automaten, kiosken en parkeren']])}
+<p>Met Plus krijg je 25% korting op je eerste myPOS Ultra, met Pro 50%. Voor de Flex en Ultra is er een kassasysteem-app.</p>`],
+      ['Zakelijke rekening en uitbetaling', `<p>Bij myPOS krijg je een zakelijke rekening met een eigen IBAN en een betaalpas. Een aparte bankrekening is volgens myPOS niet nodig. Het geld van een verkoop staat binnen enkele seconden op je myPOS-rekening, 24/7, ook in het weekend.</p>
+<p>Let op de kosten van die rekening. Een uitgaande SEPA-overschrijving kost bij One € 1. Plus heeft 15 gratis overschrijvingen per maand (daarna € 0,50), Pro 50 (daarna € 0,25). Verwerk je 10 maanden geen betalingen, dan kan myPOS € 20 inactiviteitskosten rekenen, na een kennisgeving van twee maanden vooraf. Een terugboeking (chargeback) kost € 15.</p>`],
+      ['myPOS of SumUp?', `<p>De tarieven van myPOS One en Plus zijn gelijk aan die van <a href="/aanbieders/sumup/">SumUp</a>: 1,49% zonder abonnement en 0,99% voor € 19 per maand. Het verschil zit in de rest. myPOS heeft met Pro een plan met een vast bedrag per betaling, en een zakelijke rekening met directe uitbetaling. SumUp betaalt de volgende ochtend uit op je eigen bankrekening. Twijfel je? <a href="/kassa-match/">Doe de match</a> of lees <a href="/goedkoopste-pinautomaat/">de goedkoopste pinautomaat</a>.</p>`],
+    ],
+    faq: [
+      ['Wat kost myPOS per maand?', 'One € 0, Plus € 19 en Pro € 39 per maand. Er is geen contract of minimale looptijd; je kunt op elk moment wisselen of opzeggen. De eerste maandkosten rekent myPOS 10 dagen na de verificatie van je account.'],
+      ['Wat kost een pinbetaling bij myPOS?', 'Met een Nederlandse consumentenbetaalpas 1,49% (One), 0,99% (Plus) of € 0,06 (Pro). American Express en andere kaarten kosten 2,69%, 2,49% of 2,29%.'],
+      ['Welk myPOS-apparaat is het goedkoopst?', 'De myPOS Go 2 voor € 39 excl. btw. Je kunt ook zonder apparaat contactloos pinnen op je telefoon met myPOS Glass (Tap to Pay).'],
+      ['Heb ik een bankrekening nodig voor myPOS?', 'Nee. Je krijgt bij myPOS een zakelijke rekening met eigen IBAN. Betalingen staan daar binnen enkele seconden op.'],
+    ],
+  },
+
+  mollie: {
+    title: 'Mollie pinautomaat: kosten en terminals 2026 | KassaMatch',
+    description: 'Wat kost Mollie in de winkel? Pay as you go zonder maandkosten of Pro voor € 20 per maand. Tap-terminal € 95, mobiele terminal € 350. Met rekenvoorbeeld.',
+    h1: 'Mollie in de winkel: kosten, tarieven en terminals',
+    voor: [['Wat kost Mollie in de winkel?', `<p>Voor betalingen in de winkel heeft Mollie twee plannen. Bij Pay as you go betaal je geen vaste maandkosten, maar alleen per betaling: 1,50% met Maestro en V PAY, 1,80% met andere consumentenkaarten, 2,10% met American Express en 2,90% met zakelijke kaarten. Je kunt dan maximaal 1 terminal gebruiken.</p>
+<p>Pro kost € 20 per maand per terminal, met lagere percentages plus een vast bedrag per betaling. Mollie noemt Pro de beste keuze vanaf € 2.000 per maand. Verwerk je meer dan € 100.000 per maand, dan biedt Mollie volumeprijzen op aanvraag. Je betaalt alleen voor geslaagde betalingen en kunt op elk moment opzeggen.</p>`]],
+    na: [
+      ['Tarieven: Pay as you go en Pro', `${tabel(['Kaart', 'Pay as you go (€ 0 per maand)', 'Pro (€ 20 per maand)'], [['Maestro en V PAY', '1,50%', '€ 0,06 + 0,20%'], ['Andere consumentenkaarten', '1,80%', '€ 0,10 + 1,50%'], ['American Express', '2,10%', '€ 0,10 + 1,80%'], ['Zakelijke kaarten', '2,90%', '€ 0,10 + 2,50%']])}
+<p>Mollie noemt Debit Mastercard en Visa Debit niet apart. Die vallen bij ons onder "andere consumentenkaarten". In onze rekentool rekenen we daarom met 1,80% (Pay as you go) en € 0,10 + 1,50% (Pro).</p>`],
+      ['Rekenvoorbeeld: wanneer loont Pro?', `<p>Stel: je doet 80 betalingen van € 25 per maand (€ 2.000).</p>
+<ul><li><strong>Met andere consumentenkaarten:</strong> Pay as you go 1,80% = € 36. Pro: € 20 + 80 × € 0,10 + 1,50% van € 2.000 = € 20 + € 8 + € 30 = € 58.</li><li><strong>Met Maestro of V PAY:</strong> Pay as you go 1,50% = € 30. Pro: € 20 + 80 × € 0,06 + 0,20% van € 2.000 = € 20 + € 4,80 + € 4 = € 28,80.</li></ul>
+<p>Of Pro loont, hangt dus sterk af van welke passen je klanten gebruiken. Met vooral Debit Mastercard en Visa Debit blijft Pay as you go in dit voorbeeld goedkoper. Reken het na voor jouw aantallen in <a href="/pinautomaat-vergelijken/">pinautomaat vergelijken</a>.</p>`],
+      ['Terminals en Tap to Pay', `${tabel(['Terminal', 'Normale prijs', 'Wat het is'], [['Tap-terminal', '€ 95', 'Contactloze kaarten en wallets, 4G en wifi, digitale bon via QR of e-mail'], ['Mobiele POS-terminal', '€ 350', 'Licht en draagbaar, voor de winkel en onderweg'], ['Vaste POS-terminal', '€ 350', 'Met ethernet, voor kiosken en onbemande betaalpunten'], ['Tap to Pay (iPhone en Android)', 'geen terminal nodig', 'Contactloos betalen op je telefoon met de Mollie Tap-app']])}
+<p>Op 20 oktober 2026 gaf Mollie 50% korting: de Tap-terminal kostte € 47,50 en de mobiele terminal € 175. Bij Pro zit 1 terminallicentie in de € 20 per maand; elke extra terminal kost € 20 per maand. De Tap-apps zijn bij beide plannen onbeperkt.</p>`],
+      ['Online en in de winkel bij één partij', `<p>Mollie is bekend van online betalen. Heb je ook een webshop, dan lopen je online betalingen en je pinbetalingen via hetzelfde dashboard. Online kost iDEAL | Wero € 0,32 per betaling en een consumentencreditcard uit de EER 1,80% + € 0,25. Betaallinks, facturen en terugkerende betalingen zitten er zonder extra kosten bij.</p>
+<p>Mollie heeft ook een zakelijke rekening: € 9 per maand, de eerste 12 maanden gratis. Tot 5 uitbetalingen per maand zijn gratis, daarna € 0,25 per extra uitbetaling (als je minder dan € 500.000 per jaar verwerkt).</p>`],
+      ['Voor wie past Mollie?', () => `<p>Mollie past vooral als je al online verkoopt via Mollie, of als je winkel en webshop bij één partij wilt. Een eigen kassasoftware noemt Mollie niet op de prijspagina; daarvoor heb je een koppeling met een kassasysteem nodig. Zoek je alleen een goedkoop pinapparaat, vergelijk dan met <a href="/aanbieders/sumup/">SumUp</a> (${pct(A.sumup.plannen[0].pct)} zonder abonnement) of <a href="/aanbieders/ccv/">CCV</a> (${eur(A.ccv.plannen[0].vast)} per betaling). Meer in <a href="/goedkoopste-pinautomaat/">de goedkoopste pinautomaat</a>.</p>`],
+    ],
+    faq: [
+      ['Wat kost een pinbetaling bij Mollie?', 'Bij Pay as you go 1,50% met Maestro en V PAY en 1,80% met andere consumentenkaarten, zonder maandkosten. Bij Pro (€ 20 per maand) € 0,06 + 0,20% met Maestro en V PAY en € 0,10 + 1,50% met andere consumentenkaarten.'],
+      ['Wat kost een pinautomaat van Mollie?', 'De Tap-terminal kost normaal € 95, de mobiele en de vaste POS-terminal € 350. Op 20 oktober 2026 gaf Mollie 50% korting op de Tap-terminal en de mobiele terminal. Met Tap to Pay op je iPhone of Android-telefoon heb je geen terminal nodig.'],
+      ['Wanneer is Mollie Pro voordeliger?', 'Mollie noemt Pro de beste keuze vanaf € 2.000 per maand. Of dat voor jou klopt, hangt af van de passen van je klanten: met Maestro en V PAY loont Pro sneller dan met andere consumentenkaarten, zoals Debit Mastercard en Visa Debit.'],
+      ['Kan ik met Mollie meer dan één terminal gebruiken?', 'Bij Pay as you go maximaal 1 terminal. Bij Pro betaal je € 20 per maand per terminal, dus elke extra terminal kost € 20 per maand.'],
+    ],
+  },
 };
