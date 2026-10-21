@@ -4,7 +4,7 @@
 export const PRIVACY_UPDATED = '2026-10-20';
 
 const NETWERKEN = [
-  { re: /(^|\.)pxf\.io$|impact\.com$/, naam: 'Impact', privacy: 'https://impact.com/privacy-policy/' },
+  { re: /(^|\.)(pxf|sjv)\.io$|impact\.com$/, naam: 'Impact', privacy: 'https://impact.com/privacy-policy/' },
   { re: /(^|\.)jf79\.net$|ds1\.nl$|daisycon\./, naam: 'Daisycon', privacy: 'https://daisycon.com/en/legal-information/privacy-policy/' },
 ];
 
