@@ -46,8 +46,8 @@ test('build (productie): pagina’s, sitemap, robots, IndexNow, regels', () => {
       assert.match(m[0], /data-vendor="[a-z]+"/); assert.match(m[0], /data-pos="[a-z0-9_]+"/); assert.match(m[0], /data-cta="outbound"/);
     }
     const sponsored = [...s.matchAll(/<a [^>]*rel="[^"]*sponsored[^"]*"[^>]*>/g)];
-    for (const m of sponsored) assert.match(s.slice(m.index), /^<a [^>]*>[^<]*<\/a><span class="partner">partnerlink<\/span>/, `${f}: sponsored zonder label`);
-    assert.equal((s.match(/class="partner"/g) || []).length, sponsored.length, `${f}: label zonder sponsored link`);
+    for (const m of sponsored) { assert.match(m[0], /rel="sponsored nofollow noopener"/, `${f}: rel`); assert.doesNotMatch(s.slice(m.index, m.index + 400), /^<a [^>]*>[^<]*<\/a>\s*<span class="partner">/, `${f}: zichtbaar label na sponsored link`); }
+    assert.ok(!/<span class="partner">\s*partner ?link/i.test(s), `${f}: zichtbaar label partnerlink`);
   }
   // Belangrijke pagina's bestaan.
   for (const p of ['kassa-match', 'pinautomaat-vergelijken', 'kassasysteem-vergelijken', 'aanbieders', 'goedkoopste-pinautomaat', 'kassasysteem-kiezen', 'transactiekosten-vergelijken', 'bronnen', 'privacy', 'disclaimer', 'contact', 'sumup-vs-zettle']) assert.ok(existsSync(`dist/${p}/index.html`), p);

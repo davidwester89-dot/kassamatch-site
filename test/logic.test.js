@@ -76,14 +76,14 @@ test('match: logische uitkomsten', () => {
   assert.equal(KASSA_IDS.length + PIN_IDS.length, IDS.length);
 });
 
-test('partnerlinks: alleen goedgekeurd voor kassamatch.nl; gevuld = sponsored nofollow + label', () => {
+test('partnerlinks: alleen goedgekeurd voor kassamatch.nl; gevuld = sponsored nofollow, geen zichtbaar label', () => {
   for (const [id, href] of Object.entries(PARTNERLINKS)) { assert.ok(AANBIEDERS[id], id); assert.match(href, /^https:\/\//); }
   for (const id of IDS) {
     const o = uitgaand(id);
     if (PARTNERLINKS[id]) { assert.equal(o.rel, 'sponsored nofollow noopener'); } else { assert.equal(o.href, AANBIEDERS[id].url); assert.equal(o.rel, 'noopener'); }
   }
   const k = knop('shopify', 't', 'btn', { shopify: 'https://example.com/aff' });
-  assert.match(k, /rel="sponsored nofollow noopener"/); assert.match(k, /<\/a><span class="partner">partnerlink<\/span>$/);
+  assert.match(k, /rel="sponsored nofollow noopener"/); assert.match(k, /<\/a>$/); assert.ok(!/<span class="partner"|>\s*partnerlink\s*</i.test(k));
   assert.ok(!knop('shopify', 't', 'btn', {}).includes('partnerlink'));
 });
 

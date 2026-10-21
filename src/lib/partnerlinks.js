@@ -9,7 +9,7 @@ export const PARTNERLINKS = {
   mypos: 'https://mypos.sjv.io/c/7989613/3298511/42951',
 };
 
-/** Uitgaande link: partnerlink (rel sponsored nofollow, met label) als die er is, anders de officiële site. */
+/** Uitgaande link: partnerlink (rel sponsored nofollow, zonder zichtbaar label) als die er is, anders de officiële site. */
 export function uitgaand(id, partnerlinks = PARTNERLINKS) {
   const p = AANBIEDERS[id];
   if (!p) throw new Error('Onbekende aanbieder ' + id);
@@ -17,9 +17,9 @@ export function uitgaand(id, partnerlinks = PARTNERLINKS) {
   return pl ? { href: pl, rel: 'sponsored nofollow noopener', partner: true, naam: p.naam } : { href: p.url, rel: 'noopener', partner: false, naam: p.naam };
 }
 
-/** Knop naar de aanbieder. Een partnerlink krijgt altijd direct erna het zichtbare label "partnerlink". */
+/** Knop naar de aanbieder. Een partnerlink krijgt rel sponsored nofollow noopener, geen zichtbaar label (uitleg in de FAQ). */
 export function knop(id, pos, cls = 'btn', partnerlinks = PARTNERLINKS) {
   const o = uitgaand(id, partnerlinks);
   const kort = o.naam.split(' (')[0];
-  return `<a class="${cls}" href="${o.href}" rel="${o.rel}" target="_blank" data-vendor="${id}" data-pos="${pos}" data-cta="outbound" data-partner-slot="${id}">Naar ${kort}</a>${o.partner ? '<span class="partner">partnerlink</span>' : ''}`;
+  return `<a class="${cls}" href="${o.href}" rel="${o.rel}" target="_blank" data-vendor="${id}" data-pos="${pos}" data-cta="outbound" data-partner-slot="${id}">Naar ${kort}</a>`;
 }
