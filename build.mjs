@@ -1,12 +1,13 @@
 import { mkdirSync, writeFileSync, cpSync, rmSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { layout, SITE, BASE, PREVIEW } from './src/layout.mjs';
+import { partnerNoten } from './src/lib/partnerlinks.js';
 import * as P from './src/pages.mjs';
 const OUT = 'dist';
 rmSync(OUT, { recursive: true, force: true });
 const write = (p, s) => { mkdirSync(dirname(p), { recursive: true }); writeFileSync(p, s); };
 export const pages = [P.home, P.quiz, P.pinVergelijk, P.kassaVergelijk, P.aanbiedersHub, ...P.aanbiederPages, P.sumupVsZettle, P.gidsHub, ...P.guides, P.bronnen, P.over, P.privacy, P.disclaimer, P.contact, P.notfound];
-for (const p of pages) write(p.path.endsWith('.html') ? join(OUT, p.path) : join(OUT, p.path, 'index.html'), layout(p));
+for (const p of pages) write(p.path.endsWith('.html') ? join(OUT, p.path) : join(OUT, p.path, 'index.html'), partnerNoten(layout(p)));
 cpSync('src/assets/js', join(OUT, 'js'), { recursive: true });
 cpSync('src/lib', join(OUT, 'js/lib'), { recursive: true });
 cpSync('src/assets/og', join(OUT, 'og'), { recursive: true });

@@ -620,3 +620,6 @@ main:has(.band-sec) .report{margin-top:24px}
 .method-band .steps li:nth-child(3)::before{background:var(--green);box-shadow:0 0 0 7px #ecdcea}
 a.card{border-left:4px solid var(--soft)}a.card:hover{border-left-color:var(--brand)}
 .faq-sec{max-width:880px;margin:0 auto}
+
+/* Partnerzin per blok met partnerlinks (vervangt het label per knop) */
+.pnoot{font-size:.875rem;color:var(--muted);margin:6px 0 0}

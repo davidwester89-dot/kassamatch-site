@@ -2,7 +2,7 @@
 import { score, compleet, VRAGEN, REKEN } from './lib/match.js';
 import { AANBIEDERS } from './lib/aanbieders.js';
 import { fmtEur } from './lib/kosten.js';
-import { knop } from './lib/partnerlinks.js';
+import { knop, metNoot } from './lib/partnerlinks.js';
 import { track } from './consent.js';
 
 const BASE = document.body.dataset.base || '';
@@ -52,7 +52,7 @@ function soortLabel(p, a) {
 function toon(a, scroll) {
   const top = score(a).slice(0, 3);
   const b = top[0]; const pb = AANBIEDERS[b.id];
-  out.innerHTML = `<h2>Jouw beste match</h2><p class="big">${esc(pb.naam)}</p><p class="pc-price">${prijs(b, a)}</p>`
+  out.innerHTML = metNoot(`<h2>Jouw beste match</h2><p class="big">${esc(pb.naam)}</p><p class="pc-price">${prijs(b, a)}</p>`
     + `<div class="match-cta">${knop(b.id, 'match_1', 'btn')}<a class="vlink" href="${BASE}/aanbieders/${pb.slug}/">Lees alles over ${esc(kort(b.id))} →</a></div>`
     + `<h3>Top 3</h3><ol class="mtop">${top.map((r, i) => {
       const p = AANBIEDERS[r.id];
@@ -63,7 +63,7 @@ function toon(a, scroll) {
     }).join('')}</ol>`
     + `<div class="match-next"><a class="btn ghost" href="${BASE}/${a.nodig === 'kassa' ? 'kassasysteem-vergelijken' : 'pinautomaat-vergelijken'}/">Vergelijk alle ${a.nodig === 'kassa' ? 'kassasystemen' : 'pinautomaten'}</a></div>`
     + `<p class="mlinks"><button type="button" class="linkbtn" id="m-reset">Opnieuw beginnen</button><button type="button" class="linkbtn" id="m-share">Deel of bewaar: kopieer de link</button></p>`
-    + `<p class="sub">Volgorde: eerst wat past, dan de kosten. Partnerlinks tellen niet mee.</p>`;
+    + `<p class="sub">Volgorde: eerst wat past, dan de kosten. Partnerlinks tellen niet mee.</p>`);
   const q = new URLSearchParams(a).toString();
   history.replaceState(null, '', `${location.pathname}?${q}`);
   document.getElementById('m-reset').addEventListener('click', () => { form.reset(); history.replaceState(null, '', location.pathname); update(); out.innerHTML = WACHT; form.querySelector('input').focus(); });
