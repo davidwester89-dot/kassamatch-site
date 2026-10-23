@@ -1,6 +1,6 @@
 // Goedgekeurde partnerlinks per aanbieder-id. Alleen programma's die voor kassamatch.nl zijn goedgekeurd.
 // Shopify POS: impact.com, publisher-account 7989613, programma 13624; kassamatch.nl is daar geverifieerde property (19-10-2026).
-// myPOS: impact.com, publisher-account 7989613, goedgekeurd voor kassamatch.nl (21-10-2026); trackinglink van Dave.
+// myPOS: impact.com, publisher-account 7989613, goedgekeurd voor kassamatch.nl (21-10-2026); partner-trackinglink.
 // De match en de kostenrekentool lezen dit bestand NOOIT: partnerlinks hebben geen invloed op het advies of de volgorde.
 import { AANBIEDERS } from './aanbieders.js';
 
