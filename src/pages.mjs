@@ -246,7 +246,7 @@ const vsFaq = [
   ['Heeft Zettle een abonnement?', 'Nee. PayPal noemt geen contracten of terugkerende kosten voor Zettle (PayPal Point of Sale): je betaalt per transactie en voor de hardware.'],
 ];
 export const sumupVsZettle = {
-  ...article({ path: '/sumup-vs-zettle/', title: 'SumUp vs iZettle (Zettle) 2026: kosten per pinbetaling', h1: 'SumUp of Zettle (iZettle): wat is goedkoper voor jou?', description: 'SumUp of iZettle, nu Zettle van PayPal? SumUp 1,49%, Zettle 1,95% per pinbetaling. Apparaat, kassa-app en een rekenvoorbeeld per maand naast elkaar.', og: 'vs-sumup-zettle', faq: vsFaq }),
+  ...article({ path: '/sumup-vs-zettle/', title: 'SumUp vs iZettle (Zettle) 2026: kosten per pinbetaling', h1: 'SumUp of Zettle (iZettle): wat is goedkoper voor jou?', description: 'SumUp of iZettle, nu PayPal Point of Sale? SumUp 1,49%, Zettle 1,95% per pinbetaling. Apparaat, kassa-app en een rekenvoorbeeld per maand naast elkaar.', og: 'vs-sumup-zettle', faq: vsFaq }),
   crumb: 'SumUp of Zettle',
   body: `<article class="prose"><h1>SumUp of Zettle (iZettle): wat is goedkoper voor jou?</h1>${by()}
 <p class="lead">SumUp en Zettle zijn allebei pinapparaten zonder verplicht abonnement. Het verschil zit in het tarief per betaling, de prijs van het apparaat en wat je aan kassasoftware krijgt.</p>
@@ -277,7 +277,7 @@ const goedkoopFaq = [
   ['Wat kost een pinautomaat eenmalig?', `Van ${eur(Math.min(...PIN_IDS.map(goedkoopsteHardware).filter((x) => x != null)))} tot ${eur(Math.max(...PIN_IDS.map(goedkoopsteHardware).filter((x) => x != null)))} voor het goedkoopste apparaat per aanbieder, volgens hun eigen sites. CCV publiceert de prijs van de automaat niet.`],
 ];
 export const goedkoopste = {
-  ...article({ path: '/goedkoopste-pinautomaat/', title: 'Goedkoopste pinautomaat 2026: wat kost een pinautomaat?', h1: 'Goedkoopste pinautomaat 2026: wat kost een pinautomaat echt?', description: 'Wat kost een pinautomaat per maand? Bij 50 betalingen van € 20 vanaf € 7,65 (CCV). Rekenvoorbeelden met tarieven van SumUp, myPOS, Zettle, Mollie en CCV.', og: 'goedkoopste', parents: [['/gidsen/', 'Gidsen']], faq: goedkoopFaq }),
+  ...article({ path: '/goedkoopste-pinautomaat/', title: 'Goedkoopste pinautomaat 2026: wat kost een pinautomaat?', h1: 'Goedkoopste pinautomaat 2026: wat kost een pinautomaat echt?', description: 'Wat kost een pinautomaat per maand? Rekenvoorbeelden bij 50, 300 en 1.000 betalingen met de tarieven van SumUp, myPOS, Zettle, Mollie en CCV.', og: 'goedkoopste', parents: [['/gidsen/', 'Gidsen']], faq: goedkoopFaq }),
   crumb: 'Goedkoopste pinautomaat',
   body: `<article class="prose"><h1>Goedkoopste pinautomaat 2026: wat kost een pinautomaat echt?</h1>${by()}
 <p class="lead">De goedkoopste pinautomaat bestaat niet. Wat het goedkoopst is, hangt af van hoeveel je pint en hoe hoog je bedragen zijn. Hieronder drie rekenvoorbeelden met de tarieven van de aanbieders zelf.</p>
