@@ -246,9 +246,9 @@ const vsFaq = [
   ['Heeft Zettle een abonnement?', 'Nee. PayPal noemt geen contracten of terugkerende kosten voor Zettle (PayPal Point of Sale): je betaalt per transactie en voor de hardware.'],
 ];
 export const sumupVsZettle = {
-  ...article({ path: '/sumup-vs-zettle/', title: 'SumUp of Zettle: wat is goedkoper? | KassaMatch', h1: 'SumUp of Zettle: wat is goedkoper voor jou?', description: 'SumUp en Zettle (PayPal Point of Sale) naast elkaar: tarief per pinbetaling, pinapparaat, kassa-app en een rekenvoorbeeld. Met bronnen.', og: 'vs-sumup-zettle', faq: vsFaq }),
+  ...article({ path: '/sumup-vs-zettle/', title: 'SumUp vs iZettle (Zettle) 2026: kosten per pinbetaling', h1: 'SumUp of Zettle (iZettle): wat is goedkoper voor jou?', description: 'SumUp of iZettle, nu Zettle van PayPal? SumUp 1,49%, Zettle 1,95% per pinbetaling. Apparaat, kassa-app en een rekenvoorbeeld per maand naast elkaar.', og: 'vs-sumup-zettle', faq: vsFaq }),
   crumb: 'SumUp of Zettle',
-  body: `<article class="prose"><h1>SumUp of Zettle: wat is goedkoper voor jou?</h1>${by()}
+  body: `<article class="prose"><h1>SumUp of Zettle (iZettle): wat is goedkoper voor jou?</h1>${by()}
 <p class="lead">SumUp en Zettle zijn allebei pinapparaten zonder verplicht abonnement. Het verschil zit in het tarief per betaling, de prijs van het apparaat en wat je aan kassasoftware krijgt.</p>
 <div class="table-wrap"><table class="data side"><thead><tr><th scope="col"></th><th scope="col">SumUp</th><th scope="col">Zettle (PayPal)</th></tr></thead><tbody>
 <tr><th scope="row">Vaste kosten</th><td data-l="SumUp">€ 0, of € 19 per maand (Betalingen Plus)</td><td data-l="Zettle">€ 0</td></tr>
@@ -277,9 +277,9 @@ const goedkoopFaq = [
   ['Wat kost een pinautomaat eenmalig?', `Van ${eur(Math.min(...PIN_IDS.map(goedkoopsteHardware).filter((x) => x != null)))} tot ${eur(Math.max(...PIN_IDS.map(goedkoopsteHardware).filter((x) => x != null)))} voor het goedkoopste apparaat per aanbieder, volgens hun eigen sites. CCV publiceert de prijs van de automaat niet.`],
 ];
 export const goedkoopste = {
-  ...article({ path: '/goedkoopste-pinautomaat/', title: 'Goedkoopste pinautomaat 2026: kosten vergeleken', h1: 'Goedkoopste pinautomaat 2026: wat kost pinnen echt?', description: 'Welke pinautomaat is het goedkoopst bij weinig, gemiddeld en veel betalingen? Rekenvoorbeelden met de tarieven van SumUp, myPOS, Zettle, Mollie en CCV.', og: 'goedkoopste', parents: [['/gidsen/', 'Gidsen']], faq: goedkoopFaq }),
+  ...article({ path: '/goedkoopste-pinautomaat/', title: 'Goedkoopste pinautomaat 2026: wat kost een pinautomaat?', h1: 'Goedkoopste pinautomaat 2026: wat kost een pinautomaat echt?', description: 'Wat kost een pinautomaat per maand? Bij 50 betalingen van € 20 vanaf € 7,65 (CCV). Rekenvoorbeelden met tarieven van SumUp, myPOS, Zettle, Mollie en CCV.', og: 'goedkoopste', parents: [['/gidsen/', 'Gidsen']], faq: goedkoopFaq }),
   crumb: 'Goedkoopste pinautomaat',
-  body: `<article class="prose"><h1>Goedkoopste pinautomaat 2026: wat kost pinnen echt?</h1>${by()}
+  body: `<article class="prose"><h1>Goedkoopste pinautomaat 2026: wat kost een pinautomaat echt?</h1>${by()}
 <p class="lead">De goedkoopste pinautomaat bestaat niet. Wat het goedkoopst is, hangt af van hoeveel je pint en hoe hoog je bedragen zijn. Hieronder drie rekenvoorbeelden met de tarieven van de aanbieders zelf.</p>
 <h2>Waaruit bestaan de kosten?</h2><ul><li><strong>Het apparaat.</strong> Eenmalig. Het goedkoopste apparaat per aanbieder kost ${eur(HWMIN)} tot ${eur(HWMAX)} (CCV: huur vanaf € 25 per maand of koop vanaf € 399 plus maandkosten).</li><li><strong>Vaste kosten per maand.</strong> € 0 bij plannen zonder abonnement, tot € 39 bij myPOS Pro.</li><li><strong>Transactiekosten.</strong> Een percentage van het bedrag, een vast bedrag per betaling, of een combinatie.</li></ul>
 <h2>Weinig pinnen: 50 betalingen van € 20</h2><p>Goedkoopst per maand: ${wk(50, 20)}. Vaste kosten wegen hier zwaar, dus een plan zonder abonnement wint vaak. Zonder enig abonnement: ${wk0(50, 20)}.</p>
@@ -323,9 +323,9 @@ const transFaq = [
 ];
 const BEDRAGEN = [5, 20, 50, 100];
 export const transactie = {
-  ...article({ path: '/transactiekosten-vergelijken/', title: 'Transactiekosten pinnen vergelijken | KassaMatch', h1: 'Transactiekosten vergelijken: percentage of vast bedrag?', description: 'Transactiekosten van SumUp, myPOS, Zettle, Mollie en CCV naast elkaar. Wanneer een vast bedrag per pinbetaling goedkoper is en waar het omslagpunt ligt.', og: 'transactie', parents: [['/gidsen/', 'Gidsen']], faq: transFaq }),
+  ...article({ path: '/transactiekosten-vergelijken/', title: 'Transactiekosten pinnen 2026: wat kost een pintransactie?', h1: 'Transactiekosten pinnen: percentage of vast bedrag per betaling?', description: 'Wat kost een pintransactie? Van € 0,06 tot 1,95% per betaling: SumUp, myPOS, Zettle, Mollie en CCV naast elkaar, met rekenvoorbeelden bij € 5 tot € 100.', og: 'transactie', parents: [['/gidsen/', 'Gidsen']], faq: transFaq }),
   crumb: 'Transactiekosten vergelijken',
-  body: `<article class="prose"><h1>Transactiekosten vergelijken: percentage of vast bedrag?</h1>${by()}
+  body: `<article class="prose"><h1>Transactiekosten pinnen: percentage of vast bedrag per betaling?</h1>${by()}
 <p class="lead">Bij pinnen betaal je per betaling. Sommige aanbieders rekenen een percentage, andere een vast bedrag. Welke goedkoper is, hangt vooral af van je gemiddelde bedrag.</p>
 <h2>Alle tarieven op een rij</h2>${tarievenTabel()}
 <h2>Kosten per pinbetaling bij verschillende bedragen</h2><p>Alleen de transactiekosten van één betaling met een Nederlandse pas, per plan. Vaste maandkosten tellen hier niet mee.</p>

@@ -9,9 +9,9 @@ const pct = (n) => n.toLocaleString('nl-NL') + '%';
 
 export const TEKSTEN = {
   ccv: {
-    title: 'CCV pinautomaat: kosten, huur en tarieven 2026 | KassaMatch',
-    description: 'Wat kost een CCV-pinautomaat? Huur vanaf € 25 per maand of koop vanaf € 399, € 0,068 per pinbetaling. Alle tarieven van ccv.eu, met rekenvoorbeeld.',
-    h1: 'CCV pinautomaat: kosten, huur en tarieven',
+    title: 'CCV tarieven 2026: pinautomaat huren of kopen, kosten',
+    description: 'CCV tarieven 2026: € 0,068 per pinbetaling, pinautomaat huren vanaf € 25 per maand of kopen vanaf € 399. Alle kosten van ccv.eu, met rekenvoorbeeld.',
+    h1: 'CCV pinautomaat: tarieven, huur en kosten',
     voor: [['Wat kost CCV per maand?', `<p>Dat hangt af van hoe je aan je pinautomaat komt. Huur je bij CCV, dan betaal je vanaf € 25 per maand voor een Clover Flex Pocket. De kosten voor transactieverwerking zitten dan in je huurprijs. Koop je, dan betaal je eenmalig vanaf € 399 plus maandelijkse kosten vanaf € 16.</p>
 <p>Per betaling met een Nederlandse consumentenbetaalpas rekent CCV € 0,068. Voor de transactieverwerking zelf noemt CCV op de tarievenpagina € 4,25 per maand per betaalautomaat; bij huur zit dat in de huurprijs. De bedragen op de tarievenpagina zijn exclusief btw.</p>`]],
     na: [
@@ -42,9 +42,9 @@ ${tabel(['Model', 'Eenmalig', 'Per maand'], [['Clover Flex Pocket', '€ 399', '
   },
 
   lightspeed: {
-    title: 'Lightspeed kassa: prijzen retail en horeca | KassaMatch',
-    description: 'Wat kost Lightspeed? Horeca vanaf € 89 en retail vanaf € 99 per maand. Wat in elk pakket zit, wat add-on is en wat niet op de prijspagina staat.',
-    h1: 'Lightspeed kassasysteem: prijzen en voor wie het past',
+    title: 'Wat kost Lightspeed per maand? Kassasysteem prijzen 2026',
+    description: 'Lightspeed kassasysteem: horeca vanaf € 89 en retail vanaf € 99 per maand, retail met ingebouwde webshop. Wat elk abonnement bevat en wat erbij komt.',
+    h1: 'Lightspeed kassasysteem: prijzen per maand en voor wie het past',
     voor: [['Wat kost Lightspeed per maand?', `<p>Lightspeed heeft aparte pakketten voor winkels en voor horeca. Horeca begint bij € 89 per maand (Basic), retail bij € 99 per maand (Basis). Hardware en de kosten per betaling komen erbij. Die bedragen staan niet op de prijspagina's.</p>
 <p>Lightspeed zegt er zelf bij dat prijzen kunnen variëren en dat extra servicekosten kunnen gelden, afhankelijk van het soort onderneming en de branche.</p>`]],
     na: [
