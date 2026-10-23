@@ -68,7 +68,7 @@ test('build (productie): pagina’s, sitemap, robots, IndexNow, regels', () => {
     const main = s.slice(s.indexOf('<main'), s.indexOf('</main>'));
     assert.ok(main.replace(/<[^>]+>/g, ' ').split(/\s+/).filter(Boolean).length >= 600, `${slug}: te weinig woorden`);
     assert.match(s, /"@type":"FAQPage"/, slug); assert.match(main, /<details>/, slug);
-    assert.match(main, /datetime="2026-10-20"/, slug);
+    assert.match(main, slug === 'mollie' ? /datetime="2026-10-23"/ : /datetime="2026-10-20"/, slug);
   }
   // Lightspeed: geen onbevestigde maandprijzen.
   assert.ok(!/\b(129|189|269)\b|€ 29 per extra kassa/.test(readFileSync('dist/aanbieders/lightspeed/index.html', 'utf8')));

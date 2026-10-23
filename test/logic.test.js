@@ -25,8 +25,9 @@ test('data: elke aanbieder heeft bron(nen) op de eigen site, geen verzonnen veld
   assert.equal(goedkoopsteHardware('sumup'), 34); assert.ok(AANBIEDERS.sumup.hardware.some(([n, p]) => /oplaadstation/.test(n) && p === 44));
   assert.equal(goedkoopsteHardware('zettle'), 29); assert.ok(goedkoopsteHardware('zettle') < goedkoopsteHardware('sumup'));
   assert.equal(AANBIEDERS.ccv.hardware, null); assert.match(AANBIEDERS.ccv.hardwareKort, /€ 25/); assert.match(AANBIEDERS.ccv.hardwareKort, /€ 399/);
-  // SumUp, myPOS en Mollie zijn op 20-10 opnieuw gecontroleerd (uitgebreide pagina's).
-  for (const id of ['sumup', 'mypos', 'mollie']) assert.equal(checkedVan(id), '2026-10-20', id);
+  // SumUp en myPOS zijn op 20-10 opnieuw gecontroleerd (uitgebreide pagina's), Mollie op 23-10 (indexering).
+  for (const id of ['sumup', 'mypos']) assert.equal(checkedVan(id), '2026-10-20', id);
+  assert.equal(checkedVan('mollie'), '2026-10-23', 'mollie');
   // unTill: € 19 is het jaarabonnement, maandabonnement € 21,85; het volledige systeem heet unTill Prime.
   const ut = JSON.stringify(AANBIEDERS.untill); assert.match(ut, /jaarabonnement/); assert.match(ut, /21,85/); assert.match(ut, /unTill Prime/); assert.ok(!/maandelijks opzegbaar|in het Engels/i.test(ut));
   // MplusKASSA noemt webshop- en pinkoppelingen.
