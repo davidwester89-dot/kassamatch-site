@@ -103,7 +103,7 @@ export const AANBIEDERS = {
     abonnementNodig: true,
     extra: ['€ 4,25 per maand per betaalautomaat.', 'Opties: retourpinnen € 4,25 per maand, variabele boekingsperiode € 2,95, fooi € 1,95. Chargeback € 25.', 'Creditcards: 1,3% (consument, EER), zakelijke kaarten 2,3%, AMEX vanaf 1,5%.', 'CCV Tap to Pay (Android): € 0,25 per betaling met een Nederlandse betaalpas, € 0 bij 0 transacties.'],
     bronnen: [['CCV: tarieven transactieverwerking', 'https://www.ccv.eu/nl/betaaloplossingen/transactieverwerking/tarieven'], ['CCV: transactieverwerking', 'https://www.ccv.eu/nl/betaaloplossingen/transactieverwerking'], ['CCV: pinautomaat huren', 'https://www.ccv.eu/nl/betaaloplossingen/pinautomaten/pinautomaat-huren'], ['CCV: pinautomaat kopen', 'https://www.ccv.eu/nl/betaaloplossingen/pinautomaten/pinautomaat-kopen'], ['CCV: Clover-actie', 'https://www.ccv.eu/nl/betaaloplossingen/clover-alles-in-een'], ['CCV: Tap to Pay', 'https://www.ccv.eu/nl/betaaloplossingen/apps-diensten/tap-to-pay']],
-    checked: '2026-10-20',
+    checked: '2026-10-26',
   },
   lightspeed: {
     naam: 'Lightspeed', slug: 'lightspeed', soort: 'kassa', url: 'https://www.lightspeedhq.nl/',

@@ -14,11 +14,11 @@ export const bron = (...lists) => {
 };
 export const bronnenVan = (...ids) => ids.flatMap((id) => A[id].bronnen);
 export const matchCta = (t = 'Twijfel je nog?', pos = 'match') => `<div class="cta"><h2>${t}</h2><p>Zes korte vragen over je zaak, je aantal pinbetalingen en hoe je naar vaste kosten kijkt. Je krijgt de drie opties die het best passen, met kosten per maand.</p><a class="btn" href="/kassa-match/" data-cta="${pos}">Start de match</a></div>`;
-export const article = ({ path, title, h1, description, og, parents, date = DATE, faq, schemaType = 'Article' }) => ({
-  path, title, h1, crumb: h1, description, og, parents, ogType: 'article', lastmod: date,
-  article: { date, updated: date }, stamp: { checked: CHECKED },
+export const article = ({ path, title, h1, description, og, parents, date = DATE, updated = date, faq, schemaType = 'Article' }) => ({
+  path, title, h1, crumb: h1, description, og, parents, ogType: 'article', lastmod: updated,
+  article: { date, updated }, stamp: updated !== date ? { checked: CHECKED, updated } : { checked: CHECKED },
   schema: [
-    { '@context': 'https://schema.org', '@type': schemaType, headline: h1, description, mainEntityOfPage: SITE.domain + path, image: `${SITE.domain}/og/${og}.png`, datePublished: date, dateModified: date, author: AUTHOR, publisher: ORG, inLanguage: 'nl' },
+    { '@context': 'https://schema.org', '@type': schemaType, headline: h1, description, mainEntityOfPage: SITE.domain + path, image: `${SITE.domain}/og/${og}.png`, datePublished: date, dateModified: updated, author: AUTHOR, publisher: ORG, inLanguage: 'nl' },
     ...(faq ? [faqSchema(faq)] : []),
   ],
 });

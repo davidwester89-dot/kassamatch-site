@@ -246,9 +246,9 @@ const vsFaq = [
   ['Heeft Zettle een abonnement?', 'Nee. PayPal noemt geen contracten of terugkerende kosten voor Zettle (PayPal Point of Sale): je betaalt per transactie en voor de hardware.'],
 ];
 export const sumupVsZettle = {
-  ...article({ path: '/sumup-vs-zettle/', title: 'SumUp vs iZettle (Zettle) 2026: kosten per pinbetaling', h1: 'SumUp of Zettle (iZettle): wat is goedkoper voor jou?', description: 'SumUp of iZettle, nu PayPal Point of Sale? SumUp 1,49%, Zettle 1,95% per pinbetaling. Apparaat, kassa-app en een rekenvoorbeeld per maand naast elkaar.', og: 'vs-sumup-zettle', faq: vsFaq }),
+  ...article({ path: '/sumup-vs-zettle/', title: 'SumUp vs iZettle 2026: kosten per pinbetaling', h1: 'iZettle vs SumUp: wat is goedkoper voor jou?', description: 'SumUp vs iZettle (nu PayPal Point of Sale): SumUp 1,49%, iZettle 1,95% per pinbetaling. Apparaat, kassa-app en een rekenvoorbeeld per maand naast elkaar.', updated: '2026-10-26', og: 'vs-sumup-zettle', faq: vsFaq }),
   crumb: 'SumUp of Zettle',
-  body: `<article class="prose"><h1>SumUp of Zettle (iZettle): wat is goedkoper voor jou?</h1>${by()}
+  body: `<article class="prose"><h1>iZettle vs SumUp: wat is goedkoper voor jou?</h1>${by()}
 <p class="lead">SumUp en Zettle zijn allebei pinapparaten zonder verplicht abonnement. Het verschil zit in het tarief per betaling, de prijs van het apparaat en wat je aan kassasoftware krijgt.</p>
 <div class="table-wrap"><table class="data side"><thead><tr><th scope="col"></th><th scope="col">SumUp</th><th scope="col">Zettle (PayPal)</th></tr></thead><tbody>
 <tr><th scope="row">Vaste kosten</th><td data-l="SumUp">€ 0, of € 19 per maand (Betalingen Plus)</td><td data-l="Zettle">€ 0</td></tr>

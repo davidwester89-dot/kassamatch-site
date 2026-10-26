@@ -62,13 +62,16 @@ test('build (productie): pagina’s, sitemap, robots, IndexNow, regels', () => {
   // SumUp Solo Lite € 34 (los) op de vergelijkingspagina; € 44 alleen met oplaadstation.
   const vs = readFileSync('dist/sumup-vs-zettle/index.html', 'utf8');
   assert.match(vs, /Solo Lite € 34 excl\. btw/); assert.ok(!/Solo Lite € 44/.test(vs)); assert.match(vs, /met oplaadstation € 44/);
+  // Beide zoekvolgordes (sumup vs izettle / izettle vs sumup); dateModified en lastmod = zichtbare 'Laatst bijgewerkt'.
+  assert.match(vs, /<title>SumUp vs iZettle/); assert.match(vs, /<h1>iZettle vs SumUp/); assert.match(vs, /"dateModified":"2026-10-26"/); assert.match(vs, /Laatst bijgewerkt <time datetime="2026-10-26">/);
+  assert.match(readFileSync('dist/sitemap.xml', 'utf8'), /sumup-vs-zettle\/<\/loc><lastmod>2026-10-26</);
   // Uitgebreide aanbiederpagina's: zichtbare FAQ + FAQPage, eigen controledatum, ≥ 600 woorden in <main>.
   for (const slug of ['ccv', 'lightspeed', 'mpluskassa', 'shopify-pos', 'untill', 'zettle', 'sumup', 'mypos', 'mollie']) {
     const s = readFileSync(`dist/aanbieders/${slug}/index.html`, 'utf8');
     const main = s.slice(s.indexOf('<main'), s.indexOf('</main>'));
     assert.ok(main.replace(/<[^>]+>/g, ' ').split(/\s+/).filter(Boolean).length >= 600, `${slug}: te weinig woorden`);
     assert.match(s, /"@type":"FAQPage"/, slug); assert.match(main, /<details>/, slug);
-    assert.match(main, slug === 'mollie' ? /datetime="2026-10-23"/ : /datetime="2026-10-20"/, slug);
+    assert.match(main, slug === 'mollie' ? /datetime="2026-10-23"/ : slug === 'ccv' ? /datetime="2026-10-26"/ : /datetime="2026-10-20"/, slug);
   }
   // Lightspeed: geen onbevestigde maandprijzen.
   assert.ok(!/\b(129|189|269)\b|€ 29 per extra kassa/.test(readFileSync('dist/aanbieders/lightspeed/index.html', 'utf8')));
