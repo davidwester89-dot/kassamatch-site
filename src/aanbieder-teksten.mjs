@@ -9,8 +9,8 @@ const pct = (n) => n.toLocaleString('nl-NL') + '%';
 
 export const TEKSTEN = {
   ccv: {
-    title: 'CCV tarieven 2026: pinautomaat huren of kopen en pinkosten',
-    description: 'CCV tarieven 2026: € 0,068 per pinbetaling, pinautomaat huren vanaf € 25 per maand of kopen vanaf € 399. Alle kosten van ccv.eu, met rekenvoorbeeld.',
+    title: 'CCV transactiekosten en tarieven 2026: pinautomaten en huur',
+    description: 'CCV transactiekosten: € 0,068 per pinbetaling met een Nederlandse pas. CCV pinautomaten huren vanaf € 25 per maand of kopen vanaf € 399. Tarieven 2026.',
     h1: 'CCV pinautomaat: tarieven, huur en kosten',
     voor: [['Wat kost CCV per maand?', `<p>Dat hangt af van hoe je aan je pinautomaat komt. Huur je bij CCV, dan betaal je vanaf € 25 per maand voor een Clover Flex Pocket. De kosten voor transactieverwerking zitten dan in je huurprijs. Koop je, dan betaal je eenmalig vanaf € 399 plus maandelijkse kosten vanaf € 16.</p>
 <p>Per betaling met een Nederlandse consumentenbetaalpas rekent CCV € 0,068. Voor de transactieverwerking zelf noemt CCV op de tarievenpagina € 4,25 per maand per betaalautomaat; bij huur zit dat in de huurprijs. De bedragen op de tarievenpagina zijn exclusief btw.</p>`]],
