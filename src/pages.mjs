@@ -159,10 +159,10 @@ const kassaFaq = [
   ['Kan ik mijn kassa koppelen aan een webshop?', 'Shopify POS deelt producten en voorraad met een Shopify-webshop. De retailpakketten van Lightspeed hebben Lightspeed eCom ingebouwd. Voor het kiezen van een webshop: zie <a href="https://shopmatch.nl/">ShopMatch</a>.'],
 ];
 export const kassaVergelijk = {
-  path: '/kassasysteem-vergelijken/', title: 'Kassasysteem vergelijken: prijzen en functies | KassaMatch', h1: 'Kassasysteem vergelijken voor winkel en horeca', crumb: 'Kassasystemen vergelijken', og: 'kassa',
+  path: '/kassasysteem-vergelijken/', title: 'Kassasystemen vergelijken 2026: prijzen per maand', h1: 'Kassasystemen vergelijken voor winkel en horeca', lastmod: '2026-10-26', crumb: 'Kassasystemen vergelijken', og: 'kassa',
   description: 'Kassasystemen naast elkaar: SumUp, Zettle, myPOS, Lightspeed, Shopify POS, unTill en MplusKASSA. Prijs per maand, horeca of winkel, met bronnen.',
   stamp: { checked: CHECKED }, schema: [faqSchema(kassaFaq)],
-  body: `<h1>Kassasysteem vergelijken voor winkel en horeca</h1>${by()}
+  body: `<h1>Kassasystemen vergelijken voor winkel en horeca</h1>${by()}
 <p class="lead">Een kassasysteem doet meer dan afrekenen: producten, voorraad, omzet per dag en soms tafels of een webshop. De prijzen lopen uiteen van € 0 tot een offerte op maat.</p>
 <div class="table-wrap"><table class="data stack"><caption class="sr-only">Kassasystemen naast elkaar</caption><thead><tr><th scope="col">Kassasysteem</th><th scope="col">Prijs</th><th scope="col">Hardware</th><th scope="col">Horeca</th><th scope="col">Winkel</th><th scope="col">Webshop of online</th></tr></thead><tbody>${KASSA_RIJ.map((id) => `<tr><th scope="row">${link(id)}</th><td data-l="Prijs">${esc(kassaPrijs(id))}</td><td data-l="Hardware">${esc(A[id].soort === 'pin' ? hwTekst(id) : A[id].hardwareNoot)}</td><td data-l="Horeca">${vlag(A[id].horeca ?? null)}</td><td data-l="Winkel">${vlag(A[id].winkel ?? null)}</td><td data-l="Webshop of online">${vlag(A[id].online.ja)}</td></tr>`).join('')}</tbody></table></div>
 <p class="sub">"Niet vermeld" betekent dat de aanbieder het niet noemt op de pagina die we controleerden. Volgorde: eerst de pinaanbieders met kassasoftware, dan de kassasystemen in alfabetische volgorde.</p>
@@ -300,10 +300,11 @@ const kiezenFaq = [
   ['Is een keurmerk verplicht?', 'Nee. De Belastingdienst schrijft dat je bij een keurmerkkassa ervan uit mag gaan dat je administratie op belangrijke punten aan de eisen voldoet, zoals het bewaren en kunnen reproduceren van transacties.'],
 ];
 export const kiezen = {
-  ...article({ path: '/kassasysteem-kiezen/', title: 'Kassasysteem kiezen: zo vind je wat past | KassaMatch', h1: 'Kassasysteem kiezen: wat heb je nodig?', description: 'Een kassasysteem kiezen voor je winkel, horecazaak of marktkraam. Welke functies tellen, wat de Belastingdienst vraagt en wat het kost.', og: 'kiezen', parents: [['/gidsen/', 'Gidsen']], faq: kiezenFaq }),
+  ...article({ path: '/kassasysteem-kiezen/', title: 'Kassasysteem kiezen: zo vind je wat past | KassaMatch', h1: 'Kassasysteem kiezen: wat heb je nodig?', description: 'Een kassasysteem kiezen voor je winkel, horecazaak of marktkraam. Welke functies tellen, wat de Belastingdienst vraagt en wat het kost.', updated: '2026-10-26', og: 'kiezen', parents: [['/gidsen/', 'Gidsen']], faq: kiezenFaq }),
   crumb: 'Kassasysteem kiezen',
   body: `<article class="prose"><h1>Kassasysteem kiezen: wat heb je nodig?</h1>${by()}
 <p class="lead">Een kassasysteem legt je verkopen vast en helpt bij je kascontrole. Welk systeem past, hangt af van je zaak: een marktkraam heeft andere wensen dan een restaurant met drie kassa's.</p>
+<p>Wil je meteen prijzen naast elkaar zien? Bekijk <a href="/kassasysteem-vergelijken/">kassasystemen vergelijken</a>.</p>
 <h2>Stap 1: alleen pinnen of een echte kassa?</h2><p>Verkoop je een paar producten en wil je vooral kunnen pinnen, dan is een pinapparaat met een gratis kassa-app vaak genoeg. SumUp en Zettle hebben kassasoftware voor € 0 per maand, myPOS een kassa-app op de Flex en Ultra. Heb je veel producten, voorraad of personeel, dan kom je uit bij een kassasysteem zoals Lightspeed, MplusKASSA of unTill.</p>
 <h2>Stap 2: welke functies tellen voor jouw zaak?</h2><ul><li><strong>Winkel:</strong> producten met barcode, voorraad, omzet per artikel en eventueel een webshop die dezelfde voorraad gebruikt.</li><li><strong>Horeca:</strong> tafels en plattegrond, bestellingen naar de keuken, meerdere kassa's of handhelds, fooi.</li><li><strong>Onderweg of op afspraak:</strong> mobiel pinnen met 4G of je telefoon, betaallinks, een simpel omzetoverzicht.</li></ul>
 <h2>Stap 3: wat vraagt de Belastingdienst?</h2><p>De gegevens in je kassasysteem horen bij je administratie. De Belastingdienst noemt in de brochure <em>Het kassasysteem in uw bedrijf</em> onder meer deze punten:</p>
