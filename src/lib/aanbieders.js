@@ -117,7 +117,14 @@ export const AANBIEDERS = {
       ['Horeca Core', '€ 159 per maand', '2 licenties, QR-bestellen, voorraadbeheer'],
       ['Horeca Pro', '€ 249 per maand', '3 licenties, multilocatiebeheer'],
     ],
-    vanaf: 89, vanafTekst: 'vanaf € 89 per maand (horeca, betaalbasis niet vermeld) en € 129 per maand maandelijks of € 99 per maand bij jaarbetaling (retail)',
+    // Horeca: "89 € /maand" zonder vermelde betaalbasis (geen maand/jaar-keuze op de pagina). Retail: € 99 per maand op tab 'Jaarlijks', € 129 op 'Maandelijks' (27-10-2026).
+    vanaf: 89, prijsBasis: null, peildatum: '2026-10-27', prijsBron: 'https://www.lightspeedhq.nl/kassasysteem/restaurant/prijzen/',
+    // Per type zaak rekent de match met het passende pakket (laagste maandprijs, ook bij jaarbetaling). Andere typen: vanaf (€ 89).
+    prijsPerType: {
+      winkel: { bedrag: 99, valuta: 'EUR', prijsBasis: 'jaarbetaling', pakket: 'Retail Basis', peildatum: '2026-10-27', prijsBron: 'https://www.lightspeedhq.nl/kassasysteem/retail/prijzen/' },
+      horeca: { bedrag: 89, valuta: 'EUR', prijsBasis: null, pakket: 'Horeca Basic', peildatum: '2026-10-27', prijsBron: 'https://www.lightspeedhq.nl/kassasysteem/restaurant/prijzen/' },
+    },
+    vanafTekst: 'vanaf € 89 per maand (horeca, betaalbasis niet vermeld) en € 129 per maand maandelijks of € 99 per maand bij jaarbetaling (retail)',
     hardware: null, hardwareNoot: 'Hardwareprijzen staan niet op de prijspagina. Onbekend.',
     transactie: 'Verwerkingskosten: "standaard" bij Basic, "aangepast" bij Core en Pro. Bedragen staan niet op de prijspagina.',
     online: { ja: true, t: 'Retail-pakketten hebben Lightspeed eCom ingebouwd.' },
@@ -137,10 +144,15 @@ export const AANBIEDERS = {
       ['POS Pro (optie)', '+ € 79 per maand per locatie', 'Per winkel die POS Pro gebruikt; bij jaarbetaling + € 59 per maand'],
     ],
     // Europrijzen van https://www.shopify.com/nl/pos/prijzen, gecontroleerd 27-10-2026: maandelijks € 28, bij jaarbetaling € 21 per maand.
-    vanaf: null, vanafTekst: 'vanaf € 28 per maand (maandelijks) of € 21 per maand bij jaarbetaling',
+    // De match rekent met de laagste maandprijs die de aanbieder toont, ook als die alleen bij jaarbetaling geldt:
+    // Basic € 21 per maand bij jaarbetaling ("Vanaf € 21 EUR/maand jaarlijks in rekening gebracht", tab 'Betaal per jaar', 27-10-2026).
+    // Toont Shopify ooit alleen US$, zet dan valuta: 'USD' en koers (ECB-referentiekoers van de peildatum, opnieuw bij elke prijscheck).
+    vanaf: 21, prijsBasis: 'jaarbetaling', valuta: 'EUR', peildatum: '2026-10-27', prijsBron: 'https://www.shopify.com/nl/pos/prijzen',
+    // Bij budget 'hoog' (compleet systeem) telt POS Pro mee, volgens dezelfde regel: € 59 per maand bij jaarbetaling (tab 'Betaal per jaar', 27-10-2026).
+    optieBijHoog: { naam: 'POS Pro', bedrag: 59, valuta: 'EUR', prijsBasis: 'jaarbetaling', peildatum: '2026-10-27', prijsBron: 'https://www.shopify.com/nl/pos/prijzen', reden: 'incl. POS Pro: € 79 per maand, of € 59 per maand bij jaarbetaling' },
+    vanafTekst: 'vanaf € 28 per maand (maandelijks) of € 21 per maand bij jaarbetaling',
     hardware: null, hardwareNoot: 'Hardwareprijzen staan niet op de POS-prijspagina. Onbekend.',
     transactie: 'Kaarttarieven in de winkel met Shopify Payments: 1,4% (Basic), 1,25% (Grow) of 1,1% (Advanced) + € 0,00 per betaling. Met een betaalprovider van derden rekent Shopify 2%, 1% of 0,6% extra.',
-    usd: true,
     online: { ja: true, t: 'Webshop en kassa in één systeem.' },
     horeca: false, winkel: true,
     extra: ['De Nederlandse POS-prijspagina toont de prijzen in euro. Of btw is inbegrepen, staat er niet bij.', 'POS Pro: + € 79 per maand per locatie, of + € 59 per maand bij jaarbetaling.', 'Shopify bood op 27 oktober 2026 een proefperiode: 3 dagen gratis, daarna 3 maanden € 1 per maand.'],
@@ -158,7 +170,9 @@ export const AANBIEDERS = {
       ['unTill Air Horeca', '€ 39 per maand bij jaarabonnement', 'Maandabonnement € 44,85. Excl. btw, met tafelplan en gangen'],
       ['unTill Prime', 'offerte op maat', 'Inclusief hardware, installatie, training en service, via een unTill-partner'],
     ],
-    vanaf: 19, vanafTekst: 'unTill Air vanaf € 21,85 per maand (maandelijks) of € 19 per maand bij jaarbetaling, excl. btw; unTill Prime op offerte',
+    // unTill Air Basis: € 19,00 per maand op tab 'Jaarlijks', € 21,85 op tab 'Maandelijks' (untillair.nl/prijzen, 27-10-2026).
+    vanaf: 19, prijsBasis: 'jaarbetaling', peildatum: '2026-10-27', prijsBron: 'https://untillair.nl/prijzen/',
+    vanafTekst: 'unTill Air vanaf € 21,85 per maand (maandelijks) of € 19 per maand bij jaarbetaling, excl. btw; unTill Prime op offerte',
     hardware: null, hardwareNoot: 'unTill Air werkt op je eigen Apple- of Android-apparaat; de abonnementen zijn exclusief hardware. Bij unTill Prime zit de hardware in de offerte.',
     transactie: 'unTill Payments: betalen per transactie, zonder vast contract. Tarieven staan niet op de site.',
     online: { ja: null, t: '' },

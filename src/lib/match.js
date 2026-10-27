@@ -17,6 +17,18 @@ export const REKEN = { aantal: { 30: 30, 150: 150, 600: 600, 1500: 1500 }, bedra
 
 const ONLINE = (id) => AANBIEDERS[id].online.ja === true;
 
+/**
+ * Vanaf-prijs in euro, zodat de valuta de volgorde nooit bepaalt.
+ * valuta 'EUR' (of leeg): het bedrag zelf. valuta 'USD': bedrag / koers.usdPerEur (ECB-referentiekoers op koers.datum,
+ * bron ecb.europa.eu), opnieuw vast te leggen bij elke prijscheck. Geen of ongeldige koers: null (niet te vergelijken).
+ */
+export function prijsInEuro(p) {
+  if (p.vanaf == null) return null;
+  if (!p.valuta || p.valuta === 'EUR') return p.vanaf;
+  if (p.valuta === 'USD' && p.koers && p.koers.usdPerEur > 0 && /^\d{4}-\d{2}-\d{2}$/.test(p.koers.datum || '')) return Math.round((p.vanaf / p.koers.usdPerEur) * 100) / 100;
+  return null;
+}
+
 function pinKandidaat(id, a, aantal, bedrag) {
   const p = AANBIEDERS[id]; let fit = 0; const waarom = [];
   const geenAbo = a.budget === 'laag';
@@ -35,8 +47,8 @@ function pinKandidaat(id, a, aantal, bedrag) {
   return { id, fit, kosten, pinkosten: best.totaal, plan: best.plan, waarom };
 }
 
-function kassaKandidaat(id, a) {
-  const p = AANBIEDERS[id]; let fit = 0; const waarom = [];
+function kassaKandidaat(id, a, p = AANBIEDERS[id]) {
+  let fit = 0; const waarom = [];
   if (a.nodig === 'pin') fit -= 100; // je zoekt alleen een pinapparaat: kassasystemen komen achteraan
   if (a.type === 'horeca') { if (p.horeca) { fit += 20; waarom.push('Pakketten voor horeca'); } else fit -= 20; }
   if (a.type === 'winkel') { if (p.winkel) { fit += 20; waarom.push('Gemaakt voor winkels'); } else fit -= 20; }
@@ -49,18 +61,28 @@ function kassaKandidaat(id, a) {
   if (a.budget === 'mid' && id === 'untill' && a.type === 'horeca') { fit += 5; waarom.push('unTill Air vanaf € 19 per maand'); }
   if (a.budget === 'hoog') { fit += 15; if (id === 'lightspeed') waarom.push('Uitgebreid: voorraad, rapporten, meerdere kassa\'s'); }
   // unTill Air (€ 19) is de eenvoudige versie; wie een compleet systeem wil, krijgt het volledige unTill op offerte.
-  const offerte = p.vanaf == null || (id === 'untill' && a.budget === 'hoog');
-  if (offerte) waarom.push(p.usd ? 'Prijs nog niet meegerekend in de match' : 'Prijs op offerte');
-  return { id, fit, kosten: offerte ? Infinity : p.vanaf, plan: null, waarom };
+  // Prijs per type zaak (bijv. Lightspeed retail of horeca), anders de vanaf-prijs. Altijd in euro.
+  const pt = p.prijsPerType && p.prijsPerType[a.type];
+  let eur = prijsInEuro(pt ? { vanaf: pt.bedrag, valuta: pt.valuta, koers: pt.koers } : p);
+  // Compleet systeem (budget hoog): een optie die daarvoor nodig is telt mee (Shopify: POS Pro).
+  const opt = a.budget === 'hoog' ? p.optieBijHoog : null;
+  if (eur != null && opt) {
+    const extra = prijsInEuro({ vanaf: opt.bedrag, valuta: opt.valuta, koers: opt.koers });
+    eur = extra == null ? null : Math.round((eur + extra) * 100) / 100;
+    if (eur != null) waarom.push(opt.reden);
+  }
+  const offerte = eur == null || (id === 'untill' && a.budget === 'hoog');
+  if (offerte) waarom.push('Prijs op offerte');
+  return { id, fit, kosten: offerte ? Infinity : eur, plan: null, waarom };
 }
 
-/** Alle aanbieders, beste match eerst: fit (hoog naar laag), dan kosten (laag naar hoog), dan naam. */
-export function score(a) {
+/** Alle aanbieders, beste match eerst: fit (hoog naar laag), dan kosten in euro (laag naar hoog), dan naam. Partnerlinks/commissie spelen geen rol. */
+export function score(a, lijst = AANBIEDERS) {
   const aantal = REKEN.aantal[a.aantal] ?? 150;
   const bedrag = REKEN.bedrag[a.bedrag] ?? 25;
   const out = [];
-  for (const id of Object.keys(AANBIEDERS)) {
-    const r = PIN_IDS.includes(id) ? pinKandidaat(id, a, aantal, bedrag) : kassaKandidaat(id, a);
+  for (const id of Object.keys(lijst)) {
+    const r = PIN_IDS.includes(id) ? pinKandidaat(id, a, aantal, bedrag) : kassaKandidaat(id, a, lijst[id]);
     // Bij "kassa": pinaanbieders zonder kassasoftware komen na de kassasystemen; bij "pin": kassasystemen achteraan.
     out.push({ ...r, waarom: r.waarom.slice(0, 3) });
   }

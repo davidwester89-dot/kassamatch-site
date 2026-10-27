@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { score, VRAGEN, compleet } from '../src/lib/match.js';
+import { score, VRAGEN, compleet, prijsInEuro } from '../src/lib/match.js';
 import { planKosten, besteplan, vergelijkPin } from '../src/lib/kosten.js';
 import { AANBIEDERS, IDS, PIN_IDS, KASSA_IDS, CHECKED, checkedVan, goedkoopsteHardware } from '../src/lib/aanbieders.js';
 import { uitgaand, knop, PARTNERLINKS } from '../src/lib/partnerlinks.js';
@@ -33,7 +33,7 @@ test('data: elke aanbieder heeft bron(nen) op de eigen site, geen verzonnen veld
   // MplusKASSA noemt webshop- en pinkoppelingen.
   assert.equal(AANBIEDERS.mplus.online.ja, true); assert.match(AANBIEDERS.mplus.transactie, /CCV/);
   // Shopify: europrijzen van de NL-prijspagina (27-10); Mplus op offerte; nergens 'prijs op aanvraag' bij Lightspeed.
-  assert.equal(AANBIEDERS.shopify.vanaf, null); assert.ok(AANBIEDERS.shopify.usd);
+  assert.equal(AANBIEDERS.shopify.vanaf, 21); assert.equal(AANBIEDERS.shopify.prijsBasis, 'jaarbetaling'); assert.equal(AANBIEDERS.shopify.valuta, 'EUR'); assert.equal(AANBIEDERS.shopify.peildatum, '2026-10-27'); assert.ok(!('usd' in AANBIEDERS.shopify));
   assert.match(AANBIEDERS.shopify.vanafTekst, /€ 28/); assert.equal(checkedVan('shopify'), '2026-10-27');
   assert.equal(AANBIEDERS.mplus.vanaf, null);
   assert.ok(!JSON.stringify(AANBIEDERS.lightspeed).includes('op aanvraag'));
@@ -91,4 +91,80 @@ test('partnerlinks: alleen goedgekeurd voor kassamatch.nl; gevuld = sponsored no
 
 test('match en kosten lezen nooit partnerlinks', () => {
   for (const f of ['../src/lib/match.js', '../src/lib/kosten.js', '../src/lib/aanbieders.js']) assert.ok(!readFileSync(new URL(f, import.meta.url), 'utf8').match(/import[^\n]*partnerlinks/), f);
+});
+
+test('match: valuta bepaalt de volgorde niet (US$ op €-equivalent, ECB-koers in de data)', () => {
+  const basis = { soort: 'kassa', online: { ja: false }, horeca: false, winkel: true };
+  const koers = { usdPerEur: 1.115, datum: '2026-10-27', bron: 'https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/eurofxref-graph-usd.en.html' };
+  // US$ 39 tegen 1,115 = € 34,98: gelijk aan een aanbieder met € 34,98.
+  assert.equal(prijsInEuro({ vanaf: 39, valuta: 'USD', koers }), 34.98);
+  assert.equal(prijsInEuro({ vanaf: 28, valuta: 'EUR' }), 28);
+  assert.equal(prijsInEuro({ vanaf: 39, valuta: 'USD' }), null, 'zonder koers niet vergelijkbaar');
+  const lijst = { 'b-usd': { ...basis, vanaf: 39, valuta: 'USD', koers }, 'a-eur': { ...basis, vanaf: 34.98, valuta: 'EUR' }, 'c-duur': { ...basis, vanaf: 35, valuta: 'EUR' }, 'd-goedkoop': { ...basis, vanaf: 34, valuta: 'EUR' } };
+  const r = score({ type: 'winkel', nodig: 'kassa', online: 'nee', aantal: '150', bedrag: '25', budget: 'mid' }, lijst);
+  // Zelfde fit; volgorde op euro: 34 < 34,98 = 34,98 (dan alfabetisch) < 35. De US$-aanbieder komt niet achteraan.
+  assert.deepEqual(r.map((x) => x.id), ['d-goedkoop', 'a-eur', 'b-usd', 'c-duur']);
+  assert.equal(r[1].kosten, r[2].kosten);
+  // Omdraaien van de namen draait alleen de gelijke stand om, niet de valuta.
+  const r2 = score({ type: 'winkel', nodig: 'kassa', online: 'nee', aantal: '150', bedrag: '25', budget: 'mid' }, { 'a-usd': lijst['b-usd'], 'b-eur': lijst['a-eur'] });
+  assert.deepEqual(r2.map((x) => x.id), ['a-usd', 'b-eur']);
+  // Partnerlinks/commissie zitten niet in de data van de match.
+  assert.ok(!/partner|commissie|affiliate/i.test(readFileSync('src/lib/match.js', 'utf8').replace(/^\s*(\/\/|\*|\/\*\*).*$/gm, '')));
+});
+
+test('match: Shopify POS rankt op de laagste maandprijs (€ 21 bij jaarbetaling), niet meer automatisch achteraan', () => {
+  const r = score({ type: 'winkel', nodig: 'kassa', online: 'nee', aantal: '150', bedrag: '25', budget: 'mid' });
+  const s = r.find((x) => x.id === 'shopify');
+  assert.equal(s.kosten, 21); assert.ok(Number.isFinite(s.kosten));
+  assert.ok(!s.waarom.some((w) => /dollar|offerte/i.test(w)));
+});
+
+test('data: elke vanafTekst met een prijs noemt per bedrag de betaalbasis', () => {
+  const BASIS = /bij jaarbetaling|maandelijks|jaarabonnement|maandelijks opzegbaar|betaalbasis niet vermeld/;
+  let n = 0;
+  for (const id of IDS) {
+    const t = AANBIEDERS[id].vanafTekst;
+    if (!t || !/€\s?\d/.test(t)) continue;
+    // Elk €-bedrag tot het volgende €-bedrag (of het einde) moet een betaalbasis noemen.
+    const stukken = t.split(/(?=€\s?\d)/).slice(1);
+    for (const st of stukken) { n++; assert.match(st, BASIS, `${id}: geen betaalbasis bij "${st}"`); }
+    // Het bedrag waarmee de match rekent staat in de tekst, en de basis staat ook in de data.
+    if (AANBIEDERS[id].vanaf != null) {
+      assert.ok(t.includes(`€ ${AANBIEDERS[id].vanaf} `), `${id}: vanaf ${AANBIEDERS[id].vanaf} niet in vanafTekst`);
+      assert.ok('prijsBasis' in AANBIEDERS[id] && AANBIEDERS[id].peildatum && AANBIEDERS[id].prijsBron, `${id}: prijsBasis/peildatum/prijsBron ontbreekt`);
+    }
+  }
+  assert.ok(n >= 6, `te weinig bedragen gecontroleerd (${n})`);
+});
+
+const profiel = (x) => ({ type: 'winkel', nodig: 'kassa', online: 'nee', aantal: '150', bedrag: '25', budget: 'mid', ...x });
+const vind = (x, id) => score(profiel(x)).find((r) => r.id === id);
+
+test('match: Shopify bij budget hoog incl. POS Pro (€ 21 + € 59 = € 80)', () => {
+  for (const online of ['ja', 'nee']) {
+    const s = vind({ budget: 'hoog', online }, 'shopify');
+    assert.equal(s.kosten, 80, online);
+    assert.ok(s.waarom.includes('incl. POS Pro: € 79 per maand, of € 59 per maand bij jaarbetaling'), JSON.stringify(s.waarom));
+  }
+  assert.equal(AANBIEDERS.shopify.optieBijHoog.bedrag, 59); assert.equal(AANBIEDERS.shopify.optieBijHoog.prijsBasis, 'jaarbetaling');
+});
+
+test('match: Shopify bij budget mid en laag alleen Basic (€ 21), zonder POS Pro', () => {
+  for (const budget of ['mid', 'laag']) {
+    const s = vind({ budget }, 'shopify');
+    assert.equal(s.kosten, 21, budget);
+    assert.ok(!s.waarom.some((w) => /POS Pro/.test(w)), budget);
+  }
+});
+
+test('match: Lightspeed rekent per type: winkel € 99 (retail, jaarbetaling), horeca € 89', () => {
+  for (const budget of ['laag', 'mid', 'hoog']) {
+    assert.equal(vind({ type: 'winkel', budget }, 'lightspeed').kosten, 99, budget);
+    assert.equal(vind({ type: 'horeca', budget }, 'lightspeed').kosten, 89, budget);
+  }
+  const pt = AANBIEDERS.lightspeed.prijsPerType;
+  assert.equal(pt.winkel.prijsBasis, 'jaarbetaling'); assert.match(pt.winkel.prijsBron, /retail\/prijzen/); assert.match(pt.horeca.prijsBron, /restaurant\/prijzen/);
+  for (const k of ['winkel', 'horeca']) assert.ok('prijsBasis' in pt[k] && pt[k].peildatum && pt[k].prijsBron, k);
+  // De bedragen per type staan ook in de vanafTekst.
+  assert.match(AANBIEDERS.lightspeed.vanafTekst, /€ 99 per maand bij jaarbetaling \(retail\)/); assert.match(AANBIEDERS.lightspeed.vanafTekst, /€ 89 per maand \(horeca/);
 });
