@@ -71,13 +71,15 @@ test('build (productie): pagina’s, sitemap, robots, IndexNow, regels', () => {
     const main = s.slice(s.indexOf('<main'), s.indexOf('</main>'));
     assert.ok(main.replace(/<[^>]+>/g, ' ').split(/\s+/).filter(Boolean).length >= 600, `${slug}: te weinig woorden`);
     assert.match(s, /"@type":"FAQPage"/, slug); assert.match(main, /<details>/, slug);
-    assert.match(main, slug === 'mollie' ? /datetime="2026-10-23"/ : slug === 'ccv' ? /datetime="2026-10-26"/ : /datetime="2026-10-20"/, slug);
+    assert.match(main, slug === 'mollie' ? /datetime="2026-10-23"/ : slug === 'ccv' ? /datetime="2026-10-26"/ : ['shopify-pos', 'lightspeed', 'untill'].includes(slug) ? /datetime="2026-10-27"/ : /datetime="2026-10-20"/, slug);
   }
-  // Lightspeed: geen onbevestigde maandprijzen.
+  // Lightspeed: geen onbevestigde maandprijzen op de aanbiederpagina. Retail € 129 maandelijks (of € 99 bij jaarbetaling) is op 27-10 gecontroleerd (tab 'Maandelijks') en staat in de vanafTekst.
   assert.ok(!/\b(129|189|269)\b|€ 29 per extra kassa/.test(readFileSync('dist/aanbieders/lightspeed/index.html', 'utf8')));
+  assert.match(readFileSync('dist/kassasysteem-vergelijken/index.html', 'utf8'), /€ 129 per maand maandelijks of € 99 per maand bij jaarbetaling \(retail\)/);
+  assert.ok(!/\b(189|269)\b/.test(readFileSync('dist/kassasysteem-vergelijken/index.html', 'utf8')));
   // Shopify POS: partnerlink ongewijzigd (via knop()).
   assert.ok(readFileSync('dist/aanbieders/shopify-pos/index.html', 'utf8').includes(`href="${PARTNERLINKS.shopify}" rel="sponsored nofollow noopener"`));
-  assert.match(readFileSync('dist/aanbieders/shopify-pos/index.html', 'utf8'), /US\$/);
+  assert.match(readFileSync('dist/aanbieders/shopify-pos/index.html', 'utf8'), /€ 28 per maand/);
 });
 
 test('build (preview): noindex, Disallow, BASE-paden, geen CNAME', () => {

@@ -32,8 +32,9 @@ test('data: elke aanbieder heeft bron(nen) op de eigen site, geen verzonnen veld
   const ut = JSON.stringify(AANBIEDERS.untill); assert.match(ut, /jaarabonnement/); assert.match(ut, /21,85/); assert.match(ut, /unTill Prime/); assert.ok(!/maandelijks opzegbaar|in het Engels/i.test(ut));
   // MplusKASSA noemt webshop- en pinkoppelingen.
   assert.equal(AANBIEDERS.mplus.online.ja, true); assert.match(AANBIEDERS.mplus.transactie, /CCV/);
-  // Shopify alleen in dollars; Mplus op offerte; nergens 'prijs op aanvraag' bij Lightspeed.
+  // Shopify: europrijzen van de NL-prijspagina (27-10); Mplus op offerte; nergens 'prijs op aanvraag' bij Lightspeed.
   assert.equal(AANBIEDERS.shopify.vanaf, null); assert.ok(AANBIEDERS.shopify.usd);
+  assert.match(AANBIEDERS.shopify.vanafTekst, /€ 28/); assert.equal(checkedVan('shopify'), '2026-10-27');
   assert.equal(AANBIEDERS.mplus.vanaf, null);
   assert.ok(!JSON.stringify(AANBIEDERS.lightspeed).includes('op aanvraag'));
   assert.equal(AANBIEDERS.lightspeed.vanaf, 89);

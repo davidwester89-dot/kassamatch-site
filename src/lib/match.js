@@ -50,7 +50,7 @@ function kassaKandidaat(id, a) {
   if (a.budget === 'hoog') { fit += 15; if (id === 'lightspeed') waarom.push('Uitgebreid: voorraad, rapporten, meerdere kassa\'s'); }
   // unTill Air (€ 19) is de eenvoudige versie; wie een compleet systeem wil, krijgt het volledige unTill op offerte.
   const offerte = p.vanaf == null || (id === 'untill' && a.budget === 'hoog');
-  if (offerte) waarom.push(p.usd ? 'Prijzen alleen in dollars bekend' : 'Prijs op offerte');
+  if (offerte) waarom.push(p.usd ? 'Prijs nog niet meegerekend in de match' : 'Prijs op offerte');
   return { id, fit, kosten: offerte ? Infinity : p.vanaf, plan: null, waarom };
 }
 

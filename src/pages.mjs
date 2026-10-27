@@ -33,7 +33,7 @@ const NIET = {
   mollie: 'Volumeprijzen vanaf € 100.000 per maand (op aanvraag); btw bij de terminals niet vermeld.',
   ccv: 'Btw bij de huur- en koopprijzen niet vermeld; CCV-tarieven voor 2027 niet gepubliceerd.',
   lightspeed: 'Hardwareprijzen en verwerkingskosten per betaling.',
-  shopify: 'Prijzen, transactiekosten en hardware in euro: onbekend.',
+  shopify: 'Hardwareprijzen (onbekend); of btw in de prijzen zit.',
   untill: 'Prijs van unTill Prime (op offerte); tarieven unTill Payments.',
   mplus: 'Alle prijzen (op offerte).',
 };
@@ -46,7 +46,7 @@ const homeFaq = [
 ];
 const ex = vergelijkPin(300, 25);
 export const home = {
-  path: '/', title: 'Pinautomaat of kassasysteem kiezen? | KassaMatch', ogTitle: 'KassaMatch: welke pinautomaat of kassa past bij jouw zaak?', h1: 'Pinautomaat of kassa kiezen? Reken het eerst uit.', og: 'home',
+  path: '/', lastmod: '2026-10-28', stamp: { updated: '2026-10-28' }, title: 'Pinautomaat of kassasysteem kiezen? | KassaMatch', ogTitle: 'KassaMatch: welke pinautomaat of kassa past bij jouw zaak?', h1: 'Pinautomaat of kassa kiezen? Reken het eerst uit.', og: 'home',
   description: 'Vergelijk SumUp, myPOS, Zettle, Mollie, CCV, Lightspeed, Shopify POS, unTill en MplusKASSA op kosten per maand. Doe de match en zie je top 3.',
   schema: [faqSchema(homeFaq)],
   body: `<section class="hero sec"><div class="hero-txt">
@@ -74,7 +74,7 @@ ${pinVoorbeeld(300, 25)}
 </section>
 <section class="sec tint">
 <h2>Kassasystemen op een rij</h2>
-<p class="sub">Prijs zoals de aanbieder die toont. Shopify toont ons alleen dollars, Mplus en het volledige unTill werken op offerte.</p>
+<p class="sub">Prijs zoals de aanbieder die toont. Mplus en het volledige unTill werken op offerte.</p>
 <div class="table-wrap"><table class="data stack"><thead><tr><th scope="col">Kassasysteem</th><th scope="col">Prijs</th><th scope="col">Horeca</th><th scope="col">Winkel</th><th scope="col">Webshop of online</th></tr></thead><tbody>${['sumup', 'zettle', ...KASSA_IDS].map((id) => `<tr><th scope="row">${link(id)}</th><td data-l="Prijs">${esc(A[id].soort === 'pin' ? (id === 'sumup' ? 'Software € 0 of € 49 per maand, kassa € 399' : 'Kassa-app € 0, terminal € 199') : A[id].vanafTekst)}</td><td data-l="Horeca">${vlag(A[id].horeca ?? null)}</td><td data-l="Winkel">${vlag(A[id].winkel ?? null)}</td><td data-l="Webshop of online">${vlag(A[id].online.ja)}</td></tr>`).join('')}</tbody></table></div>
 <p><a href="/kassasysteem-vergelijken/">Alle kassasystemen vergelijken →</a></p>
 </section>
@@ -101,7 +101,7 @@ ${faqHtml(homeFaq)}
 
 // ---- Match ----
 export const quiz = {
-  path: '/kassa-match/', title: 'Keuzehulp pinautomaat en kassa: doe de KassaMatch', h1: 'Welke pinautomaat of kassa past bij jou?', crumb: 'De match', og: 'match', noCta: true,
+  path: '/kassa-match/', lastmod: '2026-10-28', stamp: { updated: '2026-10-28' }, title: 'Keuzehulp pinautomaat en kassa: doe de KassaMatch', h1: 'Welke pinautomaat of kassa past bij jou?', crumb: 'De match', og: 'match', noCta: true,
   description: 'Zes vragen over je zaak, je pinbetalingen en vaste kosten. Je krijgt de drie pinautomaten of kassasystemen die het best passen, met kosten.',
   scripts: ['/js/quiz.js'],
   schema: [{ '@context': 'https://schema.org', '@type': 'WebApplication', name: 'KassaMatch', applicationCategory: 'BusinessApplication', operatingSystem: 'Web', url: SITE.domain + '/kassa-match/', offers: { '@type': 'Offer', price: '0', priceCurrency: 'EUR' }, publisher: ORG }],
@@ -115,7 +115,7 @@ ${VRAGEN.map((v, i) => `<fieldset class="q"><legend>${i + 1}. ${esc(v.vraag)}</l
 <aside class="card mpanel" id="result" aria-live="polite"><h2>Jouw beste match</h2><p class="mwait">Beantwoord de vragen. Je top 3 verschijnt hier, met kosten en uitleg.</p><p class="sub">Of bekijk <a href="/pinautomaat-vergelijken/">alle pinautomaten naast elkaar</a>.</p></aside>
 </div>
 <noscript><p class="alert">De match werkt met JavaScript. Zonder JavaScript vind je alle tarieven op <a href="/pinautomaat-vergelijken/">pinautomaten vergelijken</a>.</p></noscript>
-<section class="method" id="methode"><h2>Zo werkt de match</h2><ol><li><strong>Eerst wat past.</strong> Zoek je alleen een pinapparaat, dan kijken we naar de pinaanbieders. Zoek je een kassa, dan tellen kassasoftware, horeca of winkel en een webshop mee. Wil je ook online betalingen, dan gaan aanbieders die dat op hun site noemen voor.</li><li><strong>Dan de kosten.</strong> Voor pinnen rekenen we per aanbieder het goedkoopste plan uit: vaste kosten + aantal betalingen × tarief. We rekenen met ${Object.values(REKEN.aantal).map(fmtN).join(', ')} betalingen per maand en een bedrag van ${Object.values(REKEN.bedrag).map(eur).join(', ')}, afhankelijk van je antwoord. Voor kassasystemen gebruiken we de laagste prijs die de aanbieder toont; op offerte of alleen in dollars komt achteraan.</li><li><strong>Liefst geen abonnement?</strong> Dan rekenen we alleen met plannen zonder vaste maandkosten.</li><li><strong>Bij gelijke stand: alfabetisch.</strong> Partnerlinks tellen nooit mee; de match leest ze niet.</li></ol><p class="src">Tarieven gecontroleerd op ${fmtDate(CHECKED)} bij de aanbieders. <a href="/bronnen/">Alle bronnen</a>.</p></section>`,
+<section class="method" id="methode"><h2>Zo werkt de match</h2><ol><li><strong>Eerst wat past.</strong> Zoek je alleen een pinapparaat, dan kijken we naar de pinaanbieders. Zoek je een kassa, dan tellen kassasoftware, horeca of winkel en een webshop mee. Wil je ook online betalingen, dan gaan aanbieders die dat op hun site noemen voor.</li><li><strong>Dan de kosten.</strong> Voor pinnen rekenen we per aanbieder het goedkoopste plan uit: vaste kosten + aantal betalingen × tarief. We rekenen met ${Object.values(REKEN.aantal).map(fmtN).join(', ')} betalingen per maand en een bedrag van ${Object.values(REKEN.bedrag).map(eur).join(', ')}, afhankelijk van je antwoord. Voor kassasystemen gebruiken we de laagste prijs die de aanbieder toont; op offerte komt achteraan, net als Shopify POS, waarvan de match de prijs nog niet meerekent.</li><li><strong>Liefst geen abonnement?</strong> Dan rekenen we alleen met plannen zonder vaste maandkosten.</li><li><strong>Bij gelijke stand: alfabetisch.</strong> Partnerlinks tellen nooit mee; de match leest ze niet.</li></ol><p class="src">Tarieven gecontroleerd op ${fmtDate(CHECKED)} bij de aanbieders. <a href="/bronnen/">Alle bronnen</a>.</p></section>`,
 };
 
 // ---- Pinautomaten vergelijken (met rekentool) ----
@@ -159,9 +159,9 @@ const kassaFaq = [
   ['Kan ik mijn kassa koppelen aan een webshop?', 'Shopify POS deelt producten en voorraad met een Shopify-webshop. De retailpakketten van Lightspeed hebben Lightspeed eCom ingebouwd. Voor het kiezen van een webshop: zie <a href="https://shopmatch.nl/">ShopMatch</a>.'],
 ];
 export const kassaVergelijk = {
-  path: '/kassasysteem-vergelijken/', title: 'Kassasystemen vergelijken 2026: prijzen per maand', h1: 'Kassasystemen vergelijken voor winkel en horeca', lastmod: '2026-10-26', crumb: 'Kassasystemen vergelijken', og: 'kassa',
+  path: '/kassasysteem-vergelijken/', title: 'Kassasystemen vergelijken 2026: prijzen per maand', h1: 'Kassasystemen vergelijken voor winkel en horeca', lastmod: '2026-10-28', crumb: 'Kassasystemen vergelijken', og: 'kassa',
   description: 'Kassasystemen naast elkaar: SumUp, Zettle, myPOS, Lightspeed, Shopify POS, unTill en MplusKASSA. Prijs per maand, horeca of winkel, met bronnen.',
-  stamp: { checked: CHECKED }, schema: [faqSchema(kassaFaq)],
+  stamp: { checked: CHECKED, updated: '2026-10-28' }, schema: [faqSchema(kassaFaq)],
   body: `<h1>Kassasystemen vergelijken voor winkel en horeca</h1>${by()}
 <p class="lead">Een kassasysteem doet meer dan afrekenen: producten, voorraad, omzet per dag en soms tafels of een webshop. De prijzen lopen uiteen van € 0 tot een offerte op maat.</p>
 <div class="table-wrap"><table class="data stack"><caption class="sr-only">Kassasystemen naast elkaar</caption><thead><tr><th scope="col">Kassasysteem</th><th scope="col">Prijs</th><th scope="col">Hardware</th><th scope="col">Horeca</th><th scope="col">Winkel</th><th scope="col">Webshop of online</th></tr></thead><tbody>${KASSA_RIJ.map((id) => `<tr><th scope="row">${link(id)}</th><td data-l="Prijs">${esc(kassaPrijs(id))}</td><td data-l="Hardware">${esc(A[id].soort === 'pin' ? hwTekst(id) : A[id].hardwareNoot)}</td><td data-l="Horeca">${vlag(A[id].horeca ?? null)}</td><td data-l="Winkel">${vlag(A[id].winkel ?? null)}</td><td data-l="Webshop of online">${vlag(A[id].online.ja)}</td></tr>`).join('')}</tbody></table></div>
@@ -169,8 +169,8 @@ export const kassaVergelijk = {
 <h2>Lightspeed: retail en horeca</h2>
 <ul class="pkg-grid">${A.lightspeed.pakketten.map(([n, pr, w]) => `<li><div class="pkg-card"><h3>${esc(n)}</h3><p class="pkg-price"><strong>${esc(pr)}</strong></p><p class="pkg-facts">${esc(w)}</p></div></li>`).join('')}</ul>
 <p>Lightspeed meldt: "Prijzen kunnen variëren en extra servicekosten kunnen van toepassing zijn." De verwerkingskosten voor betalingen staan niet op de prijspagina.</p>
-<h2>Shopify POS: alleen in dollars</h2>
-<p>De Nederlandse prijspagina van Shopify stuurde ons door naar de internationale pagina. Daar staat Basic op US$ 39 per maand en POS Pro op US$ 89 per maand per locatie. Een europrijs zagen we niet; die hangt af van je land.</p>
+<h2>Shopify POS: prijzen in euro</h2>
+<p>Op de <a href="https://www.shopify.com/nl/pos/prijzen" rel="noopener">Nederlandse POS-prijspagina van Shopify</a> staat Basic op € 28 per maand (maandelijks abonnement) en POS Pro op € 79 per maand per locatie (bij jaarbetaling € 59). Gecontroleerd op 27 oktober 2026. Of btw is inbegrepen, vermeldt Shopify niet.</p>
 <h2>Op offerte: MplusKASSA en unTill</h2>
 <p>MplusKASSA geeft geen bedragen op de site; je krijgt een prijsoverzicht op maat via een leverancier. Bij unTill is unTill Air er vanaf € 19 per maand. Het volledige unTill-systeem voor grotere horecazaken gaat via een unTill-partner.</p>
 ${matchCta('Welke kassa past bij jouw zaak?', 'kassa_match')}
@@ -180,9 +180,9 @@ ${bron(bronnenVan(...KASSA_RIJ))}`,
 
 // ---- Aanbieders ----
 export const aanbiedersHub = {
-  path: '/aanbieders/', title: 'Alle aanbieders: pinautomaten en kassa\'s | KassaMatch', h1: 'Alle aanbieders', crumb: 'Aanbieders', og: 'aanbieders',
+  path: '/aanbieders/', title: 'Alle aanbieders: pinautomaten en kassa\'s | KassaMatch', h1: 'Alle aanbieders', crumb: 'Aanbieders', og: 'aanbieders', lastmod: '2026-10-28',
   description: 'Overzicht van alle pinautomaten en kassasystemen op KassaMatch, met tarieven, hardwareprijzen en voor wie ze passen. Alles met bron.',
-  stamp: { checked: CHECKED },
+  stamp: { checked: CHECKED, updated: '2026-10-28' },
   body: `<h1>Alle aanbieders</h1><p class="lead">${IDS.length} aanbieders: ${PIN_IDS.length} voor pinnen en ${KASSA_IDS.length} kassasystemen. Alfabetisch, met de tarieven van hun eigen site.</p>
 <h2>Pinautomaten</h2><ul class="plist">${[...PIN_IDS].sort().map((id) => acard(id, { level: 'h3', pos: 'hub' })).join('')}</ul>
 <h2>Kassasystemen</h2><ul class="plist">${[...KASSA_IDS].sort().map((id) => acard(id, { level: 'h3', pos: 'hub' })).join('')}</ul>
@@ -211,9 +211,9 @@ export const aanbiederPages = IDS.map((id) => {
   const title = T.title || `${kortNaam(id)}: ${pin ? 'kosten en tarieven' : 'prijzen'} 2026 | KassaMatch`;
   const h1 = T.h1 || `${p.naam}: ${pin ? 'kosten, tarieven en pinapparaten' : 'prijzen en voor wie het past'}`;
   return {
-    path, title, h1, crumb: kortNaam(id), parents: [['/aanbieders/', 'Aanbieders']], og: `a-${id}`, lastmod: checked,
+    path, title, h1, crumb: kortNaam(id), parents: [['/aanbieders/', 'Aanbieders']], og: `a-${id}`, lastmod: p.updated || checked,
     description: T.description || (pin ? `Wat kost ${kortNaam(id)}? Vaste kosten, tarief per pinbetaling, prijs van het pinapparaat en een rekenvoorbeeld. Alles van de eigen site, met bron.` : `Wat kost ${kortNaam(id)}? De pakketten en prijzen zoals de aanbieder ze toont, wat niet gepubliceerd is en voor welke zaak het past. Met bron.`).slice(0, 155),
-    stamp: { checked },
+    stamp: { checked, ...(p.updated ? { updated: p.updated } : {}) },
     ...(T.faq?.length ? { schema: [faqSchema(T.faq)] } : {}),
     body: `<article class="prose"><h1>${esc(h1)}</h1>${by(checked)}
 <p class="lead">${esc(p.wat)}</p>
@@ -300,7 +300,7 @@ const kiezenFaq = [
   ['Is een keurmerk verplicht?', 'Nee. De Belastingdienst schrijft dat je bij een keurmerkkassa ervan uit mag gaan dat je administratie op belangrijke punten aan de eisen voldoet, zoals het bewaren en kunnen reproduceren van transacties.'],
 ];
 export const kiezen = {
-  ...article({ path: '/kassasysteem-kiezen/', title: 'Kassasysteem kiezen: zo vind je wat past | KassaMatch', h1: 'Kassasysteem kiezen: wat heb je nodig?', description: 'Een kassasysteem kiezen voor je winkel, horecazaak of marktkraam. Welke functies tellen, wat de Belastingdienst vraagt en wat het kost.', updated: '2026-10-26', og: 'kiezen', parents: [['/gidsen/', 'Gidsen']], faq: kiezenFaq }),
+  ...article({ path: '/kassasysteem-kiezen/', title: 'Kassasysteem kiezen: zo vind je wat past | KassaMatch', h1: 'Kassasysteem kiezen: wat heb je nodig?', description: 'Een kassasysteem kiezen voor je winkel, horecazaak of marktkraam. Welke functies tellen, wat de Belastingdienst vraagt en wat het kost.', updated: '2026-10-28', og: 'kiezen', parents: [['/gidsen/', 'Gidsen']], faq: kiezenFaq }),
   crumb: 'Kassasysteem kiezen',
   body: `<article class="prose"><h1>Kassasysteem kiezen: wat heb je nodig?</h1>${by()}
 <p class="lead">Een kassasysteem legt je verkopen vast en helpt bij je kascontrole. Welk systeem past, hangt af van je zaak: een marktkraam heeft andere wensen dan een restaurant met drie kassa's.</p>
@@ -310,7 +310,7 @@ export const kiezen = {
 <h2>Stap 3: wat vraagt de Belastingdienst?</h2><p>De gegevens in je kassasysteem horen bij je administratie. De Belastingdienst noemt in de brochure <em>Het kassasysteem in uw bedrijf</em> onder meer deze punten:</p>
 <ul><li>Je bewaart alle transacties. De bewaartermijn voor je administratie is zeven jaar.</li><li>Gegevens die digitaal zijn vastgelegd, bewaar je ook digitaal en kun je binnen redelijke termijn reproduceren.</li><li>Transacties zijn te volgen, bijvoorbeeld met een doorlopende nummering. Ook correcties, de trainingsstand en "geldlade open zonder verkoop" leg je vast.</li><li>Je geeft inzicht in de instellingen van je kassa en bewaart wijzigingen, bijvoorbeeld van prijzen en btw-percentages.</li><li>Je beveiligt de gegevens, zodat ze niet verloren gaan of achteraf te wijzigen zijn.</li></ul>
 <p>Een keurmerkkassa is niet verplicht. Met een keurmerkkassa mag je er volgens de Belastingdienst wel van uitgaan dat je administratie op deze punten aan de eisen voldoet.</p>
-<h2>Stap 4: wat kost het?</h2><ul><li><strong>Gratis kassasoftware:</strong> SumUp (€ 0, of € 49 per maand voor POS Plus) en Zettle (€ 0). Je betaalt per pinbetaling en voor de hardware.</li><li><strong>Instap voor horeca:</strong> unTill Air vanaf € 19 per maand, op je eigen Apple- of Android-hardware.</li><li><strong>Uitgebreid:</strong> Lightspeed vanaf € 89 per maand (horeca) of € 99 (retail), tot € 249.</li><li><strong>Met webshop:</strong> Shopify POS vanaf US$ 39 per maand; een europrijs zagen we niet.</li><li><strong>Op offerte:</strong> MplusKASSA en het volledige unTill.</li></ul>
+<h2>Stap 4: wat kost het?</h2><ul><li><strong>Gratis kassasoftware:</strong> SumUp (€ 0, of € 49 per maand voor POS Plus) en Zettle (€ 0). Je betaalt per pinbetaling en voor de hardware.</li><li><strong>Instap voor horeca:</strong> unTill Air vanaf € 19 per maand, op je eigen Apple- of Android-hardware.</li><li><strong>Uitgebreid:</strong> Lightspeed vanaf € 89 per maand (horeca) of € 99 (retail), tot € 249.</li><li><strong>Met webshop:</strong> Shopify POS vanaf € 28 per maand (Basic, maandelijks; prijs gecontroleerd op 27 oktober 2026).</li><li><strong>Op offerte:</strong> MplusKASSA en het volledige unTill.</li></ul>
 <p>Alle bedragen naast elkaar: <a href="/kassasysteem-vergelijken/">kassasystemen vergelijken</a>.</p>
 <h2>Stap 5: vragen voor je tekent</h2><ul><li>Hoe lang loopt het contract en hoe zeg je op?</li><li>Wat kost de hardware, en kun je eigen hardware gebruiken?</li><li>Welke transactiekosten gelden, en zit je vast aan de betaaldienst van de kassa?</li><li>Kun je je gegevens exporteren, ook na opzeggen?</li><li>Is er een koppeling met je boekhoudprogramma? Een boekhoudprogramma kiezen doe je op <a href="https://boekhoudmatch.nl/">BoekhoudMatch</a>.</li></ul>
 ${faqHtml(kiezenFaq)}
@@ -379,13 +379,13 @@ ${matchCta()}`,
 
 // ---- Bronnen ----
 export const bronnen = {
-  path: '/bronnen/', title: 'Bronnen: waar onze bedragen vandaan komen | KassaMatch', h1: 'Bronnen', crumb: 'Bronnen', og: 'home',
+  path: '/bronnen/', title: 'Bronnen: waar onze bedragen vandaan komen | KassaMatch', h1: 'Bronnen', crumb: 'Bronnen', og: 'home', lastmod: '2026-10-28',
   description: 'Alle bronnen van KassaMatch: de prijspagina\'s van de aanbieders en de Belastingdienst, met de datum waarop we ze controleerden.',
-  stamp: { checked: CHECKED },
+  stamp: { checked: CHECKED, updated: '2026-10-28' },
   body: `<article class="prose"><h1>Bronnen</h1><p class="lead">Elk bedrag op KassaMatch komt van de eigen site van de aanbieder. Hier staan alle pagina's die we gebruiken, met de datum van de laatste controle.</p>
 <div class="table-wrap"><table class="data stack"><thead><tr><th scope="col">Aanbieder</th><th scope="col">Bron</th><th scope="col">Gecontroleerd</th><th scope="col">Wat staat er niet</th></tr></thead><tbody>${IDS.map((id) => `<tr><th scope="row">${link(id)}</th><td data-l="Bron">${A[id].bronnen.map(([t, u]) => `<a href="${u}" rel="noopener">${esc(t)}</a>`).join('<br>')}</td><td data-l="Gecontroleerd"><time datetime="${checkedVan(id)}">${fmtDate(checkedVan(id))}</time></td><td data-l="Wat staat er niet">${esc(NIET[id])}</td></tr>`).join('')}</tbody></table></div>
 <h2>Regels en uitleg</h2><ul>${BD.map(([t, u]) => `<li><a href="${u}" rel="noopener">${esc(t)}</a></li>`).join('')}</ul>
-<h2>Hoe we controleren</h2><ul><li>We lezen de openbare prijspagina's, zonder in te loggen en zonder formulieren in te vullen.</li><li>De site van Lightspeed blokkeert geautomatiseerde verzoeken van onze server. De bedragen van Lightspeed hebben we via een andere ophaalmethode op de eigen prijspagina van Lightspeed gelezen.</li><li>Shopify toont ook op de Nederlandse POS-prijspagina de prijzen in US$. Daarom tonen we Shopify POS in dollars.</li><li>Ziet een aanbieder een fout, of veranderen tarieven? Mail <a href="mailto:${SITE.email}">${SITE.email}</a>, dan passen we het aan met bron.</li></ul></article>`,
+<h2>Hoe we controleren</h2><ul><li>We lezen de openbare prijspagina's, zonder in te loggen en zonder formulieren in te vullen.</li><li>De site van Lightspeed blokkeert geautomatiseerde verzoeken van onze server. De bedragen van Lightspeed hebben we via een andere ophaalmethode op de eigen prijspagina van Lightspeed gelezen.</li><li>Shopify toont op de Nederlandse POS-prijspagina de prijzen in euro. Die bedragen nemen we over, met de datum van controle.</li><li>Ziet een aanbieder een fout, of veranderen tarieven? Mail <a href="mailto:${SITE.email}">${SITE.email}</a>, dan passen we het aan met bron.</li></ul></article>`,
 };
 
 // ---- Over, privacy, disclaimer, contact, 404 ----
