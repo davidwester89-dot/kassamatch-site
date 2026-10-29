@@ -127,7 +127,7 @@ const pinFaq = [
 export const pinVergelijk = {
   path: '/pinautomaat-vergelijken/', title: 'Pinautomaat vergelijken: kosten per maand | KassaMatch', h1: 'Pinautomaat vergelijken: wat kost pinnen jou per maand?', crumb: 'Pinautomaten vergelijken', og: 'pin',
   description: 'Vul je aantal pinbetalingen en je gemiddelde bedrag in en zie per aanbieder de kosten per maand: SumUp, myPOS, Zettle, Mollie en CCV.',
-  scripts: ['/js/rekentool.js'], stamp: { checked: CHECKED }, schema: [faqSchema(pinFaq)],
+  scripts: ['/js/rekentool.js'], lastmod: '2026-10-29', stamp: { checked: CHECKED, updated: '2026-10-29' }, schema: [faqSchema(pinFaq)],
   body: `<h1>Pinautomaat vergelijken: wat kost pinnen jou per maand?</h1>${by()}
 <p class="lead">Een pinautomaat kost je op drie manieren: het apparaat, vaste kosten per maand en een bedrag per betaling. Vul hieronder je eigen aantallen in. We kiezen per aanbieder het goedkoopste plan.</p>
 <form id="form" class="card kcalc" novalidate>
@@ -137,14 +137,15 @@ export const pinVergelijk = {
 <p class="sub">Je invoer blijft in je browser.</p>
 </form>
 <div id="k-out" aria-live="polite">${pinVoorbeeld(300, 25)}</div>
-<p class="sub">Rekenmethode: vaste kosten per maand + aantal betalingen × (vast bedrag + percentage × gemiddeld bedrag), met de tarieven voor een Nederlandse consumentenbetaalpas. Het pinapparaat betaal je eenmalig; CCV publiceert die prijs niet.</p>
+<p class="sub">Rekenmethode: vaste kosten per maand + aantal betalingen × (vast bedrag + percentage × gemiddeld bedrag), met de tarieven voor een Nederlandse consumentenbetaalpas. Het pinapparaat betaal je eenmalig; CCV publiceert die prijs niet. Wat de apparaten kosten, zie je bij <a href="/goedkoopste-pinautomaat/">wat een pinautomaat in totaal kost</a>.</p>
 <h2>Alle tarieven per plan</h2>
 ${tarievenTabel()}
 <h2>Waar je verder op let</h2>
 <ul><li><strong>Omslagpunt van een abonnement.</strong> Bij SumUp is Betalingen Plus (€ 19 per maand) goedkoper vanaf ongeveer ${eur(omslagSumup)} pinomzet per maand, als je alleen met de tarieven rekent. SumUp noemt zelf € 4.645. Bij myPOS Plus ligt dat omslagpunt ook op ${eur(omslagMypos)}; myPOS noemt € 4.000. Lees meer in <a href="/transactiekosten-vergelijken/">transactiekosten vergelijken</a>.</li>
 <li><strong>Vast bedrag of percentage.</strong> CCV (€ 0,068) en myPOS Pro (€ 0,06) rekenen een vast bedrag per betaling met een Nederlandse pas. Hoe hoger je gemiddelde bedrag, hoe meer dat scheelt.</li>
 <li><strong>Online betalen.</strong> SumUp, myPOS en Mollie noemen ook online betalingen of betaallinks, tegen andere tarieven.</li>
-<li><strong>Kassa erbij?</strong> SumUp en Zettle hebben kassasoftware, myPOS een kassa-app. Zie <a href="/kassasysteem-vergelijken/">kassasystemen vergelijken</a>.</li></ul>
+<li><strong>Kassa erbij?</strong> SumUp en Zettle hebben kassasoftware, myPOS een kassa-app. Zie <a href="/kassasysteem-vergelijken/">kassasystemen vergelijken</a>.</li>
+<li><strong>SumUp of Zettle?</strong> Het verschil in tarief, apparaat en kassa-app staat in <a href="/sumup-vs-zettle/">SumUp en Zettle vergeleken</a>.</li></ul>
 ${matchCta('Liever een advies op maat?', 'pin_match')}
 ${faqHtml(pinFaq)}
 ${bron(bronnenVan(...PIN_IDS))}`,
@@ -277,12 +278,12 @@ const goedkoopFaq = [
   ['Wat kost een pinautomaat eenmalig?', `Van ${eur(Math.min(...PIN_IDS.map(goedkoopsteHardware).filter((x) => x != null)))} tot ${eur(Math.max(...PIN_IDS.map(goedkoopsteHardware).filter((x) => x != null)))} voor het goedkoopste apparaat per aanbieder, volgens hun eigen sites. CCV publiceert de prijs van de automaat niet.`],
 ];
 export const goedkoopste = {
-  ...article({ path: '/goedkoopste-pinautomaat/', title: 'Goedkoopste pinautomaat 2026: wat kost een pinautomaat?', h1: 'Goedkoopste pinautomaat 2026: wat kost een pinautomaat echt?', description: 'Wat kost een pinautomaat per maand? Rekenvoorbeelden bij 50, 300 en 1.000 betalingen met de tarieven van SumUp, myPOS, Zettle, Mollie en CCV.', og: 'goedkoopste', parents: [['/gidsen/', 'Gidsen']], faq: goedkoopFaq }),
+  ...article({ path: '/goedkoopste-pinautomaat/', title: 'Goedkoopste pinautomaat 2026: wat kost een pinautomaat?', h1: 'Goedkoopste pinautomaat 2026: wat kost een pinautomaat echt?', description: 'Wat kost een pinautomaat per maand? Rekenvoorbeelden bij 50, 300 en 1.000 betalingen met de tarieven van SumUp, myPOS, Zettle, Mollie en CCV.', og: 'goedkoopste', parents: [['/gidsen/', 'Gidsen']], updated: '2026-10-29', faq: goedkoopFaq }),
   crumb: 'Goedkoopste pinautomaat',
   body: `<article class="prose"><h1>Goedkoopste pinautomaat 2026: wat kost een pinautomaat echt?</h1>${by()}
 <p class="lead">De goedkoopste pinautomaat bestaat niet. Wat het goedkoopst is, hangt af van hoeveel je pint en hoe hoog je bedragen zijn. Hieronder drie rekenvoorbeelden met de tarieven van de aanbieders zelf.</p>
 <h2>Waaruit bestaan de kosten?</h2><ul><li><strong>Het apparaat.</strong> Eenmalig. Het goedkoopste apparaat per aanbieder kost ${eur(HWMIN)} tot ${eur(HWMAX)} (CCV: huur vanaf € 25 per maand of koop vanaf € 399 plus maandkosten).</li><li><strong>Vaste kosten per maand.</strong> € 0 bij plannen zonder abonnement, tot € 39 bij myPOS Pro.</li><li><strong>Transactiekosten.</strong> Een percentage van het bedrag, een vast bedrag per betaling, of een combinatie.</li></ul>
-<h2>Weinig pinnen: 50 betalingen van € 20</h2><p>Goedkoopst per maand: ${wk(50, 20)}. Vaste kosten wegen hier zwaar, dus een plan zonder abonnement wint vaak. Zonder enig abonnement: ${wk0(50, 20)}.</p>
+<h2>Weinig pinnen: 50 betalingen van € 20</h2><p>Goedkoopst per maand: ${wk(50, 20)}. Vaste kosten wegen hier zwaar, dus een plan zonder abonnement wint vaak. Zonder enig abonnement: ${wk0(50, 20)}. Twijfel je tussen SumUp en Zettle? Bekijk <a href="/sumup-vs-zettle/">SumUp en Zettle naast elkaar</a>.</p>
 ${pinVoorbeeld(50, 20)}
 <h2>Gemiddeld: 300 betalingen van € 25</h2><p>Goedkoopst per maand: ${wk(300, 25)}. Zonder abonnement: ${wk0(300, 25)}.</p>
 ${pinVoorbeeld(300, 25)}
@@ -324,14 +325,14 @@ const transFaq = [
 ];
 const BEDRAGEN = [5, 20, 50, 100];
 export const transactie = {
-  ...article({ path: '/transactiekosten-vergelijken/', title: 'Transactiekosten pinnen 2026: wat kost een pintransactie?', h1: 'Transactiekosten pinnen: percentage of vast bedrag per betaling?', description: 'Wat kost een pintransactie? Van € 0,06 tot 1,95% per betaling: SumUp, myPOS, Zettle, Mollie en CCV naast elkaar, met rekenvoorbeelden bij € 5 tot € 100.', og: 'transactie', parents: [['/gidsen/', 'Gidsen']], faq: transFaq }),
+  ...article({ path: '/transactiekosten-vergelijken/', title: 'Transactiekosten pinnen 2026: wat kost een pintransactie?', h1: 'Transactiekosten pinnen: percentage of vast bedrag per betaling?', description: 'Wat kost een pintransactie? Van € 0,06 tot 1,95% per betaling: SumUp, myPOS, Zettle, Mollie en CCV naast elkaar, met rekenvoorbeelden bij € 5 tot € 100.', og: 'transactie', parents: [['/gidsen/', 'Gidsen']], updated: '2026-10-29', faq: transFaq }),
   crumb: 'Transactiekosten vergelijken',
   body: `<article class="prose"><h1>Transactiekosten pinnen: percentage of vast bedrag per betaling?</h1>${by()}
 <p class="lead">Bij pinnen betaal je per betaling. Sommige aanbieders rekenen een percentage, andere een vast bedrag. Welke goedkoper is, hangt vooral af van je gemiddelde bedrag.</p>
 <h2>Alle tarieven op een rij</h2>${tarievenTabel()}
 <h2>Kosten per pinbetaling bij verschillende bedragen</h2><p>Alleen de transactiekosten van één betaling met een Nederlandse pas, per plan. Vaste maandkosten tellen hier niet mee.</p>
 <div class="table-wrap"><table class="data stack"><caption class="sr-only">Transactiekosten van één pinbetaling per plan</caption><thead><tr><th scope="col">Aanbieder en plan</th>${BEDRAGEN.map((b) => `<th scope="col">Bij ${eur(b)}</th>`).join('')}</tr></thead><tbody>${PIN_IDS.flatMap((id) => A[id].plannen.map((pl) => `<tr><th scope="row">${link(id)}<span class="fnote">${esc(pl.naam)}</span></th>${BEDRAGEN.map((b) => `<td class="n" data-l="Bij ${eur(b)}">${fmtEur(pl.vast + (pl.pct / 100) * b)}</td>`).join('')}</tr>`)).join('')}</tbody></table></div>
-<p>Hoe hoger het bedrag, hoe meer een vast bedrag per betaling scheelt. Bij kleine bedragen ligt het dichter bij elkaar.</p>
+<p>Hoe hoger het bedrag, hoe meer een vast bedrag per betaling scheelt. Bij kleine bedragen ligt het dichter bij elkaar. Wil je twee aanbieders met een percentage naast elkaar zien, lees dan <a href="/sumup-vs-zettle/">de vergelijking van SumUp en Zettle</a>.</p>
 <h2>Wanneer loont een abonnement?</h2><ul><li><strong>SumUp Betalingen Plus</strong> (€ 19 per maand, 0,99% in plaats van 1,49%): reken je alleen met de tarieven, dan is Plus goedkoper vanaf ongeveer ${eur(omslagSumup)} pinomzet per maand. SumUp noemt zelf een omzet van minimaal € 4.645.</li><li><strong>myPOS Plus</strong> (€ 19 per maand, 0,99% in plaats van 1,49%): ook vanaf ongeveer ${eur(omslagMypos)} pinomzet per maand. myPOS noemt Plus voordelig vanaf € 4.000.</li><li><strong>myPOS Pro</strong> (€ 39 per maand, € 0,06 per betaling met een Nederlandse bankpas): loont bij veel betalingen of hoge bedragen. Reken het uit bij <a href="/pinautomaat-vergelijken/">pinautomaat vergelijken</a>.</li><li><strong>Mollie Pro</strong> (€ 20 per maand): Mollie noemt Pro de beste keuze vanaf € 2.000 per maand. Voor "andere consumentenkaarten" betaal je dan € 0,10 + 1,50% in plaats van 1,80%.</li></ul>
 <h2>Andere kosten om te checken</h2><ul><li><strong>Creditcards en zakelijke passen:</strong> bij CCV 1,3% (consumenten-creditcard, EER) en 2,3% (zakelijk); bij myPOS 2,69% voor "alle andere kaarten" bij One.</li><li><strong>Online betalingen:</strong> SumUp 2,50%; myPOS One 1,99% + € 0,20; Mollie vanaf 1,80% + € 0,25 voor creditcards en € 0,32 voor iDEAL | Wero.</li><li><strong>Extra's:</strong> bij CCV kosten retourpinnen (€ 4,25), fooi (€ 1,95) en een variabele boekingsperiode (€ 2,95) per maand extra. Een chargeback kost € 25.</li></ul>
 ${faqHtml(transFaq)}
