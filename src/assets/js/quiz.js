@@ -1,6 +1,7 @@
 // KassaMatch: leest de antwoorden, rekent met ./lib/match.js en toont de top 3. Niets verlaat de browser.
 import { score, compleet, VRAGEN, REKEN } from './lib/match.js';
 import { AANBIEDERS } from './lib/aanbieders.js';
+import { logoImg } from './lib/logos.js';
 import { fmtEur } from './lib/kosten.js';
 import { knop, metNoot } from './lib/partnerlinks.js';
 import { track } from './consent.js';
@@ -56,7 +57,7 @@ function toon(a, scroll) {
     + `<div class="match-cta">${knop(b.id, 'match_1', 'btn')}<a class="vlink" href="${BASE}/aanbieders/${pb.slug}/">Lees alles over ${esc(kort(b.id))} →</a></div>`
     + `<h3>Top 3</h3><ol class="mtop">${top.map((r, i) => {
       const p = AANBIEDERS[r.id];
-      return `<li${i === 0 ? ' class="first"' : ''}>${i === 0 ? '<span class="badge">Beste match</span> ' : ''}<span class="tag best">${soortLabel(p, a)}</span><div class="mhead"><h3>${i + 1}. ${esc(p.naam)}</h3></div><p class="pc-price">${prijs(r, a)}</p>`
+      return `<li${i === 0 ? ' class="first"' : ''}>${i === 0 ? '<span class="badge">Beste match</span> ' : ''}<span class="tag best">${soortLabel(p, a)}</span><div class="mhead">${logoImg(r.id, { base: BASE })}<h3>${i + 1}. ${esc(p.naam)}</h3></div><p class="pc-price">${prijs(r, a)}</p>`
         + (r.waarom.length ? `<p class="lbl ok" style="margin:8px 0 0">Waarom het past</p><ul class="why">${r.waarom.map((w) => `<li>${esc(w)}</li>`).join('')}</ul>` : '')
         + (p.extra && p.extra[0] ? `<p class="lbl warn" style="margin:8px 0 0">Goed om te weten</p><ul class="why"><li>${esc(r.id === 'ccv' ? p.hardwareNoot : p.extra[0])}</li></ul>` : '')
         + (i > 0 ? `<div class="mini-cta">${knop(r.id, 'match_' + (i + 1), 'btn ghost sm')}<a href="${BASE}/aanbieders/${p.slug}/">Alles over ${esc(kort(r.id))}</a></div>` : '') + '</li>';

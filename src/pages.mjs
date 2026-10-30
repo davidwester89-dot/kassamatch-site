@@ -1,4 +1,5 @@
 import { SITE, esc, ORG, GA_ID, ICONS, fmtDate } from './layout.mjs';
+import { logoImg } from './lib/logos.js';
 import { PRIVACY_UPDATED, cookieTabel, partnerNetwerk, grondslag, doorgifte, bewaartermijnen, rechten } from './privacy-avg.mjs';
 import { PARTNERLINKS } from './lib/partnerlinks.js';
 import { AANBIEDERS as A, IDS, PIN_IDS, KASSA_IDS, CHECKED, checkedVan, goedkoopsteHardware } from './lib/aanbieders.js';
@@ -216,7 +217,7 @@ export const aanbiederPages = IDS.map((id) => {
     description: T.description || (pin ? `Wat kost ${kortNaam(id)}? Vaste kosten, tarief per pinbetaling, prijs van het pinapparaat en een rekenvoorbeeld. Alles van de eigen site, met bron.` : `Wat kost ${kortNaam(id)}? De pakketten en prijzen zoals de aanbieder ze toont, wat niet gepubliceerd is en voor welke zaak het past. Met bron.`).slice(0, 155),
     stamp: { checked, ...(p.updated ? { updated: p.updated } : {}) },
     ...(T.faq?.length ? { schema: [faqSchema(T.faq)] } : {}),
-    body: `<article class="prose"><h1>${esc(h1)}</h1>${by(checked)}
+    body: `<article class="prose">${logoImg(id)}<h1>${esc(h1)}</h1>${by(checked)}
 <p class="lead">${esc(p.wat)}</p>
 <div class="actions">${knop(id, 'aanbieder_top')}</div>
 ${secties(T.voor)}

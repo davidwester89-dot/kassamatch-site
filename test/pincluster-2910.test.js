@@ -41,11 +41,12 @@ test('E3: controlegroep heeft geen links naar de nieuwe ankers en geen wijziging
 
 test('E3 L7: de 3 bronpagina\'s hebben lastmod, zichtbaar bijgewerkt (en dateModified bij artikelen) 2026-10-29', () => {
   const sm = readFileSync('dist/sitemap.xml', 'utf8');
-  for (const p of ['/goedkoopste-pinautomaat/', '/pinautomaat-vergelijken/', '/transactiekosten-vergelijken/']) {
+  // /pinautomaat-vergelijken/ en /transactiekosten-vergelijken/ zijn op 30-10 opnieuw bijgewerkt (logo's); die datum test test/logo-l7.test.js.
+  for (const p of ['/goedkoopste-pinautomaat/']) {
     assert.ok(sm.includes(`<loc>https://kassamatch.nl${p}</loc><lastmod>2026-10-29</lastmod>`), p);
     assert.match(readFileSync(`dist${p}index.html`, 'utf8'), /Laatst bijgewerkt <time datetime="2026-10-29">29 oktober 2026<\/time>/, p);
   }
-  for (const p of ['/goedkoopste-pinautomaat/', '/transactiekosten-vergelijken/']) {
+  for (const p of ['/goedkoopste-pinautomaat/']) {
     const t = readFileSync(`dist${p}index.html`, 'utf8');
     assert.match(t, /"dateModified":"2026-10-29"/, p);
     assert.match(t, /article:modified_time" content="2026-10-29"/, p);

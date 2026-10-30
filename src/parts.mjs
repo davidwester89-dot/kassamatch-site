@@ -1,4 +1,5 @@
 import { SITE, esc, ORG, AUTHOR, fmtDate } from './layout.mjs';
+import { logoImg } from './lib/logos.js';
 import { AANBIEDERS, CHECKED, PIN_IDS, goedkoopsteHardware } from './lib/aanbieders.js';
 import { vergelijkPin, fmtEur } from './lib/kosten.js';
 import { knop } from './lib/partnerlinks.js';
@@ -58,7 +59,7 @@ export function acard(id, { level = 'h2', pos = 'lijst' } = {}) {
   const facts = p.soort === 'pin'
     ? [['Vast per maand', p.plannen.map((pl) => (pl.maand ? eur(pl.maand) : '€ 0')).join(' / ')], ['Per pinbetaling', esc(p.plannen[0].tarief)], ['Pinapparaat', hwTekst(id)], ['Kassasoftware', vlag(p.kassa.v)], ['Online betalen', vlag(p.online.ja)]]
     : [['Prijs', esc(p.vanafTekst)], ['Hardware', esc(p.hardwareNoot)], ['Horeca', vlag(p.horeca)], ['Winkel', vlag(p.winkel)], ['Online / webshop', vlag(p.online.ja)]];
-  return `<li class="pcard" data-id="${id}"><div class="pc-head"><span><span class="tag best">${p.soort === 'pin' ? 'Pinautomaat' : 'Kassasysteem'}</span></span><${level}><a href="/aanbieders/${p.slug}/">${esc(p.naam)}</a></${level}><p class="pc-for">${esc(p.kort)}</p></div>
+  return `<li class="pcard" data-id="${id}"><div class="pc-head">${logoImg(id)}<span><span class="tag best">${p.soort === 'pin' ? 'Pinautomaat' : 'Kassasysteem'}</span></span><${level}><a href="/aanbieders/${p.slug}/">${esc(p.naam)}</a></${level}><p class="pc-for">${esc(p.kort)}</p></div>
 <ul class="pc-facts">${facts.map(([k, v]) => `<li><span>${k}</span><span>${v}</span></li>`).join('')}</ul>
 <div class="pc-cta">${knop(id, pos, 'btn sm')}<a href="/aanbieders/${p.slug}/">Alles over ${esc(kortNaam(id))} →</a></div></li>`;
 }

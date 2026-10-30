@@ -62,9 +62,9 @@ test('build (productie): pagina’s, sitemap, robots, IndexNow, regels', () => {
   // SumUp Solo Lite € 34 (los) op de vergelijkingspagina; € 44 alleen met oplaadstation.
   const vs = readFileSync('dist/sumup-vs-zettle/index.html', 'utf8');
   assert.match(vs, /Solo Lite € 34 excl\. btw/); assert.ok(!/Solo Lite € 44/.test(vs)); assert.match(vs, /met oplaadstation € 44/);
-  // Beide zoekvolgordes (sumup vs izettle / izettle vs sumup); dateModified en lastmod = zichtbare 'Laatst bijgewerkt'.
-  assert.match(vs, /<title>SumUp vs iZettle/); assert.match(vs, /<h1>iZettle vs SumUp/); assert.match(vs, /"dateModified":"2026-10-26"/); assert.match(vs, /Laatst bijgewerkt <time datetime="2026-10-26">/);
-  assert.match(readFileSync('dist/sitemap.xml', 'utf8'), /sumup-vs-zettle\/<\/loc><lastmod>2026-10-26</);
+  // Beide zoekvolgordes (sumup vs izettle / izettle vs sumup); dateModified en lastmod = zichtbare 'Laatst bijgewerkt' (30-10: logo's).
+  assert.match(vs, /<title>SumUp vs iZettle/); assert.match(vs, /<h1>iZettle vs SumUp/); assert.match(vs, /"dateModified":"2026-10-30"/); assert.match(vs, /Laatst bijgewerkt <time datetime="2026-10-30">/);
+  assert.match(readFileSync('dist/sitemap.xml', 'utf8'), /sumup-vs-zettle\/<\/loc><lastmod>2026-10-30</);
   // Uitgebreide aanbiederpagina's: zichtbare FAQ + FAQPage, eigen controledatum, ≥ 600 woorden in <main>.
   for (const slug of ['ccv', 'lightspeed', 'mpluskassa', 'shopify-pos', 'untill', 'zettle', 'sumup', 'mypos', 'mollie']) {
     const s = readFileSync(`dist/aanbieders/${slug}/index.html`, 'utf8');
