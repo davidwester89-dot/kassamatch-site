@@ -1,8 +1,8 @@
-// Logo's van de aanbieders (Dave 30-10): officieel logo of merkicoon van hun eigen site (bronnen in src/assets/logos/BRONNEN.md).
+// Logo's van de aanbieders (30-10): officieel logo of merkicoon van hun eigen site (bronnen in src/assets/logos/BRONNEN.md).
 // Neutraal: elke aanbieder krijgt precies hetzelfde vak (80 x 24, object-fit contain), partner of niet.
 // Logo's tellen nooit mee in de match of de volgorde. Ook in de browser gebruikt (quiz.js, rekentool.js), dus zonder Node-imports.
 import { AANBIEDERS } from './aanbieders.js';
-// Alle aanbieders met logo (besluit Dave 30-10); een merk dat om weghalen vraagt gaat uit LOGO_MERK (en in ZONDER_LOGO in logo-rechten.js).
+// Alle aanbieders met logo (besluit 30-10); een merk dat om weghalen vraagt gaat uit LOGO_MERK (en in ZONDER_LOGO in logo-rechten.js).
 
 export const LOGO_MAAT = [80, 24];
 /** id -> merknaam (alleen merken met een logo). */

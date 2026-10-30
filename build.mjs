@@ -8,7 +8,7 @@ import { AANBIEDERS } from './src/lib/aanbieders.js';
 import { LOGO_MERK } from './src/lib/logos.js';
 const OUT = 'dist';
 rmSync(OUT, { recursive: true, force: true });
-// Logo's in tabelcellen met precies de naam van een aanbieder (Dave 30-10); zelfde vak voor iedereen, alleen beeld.
+// Logo's in tabelcellen met precies de naam van een aanbieder (30-10); zelfde vak voor iedereen, alleen beeld.
 const logoCellen = maakLogoCellen(Object.entries(AANBIEDERS).filter(([id]) => LOGO_MERK[id]).map(([id, a]) => ({ namen: [...new Set([a.naam, a.naam.split(' (')[0], LOGO_MERK[id]])], src: `${BASE}/logos/${id}.png`, merk: LOGO_MERK[id] })), { productrijen: true });
 const write = (p, s) => { mkdirSync(dirname(p), { recursive: true }); writeFileSync(p, p.endsWith('.html') ? logoCellen(s) : s); };
 // L7 30-10: pagina's waar logo's van de aanbieders bijkwamen (tabellen, kaarten, aanbiederpagina's, keuzehulp): bijgewerkt-datum, lastmod en dateModified.
@@ -18,7 +18,7 @@ const bijgewerkt = (pg, upd) => ({ ...pg, lastmod: upd, stamp: { ...pg.stamp, up
 export const pages = [P.home, P.quiz, P.pinVergelijk, P.kassaVergelijk, P.aanbiedersHub, ...P.aanbiederPages, P.sumupVsZettle, P.gidsHub, ...P.guides, P.bronnen, P.over, P.privacy, P.disclaimer, P.contact, P.notfound].map((p) => (LOGO_PADEN.has(p.path) ? bijgewerkt(p, LOGO_UPD) : p));
 for (const p of pages) write(p.path.endsWith('.html') ? join(OUT, p.path) : join(OUT, p.path, 'index.html'), partnerNoten(layout(p)));
 cpSync('src/assets/js', join(OUT, 'js'), { recursive: true });
-cpSync('src/lib', join(OUT, 'js/lib'), { recursive: true });
+cpSync('src/lib', join(OUT, 'js/lib'), { recursive: true, filter: (p) => !/logo-(rechten|cellen)\.m?js$/.test(p) }); // alleen build-time, niet publiceren
 cpSync('src/assets/og', join(OUT, 'og'), { recursive: true });
 cpSync('src/assets/logos', join(OUT, 'logos'), { recursive: true, filter: (f) => !f.endsWith('.md') });
 cpSync('src/assets/icons', OUT, { recursive: true });

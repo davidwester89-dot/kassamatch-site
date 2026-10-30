@@ -18,16 +18,16 @@ Elke aanbieder hetzelfde vak, partner of niet.
 
 ## Gebruiksrecht (nagekeken 30-10-2026)
 
-Per maker de merkrichtlijn of perskit en de status. Besluit Dave 30-10: elk merk toont zijn logo, ook bij strenge merkregels; een logo gaat er alleen uit als het merk daarom vraagt (dan ZONDER_LOGO in src/lib/logo-rechten.js).
+Per maker de merkrichtlijn of perskit en de status. Besluit 30-10: elk merk toont zijn logo, ook bij strenge merkregels; een logo gaat er alleen uit als het merk daarom vraagt (dan ZONDER_LOGO in src/lib/logo-rechten.js).
 
 | Merk | Richtlijn | Status |
 |---|---|---|
 | ccv | https://www.ccv.eu/nl/over-ccv/nieuws/pers-en-media | logo: pers- en mediapagina; logo heet nu "CCV from Fiserv" |
-| lightspeed | https://www.lightspeedhq.com/legal/lightspeed-trademark-and-copyright-guidelines/ | logo: getoond op besluit Dave 30-10; weghalen op verzoek merk. Richtlijn: logogebruik alleen met specifieke licentie of toestemming |
+| lightspeed | https://www.lightspeedhq.com/legal/lightspeed-trademark-and-copyright-guidelines/ | logo: getoond op besluit 30-10; weghalen op verzoek merk. Richtlijn: logogebruik alleen met specifieke licentie of toestemming |
 | mollie | https://www.mollie.com/resources | logo: logo-downloads met richtlijnen openbaar (ongewijzigd) |
 | mplus | https://developers.mpluskassa.nl/wp-content/uploads/2019/05/HuisstijlMplusKASSA.pdf | logo: huisstijl voor externe partijen openbaar |
 | mypos | https://www.mypos.com/en-gb/newsroom/assets | logo: media assets openbaar; ongewijzigd, gelijkwaardig naast andere aanbieders |
-| shopify | https://www.shopify.com/legal/trademarks | logo: getoond op besluit Dave 30-10; weghalen op verzoek merk. Richtlijn: alleen met uitdrukkelijke schriftelijke toestemming (wij zijn affiliate: merkmateriaal kan via het programma worden aangevraagd) |
+| shopify | https://www.shopify.com/legal/trademarks | logo: getoond op besluit 30-10; weghalen op verzoek merk. Richtlijn: alleen met uitdrukkelijke schriftelijke toestemming (wij zijn affiliate: merkmateriaal kan via het programma worden aangevraagd) |
 | sumup | https://www.sumup.com/en-gb/press/ | logo: logokit voor redactioneel gebruik; ander gebruik met toestemming (press@sumup.com). MM laten bevestigen |
 | untill | geen merkrichtlijn gevonden (untill.com, 30-10) | logo: geen gepubliceerde beperking gevonden |
-| zettle | https://www.paypal.com/us/cshelp/article/paypal-zettle-rebrand-to-paypal-point-of-sale-help1235 | logo: getoond op besluit Dave 30-10; weghalen op verzoek merk. Richtlijn: PayPal-merk, logo alleen volgens PayPal-licentie; Zettle heet nu PayPal Point of Sale |
+| zettle | https://www.paypal.com/us/cshelp/article/paypal-zettle-rebrand-to-paypal-point-of-sale-help1235 | logo: getoond op besluit 30-10; weghalen op verzoek merk. Richtlijn: PayPal-merk, logo alleen volgens PayPal-licentie; Zettle heet nu PayPal Point of Sale |
