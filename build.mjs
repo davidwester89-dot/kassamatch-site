@@ -13,9 +13,12 @@ const logoCellen = maakLogoCellen(Object.entries(AANBIEDERS).filter(([id]) => LO
 const write = (p, s) => { mkdirSync(dirname(p), { recursive: true }); writeFileSync(p, p.endsWith('.html') ? logoCellen(s) : s); };
 // L7 30-10: pagina's waar logo's van de aanbieders bijkwamen (tabellen, kaarten, aanbiederpagina's, keuzehulp): bijgewerkt-datum, lastmod en dateModified.
 const LOGO_UPD = '2026-10-30';
+// L1/L4 03-11: Zettle PayPal Reader reguliere prijs (€ 79, shop.zettle.com/nl), aanbieding zonder einddatum weg. Pagina's met die prijs of de bronlijst.
+const ZETTLE_UPD = '2026-11-03';
+const ZETTLE_PADEN = new Set(['/', '/kassa-match/', '/pinautomaat-vergelijken/', '/kassasysteem-vergelijken/', '/aanbieders/', '/aanbieders/zettle/', '/sumup-vs-zettle/', '/gidsen/', '/goedkoopste-pinautomaat/', '/kassasysteem-kiezen/', '/transactiekosten-vergelijken/', '/bronnen/']);
 const LOGO_PADEN = new Set(['/', '/kassa-match/', '/pinautomaat-vergelijken/', '/kassasysteem-vergelijken/', '/aanbieders/', '/aanbieders/ccv/', '/aanbieders/mollie/', '/aanbieders/mpluskassa/', '/aanbieders/mypos/', '/aanbieders/sumup/', '/aanbieders/untill/', '/aanbieders/lightspeed/', '/aanbieders/shopify-pos/', '/aanbieders/zettle/', '/sumup-vs-zettle/', '/transactiekosten-vergelijken/', '/bronnen/']);
 const bijgewerkt = (pg, upd) => ({ ...pg, lastmod: upd, stamp: { ...pg.stamp, updated: upd }, ...(pg.article ? { article: { ...pg.article, updated: upd } } : {}), ...(pg.schema ? { schema: pg.schema.map((x) => ('dateModified' in x ? { ...x, dateModified: upd } : x)) } : {}) });
-export const pages = [P.home, P.quiz, P.pinVergelijk, P.kassaVergelijk, P.aanbiedersHub, ...P.aanbiederPages, P.sumupVsZettle, P.gidsHub, ...P.guides, P.bronnen, P.over, P.privacy, P.disclaimer, P.contact, P.notfound].map((p) => (LOGO_PADEN.has(p.path) ? bijgewerkt(p, LOGO_UPD) : p));
+export const pages = [P.home, P.quiz, P.pinVergelijk, P.kassaVergelijk, P.aanbiedersHub, ...P.aanbiederPages, P.sumupVsZettle, P.gidsHub, ...P.guides, P.bronnen, P.over, P.privacy, P.disclaimer, P.contact, P.notfound].map((p) => (LOGO_PADEN.has(p.path) ? bijgewerkt(p, LOGO_UPD) : p)).map((p) => (ZETTLE_PADEN.has(p.path) ? bijgewerkt(p, ZETTLE_UPD) : p));
 for (const p of pages) write(p.path.endsWith('.html') ? join(OUT, p.path) : join(OUT, p.path, 'index.html'), partnerNoten(layout(p)));
 cpSync('src/assets/js', join(OUT, 'js'), { recursive: true });
 cpSync('src/lib', join(OUT, 'js/lib'), { recursive: true, filter: (p) => !/logo-(rechten|cellen)\.m?js$/.test(p) }); // alleen build-time, niet publiceren

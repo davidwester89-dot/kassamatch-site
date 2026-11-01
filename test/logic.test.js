@@ -23,7 +23,7 @@ test('data: elke aanbieder heeft bron(nen) op de eigen site, geen verzonnen veld
   // CCV: huur en koop hebben ook maandbedragen, dus geen losse koopprijs in de rekentool; wel als tekst.
   // SumUp Solo Lite: € 34 los, € 44 met oplaadstation (sumup.com/nl-nl/solo-lite-pinapparaat, 20-10-2026); goedkoopste = € 34.
   assert.equal(goedkoopsteHardware('sumup'), 34); assert.ok(AANBIEDERS.sumup.hardware.some(([n, p]) => /oplaadstation/.test(n) && p === 44));
-  assert.equal(goedkoopsteHardware('zettle'), 29); assert.ok(goedkoopsteHardware('zettle') < goedkoopsteHardware('sumup'));
+  assert.equal(goedkoopsteHardware('zettle'), 79); assert.ok(!AANBIEDERS.zettle.hardware.some(([n]) => /aanbieding|nieuwe/i.test(n)), 'L4: Zettle-aanbieding zonder einddatum niet tonen');
   assert.equal(AANBIEDERS.ccv.hardware, null); assert.match(AANBIEDERS.ccv.hardwareKort, /€ 25/); assert.match(AANBIEDERS.ccv.hardwareKort, /€ 399/);
   // SumUp en myPOS zijn op 20-10 opnieuw gecontroleerd (uitgebreide pagina's), Mollie op 23-10 (indexering).
   for (const id of ['sumup', 'mypos']) assert.equal(checkedVan(id), '2026-10-20', id);

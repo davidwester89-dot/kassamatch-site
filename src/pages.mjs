@@ -20,8 +20,6 @@ const omslagMypos = Math.round(A.mypos.plannen[1].maand / ((A.mypos.plannen[0].p
 const fmtN = (n) => n.toLocaleString('nl-NL');
 const HW = PIN_IDS.map(goedkoopsteHardware).filter((x) => x != null);
 const HWMIN = Math.min(...HW); const HWMAX = Math.max(...HW);
-const HWVERSCHIL = goedkoopsteHardware('sumup') - goedkoopsteHardware('zettle');
-const VS_OMSLAG = Math.round(HWVERSCHIL / ((A.zettle.plannen[0].pct - A.sumup.plannen[0].pct) / 100) / 10) * 10;
 const GIDSEN = [
   ['/goedkoopste-pinautomaat/', 'Goedkoopste pinautomaat 2026', 'Wat kost pinnen bij weinig, gemiddeld en veel betalingen?'],
   ['/kassasysteem-kiezen/', 'Kassasysteem kiezen', 'Welke functies je nodig hebt en wat de Belastingdienst vraagt.'],
@@ -244,7 +242,7 @@ ${matchCta(`Past ${esc(kortNaam(id))} bij jou?`, 'aanbieder_match')}${bron(p.bro
 // ---- SumUp of Zettle ----
 const vsRows = [[50, 15], [200, 25], [800, 25]];
 const vsFaq = [
-  ['Is SumUp of Zettle goedkoper?', `Per betaling met een Nederlandse pas is SumUp goedkoper: 1,49% zonder abonnement tegen 1,95% bij Zettle. Het goedkoopste apparaat is bij Zettle goedkoper: de PayPal Reader kost € 29 voor nieuwe zakelijke gebruikers, de SumUp Solo Lite ${eur(goedkoopsteHardware('sumup'))} (beide excl. btw; met oplaadstation € 44).`],
+  ['Is SumUp of Zettle goedkoper?', `Per betaling met een Nederlandse pas is SumUp goedkoper: 1,49% zonder abonnement tegen 1,95% bij Zettle. Ook het goedkoopste apparaat is bij SumUp goedkoper: de SumUp Solo Lite kost ${eur(goedkoopsteHardware('sumup'))} (met oplaadstation € 44), de PayPal Reader ${eur(goedkoopsteHardware('zettle'))} (beide excl. btw).`],
   ['Heeft Zettle een abonnement?', 'Nee. PayPal noemt geen contracten of terugkerende kosten voor Zettle (PayPal Point of Sale): je betaalt per transactie en voor de hardware.'],
 ];
 export const sumupVsZettle = {
@@ -255,16 +253,16 @@ export const sumupVsZettle = {
 <div class="table-wrap"><table class="data side"><thead><tr><th scope="col"></th><th scope="col">SumUp</th><th scope="col">Zettle (PayPal)</th></tr></thead><tbody>
 <tr><th scope="row">Vaste kosten</th><td data-l="SumUp">€ 0, of € 19 per maand (Betalingen Plus)</td><td data-l="Zettle">€ 0</td></tr>
 <tr><th scope="row">Per pinbetaling</th><td data-l="SumUp">1,49%, met Plus 0,99%</td><td data-l="Zettle">1,95% voor de belangrijkste kaarten, ook AMEX</td></tr>
-<tr><th scope="row">Goedkoopste apparaat</th><td data-l="SumUp">Solo Lite ${eur(goedkoopsteHardware('sumup'))} excl. btw (met oplaadstation € 44; SumUp, gecontroleerd 20-10-2026)</td><td data-l="Zettle">PayPal Reader € 29 excl. btw (aanbieding nieuwe gebruikers)</td></tr>
+<tr><th scope="row">Goedkoopste apparaat</th><td data-l="SumUp">Solo Lite ${eur(goedkoopsteHardware('sumup'))} excl. btw (met oplaadstation € 44; SumUp, gecontroleerd 20-10-2026)</td><td data-l="Zettle">PayPal Reader ${eur(goedkoopsteHardware('zettle'))} excl. btw (PayPal, gecontroleerd 1-11-2026)</td></tr>
 <tr><th scope="row">Terminal met eigen scherm</th><td data-l="SumUp">Terminal met printer € 169</td><td data-l="Zettle">PayPal Terminal € 199</td></tr>
 <tr><th scope="row">Kassasoftware</th><td data-l="SumUp">€ 0, of € 49 per maand voor POS Plus</td><td data-l="Zettle">Kassa-app zonder extra kosten</td></tr>
 <tr><th scope="row">Online betalen</th><td data-l="SumUp">2,50% per onlinebetaling</td><td data-l="Zettle">Niet vermeld op de prijspagina</td></tr>
 </tbody></table></div>
 <h2>Rekenvoorbeeld</h2><p>Kosten per maand met een Nederlandse betaalpas, met het goedkoopste plan bij dat volume.</p>
 <div class="table-wrap"><table class="data stack"><thead><tr><th scope="col">Voorbeeld</th><th scope="col">SumUp</th><th scope="col">Zettle</th></tr></thead><tbody>${vsRows.map(([n, b]) => { const s = besteplan('sumup', n, b); const z = besteplan('zettle', n, b); return `<tr><td data-l="Voorbeeld">${fmtN(n)} × ${eur(b)}</td><td class="n" data-l="SumUp">${fmtEur(s.totaal)} <span class="fnote">${esc(s.plan.naam)}</span></td><td class="n" data-l="Zettle">${fmtEur(z.totaal)}</td></tr>`; }).join('')}</tbody></table></div>
-<p>Pin je weinig, dan is het verschil een paar euro per maand en kan de goedkopere Reader van Zettle de doorslag geven. Pin je meer, dan loopt het verschil in tarief snel op in het voordeel van SumUp.</p>
-<h2>Kies SumUp als</h2><ul><li>je regelmatig pint: het lagere tarief maakt het prijsverschil van het goedkoopste apparaat (${eur(HWVERSCHIL)}) goed na ongeveer ${eur(VS_OMSLAG)} pinomzet;</li><li>je ook online betalingen wilt;</li><li>je later een kassa met twee schermen wilt (SumUp Kassa, € 399 excl. btw).</li></ul>
-<h2>Kies Zettle als</h2><ul><li>je weinig pint en zo goedkoop mogelijk wilt beginnen met de Reader;</li><li>je één tarief wilt voor alle kaarten, ook American Express;</li><li>je al een zakelijke PayPal-rekening gebruikt.</li></ul>
+<p>Pin je weinig, dan is het verschil in tarief een paar euro per maand. Pin je meer, dan loopt het verschil snel op in het voordeel van SumUp. Ook het goedkoopste apparaat is bij SumUp goedkoper: ${eur(goedkoopsteHardware('sumup'))} tegen ${eur(goedkoopsteHardware('zettle'))} (excl. btw).</p>
+<h2>Kies SumUp als</h2><ul><li>je regelmatig pint: het tarief per betaling is lager (1,49% tegen 1,95%) en het goedkoopste apparaat kost minder;</li><li>je ook online betalingen wilt;</li><li>je later een kassa met twee schermen wilt (SumUp Kassa, € 399 excl. btw).</li></ul>
+<h2>Kies Zettle als</h2><ul><li>je één tarief wilt voor alle kaarten, ook American Express;</li><li>je al een zakelijke PayPal-rekening gebruikt.</li></ul>
 <p>Beide nog te duur bij jouw aantallen? Kijk naar <a href="/goedkoopste-pinautomaat/">de goedkoopste pinautomaat</a> of <a href="/pinautomaat-vergelijken/">vergelijk alle aanbieders</a>.</p>
 ${faqHtml(vsFaq)}
 ${matchCta('Twijfel je nog?', 'vs_match')}${bron(A.sumup.bronnen, A.zettle.bronnen)}</article>`,
@@ -274,7 +272,7 @@ ${matchCta('Twijfel je nog?', 'vs_match')}${bron(A.sumup.bronnen, A.zettle.bronn
 const wk = (n, b) => { const r = top(n, b); return `${link(r.id)} (${esc(r.plan.naam)}, ${fmtEur(r.totaal)} per maand)`; };
 const wk0 = (n, b) => { const r = top(n, b, { geenAbonnement: true }); return `${link(r.id)} (${fmtEur(r.totaal)} per maand)`; };
 const goedkoopFaq = [
-  ['Wat is de goedkoopste pinautomaat zonder abonnement?', `Bij 50 betalingen van € 20 per maand zijn SumUp en myPOS One even duur (1,49%). Het goedkoopste losse apparaat in ons overzicht is de PayPal Reader van Zettle (€ 29 excl. btw, aanbieding voor nieuwe zakelijke gebruikers), maar Zettle rekent 1,95% per betaling.`],
+  ['Wat is de goedkoopste pinautomaat zonder abonnement?', `Bij 50 betalingen van € 20 per maand zijn SumUp en myPOS One even duur (1,49%). Het goedkoopste losse apparaat in ons overzicht is de SumUp Solo Lite (${eur(goedkoopsteHardware('sumup'))} excl. btw).`],
   ['Is een pinautomaat met vast bedrag per betaling goedkoper?', 'Bij hogere bedragen wel. CCV rekent € 0,068 en myPOS Pro € 0,06 per betaling met een Nederlandse pas, ongeacht het bedrag. Bij een percentage betaal je meer naarmate het bedrag stijgt.'],
   ['Wat kost een pinautomaat eenmalig?', `Van ${eur(Math.min(...PIN_IDS.map(goedkoopsteHardware).filter((x) => x != null)))} tot ${eur(Math.max(...PIN_IDS.map(goedkoopsteHardware).filter((x) => x != null)))} voor het goedkoopste apparaat per aanbieder, volgens hun eigen sites. CCV publiceert de prijs van de automaat niet.`],
 ];

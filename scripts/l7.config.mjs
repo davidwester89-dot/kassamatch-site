@@ -10,6 +10,4 @@ export const CFG = {
 export const ALLOW_NAME = [];
 export const BEKEND_ORPHAN = [];
 // Hub-audit: bestaande bevindingen op origin/main (30-10). Haal een regel weg zodra de hub is gefixt; dan bewaakt de test hem.
-export const BEKEND_HUB = [
-  { pad: '/gidsen/', reden: 'gidsenoverzicht: lastmod 2026-10-19, kinderen 2026-10-30 (30-10, inhoudsfix niet in deze commit; SC/MM beslist)' },
-];
+export const BEKEND_HUB = [];
