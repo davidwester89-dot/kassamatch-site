@@ -360,7 +360,7 @@ const horecaFaq = [
   ['Kan ik met een horecakassa de rekening splitsen?', 'Ja, bij alle drie. unTill Air splitst de rekening per artikel of in gelijke delen, MplusKASSA deelt het bedrag door het aantal personen of splitst een deel naar een andere tafel, en met Lightspeed Tableside splits je rekeningen op een iPhone.'],
 ];
 export const horeca = {
-  ...article({ path: '/kassasysteem-horeca/', title: 'Kassasysteem horeca: prijzen en functies vergeleken', h1: 'Kassasysteem horeca: prijzen en functies vergeleken', description: 'Welk kassasysteem past bij je café of restaurant? Horecakassa\'s naast elkaar: prijs per maand, tafels en keukenbon, pinnen aan tafel en kopen of huren.', og: 'horeca', parents: [['/gidsen/', 'Gidsen']], date: HORECA_UPD, updated: HORECA_UPD, faq: horecaFaq }),
+  ...article({ path: '/kassasysteem-horeca/', title: 'Kassasysteem horeca: prijzen en functies vergeleken', h1: 'Kassasysteem horeca: prijzen en functies vergeleken', description: 'Welk kassasysteem past bij je café of restaurant? Horecakassa\'s naast elkaar: prijs per maand, tafels en keukenbon, pinnen aan tafel, abonnement of kopen.', og: 'horeca', parents: [['/gidsen/', 'Gidsen']], date: HORECA_UPD, updated: HORECA_UPD, faq: horecaFaq }),
   crumb: 'Kassasysteem horeca', stamp: { checked: HORECA_CHECKED, updated: HORECA_UPD },
   body: `<article class="prose"><h1>Kassasysteem horeca: prijzen en functies vergeleken</h1>${by(HORECA_UPD)}
 <p class="lead">Een kassa voor je café of restaurant moet meer kunnen dan afrekenen. Denk aan tafels, bonnen voor de keuken en pinnen aan tafel. Hieronder zie je wat ${link('lightspeed')}, ${link('untill')} en ${link('mplus')} daarvoor bieden en wat het kost, met de prijzen van hun eigen sites.</p>
@@ -384,7 +384,7 @@ export const horeca = {
 </tbody></table></div>
 <ul><li><strong>Lightspeed:</strong> een extra licentie kost € 49. Add-ons, zoals een bestelkiosk of Lightspeed Reservations, kosten volgens Lightspeed mogelijk extra. Of de prijzen voor maand- of jaarbetaling gelden, staat er niet bij.</li>
 <li><strong>unTill Air:</strong> alle prijzen zijn exclusief btw en exclusief hardware. Een abonnement geldt voor 1 apparaat. Extra schermen kosten € 11,50 bij maandelijks betalen of € 10 bij jaarlijks betalen, excl. btw. Je kunt unTill Air 14 dagen gratis proberen, zonder betaalmethode.</li></ul>
-<h2>Kopen, huren of abonnement</h2>
+<h2>Abonnement of eenmalig kopen</h2>
 <p>Bij deze drie kies je tussen een abonnement en eenmalig kopen:</p>
 <ul><li><strong>Abonnement per maand.</strong> Lightspeed en unTill Air. Bij unTill Air is € 39 voor Horeca de prijs van een jaarabonnement met maandfacturering; het maandabonnement kost € 44,85.</li>
 <li><strong>Eenmalig kopen.</strong> MplusKASSA schrijft: "Bij MplusKASSA betaal je eenmalig voor de hardware en software die je nodig hebt. Daarna is de kassa van jou." Voor aanvullende service en online diensten kunnen maandelijkse kosten gelden.</li>
