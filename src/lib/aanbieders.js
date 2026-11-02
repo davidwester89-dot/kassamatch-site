@@ -79,7 +79,7 @@ export const AANBIEDERS = {
       { id: 'mollie-pro', naam: 'Pro', maand: 20, pct: 1.5, vast: 0.1, tarief: '€ 0,10 + 1,50% per betaling met "andere consumentenkaarten" (Maestro en V PAY € 0,06 + 0,20%)' },
     ],
     hardware: [['Tap-terminal', 95], ['Mobiele POS-terminal', 350], ['Vaste POS-terminal', 350]],
-    hardwareNoot: 'Normale prijzen zoals Mollie ze toont. Op 23 oktober 2026 gaf Mollie 50% korting op de Tap-terminal (€ 47,50) en de mobiele terminal (€ 175).',
+    hardwareNoot: 'Normale prijzen zoals Mollie ze toont.',
     online: { ja: true, t: 'Online betalingen, betaallinks en iDEAL | Wero (€ 0,32 per betaling).' },
     kassa: { v: 'nee', t: 'Mollie levert terminals en betalingen; een eigen kassasoftware noemt Mollie niet op de prijspagina.' },
     abonnementNodig: false,

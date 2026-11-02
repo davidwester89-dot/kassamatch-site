@@ -7,7 +7,8 @@ import { execSync } from 'node:child_process';
 const PAGINAS = ['/', '/kassa-match/', '/pinautomaat-vergelijken/', '/kassasysteem-vergelijken/', '/aanbieders/', '/aanbieders/ccv/', '/aanbieders/mollie/', '/aanbieders/mpluskassa/', '/aanbieders/mypos/', '/aanbieders/sumup/', '/aanbieders/untill/', '/aanbieders/lightspeed/', '/aanbieders/shopify-pos/', '/aanbieders/zettle/', '/sumup-vs-zettle/', '/transactiekosten-vergelijken/', '/bronnen/'];
 
 // 03-11: pagina's met de Zettle-prijs (L1/L4) zijn daarna opnieuw bijgewerkt; voor die pagina's geldt 2026-11-03 (build.mjs ZETTLE_PADEN).
-const ZETTLE = new Set(['/', '/kassa-match/', '/pinautomaat-vergelijken/', '/kassasysteem-vergelijken/', '/aanbieders/', '/aanbieders/zettle/', '/sumup-vs-zettle/', '/transactiekosten-vergelijken/', '/bronnen/']);
+const ZETTLE = new Set(['/', '/kassa-match/', '/pinautomaat-vergelijken/', '/kassasysteem-vergelijken/', '/aanbieders/', '/aanbieders/zettle/', '/sumup-vs-zettle/', '/transactiekosten-vergelijken/', '/bronnen/', '/aanbieders/mollie/']);
+// /aanbieders/mollie/: Mollie-korting zonder einddatum weg (L4, 03-11), zie test/mollie-l4-0311.test.js.
 
 test('L7 30-10: pagina\'s met logo\'s', () => {
   execSync('node build.mjs', { env: { ...process.env, BASE: '', PREVIEW: '' }, stdio: 'ignore' });
