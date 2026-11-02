@@ -22,6 +22,7 @@ cards={
  'vs-sumup-zettle':('SumUp of Zettle?','Wat is goedkoper voor jou'),
  'goedkoopste':('Goedkoopste pinautomaat 2026','Wat kost pinnen echt?'),
  'kiezen':('Kassasysteem kiezen','Wat heb je nodig?'),
+ 'horeca':('Kassasysteem horeca','Prijzen en functies vergeleken'),
  'transactie':('Transactiekosten vergelijken','Percentage of vast bedrag?'),
 }
 art=f'<svg viewBox="0 0 300 300" width="300" height="300"><rect x="70" y="30" width="150" height="240" rx="22" fill="#fff" stroke="{D}" stroke-width="6"/><rect x="92" y="54" width="106" height="70" rx="8" fill="{B}"/>'+''.join(f'<rect x="{92+c*38}" y="{142+r*30}" width="30" height="22" rx="5" fill="{P if (r+c)%2 else "#ecdde6"}"/>' for r in range(3) for c in range(3))+f'<circle cx="236" cy="58" r="28" fill="{G}"/><path d="m223 59 9 9 18-18" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></svg>'

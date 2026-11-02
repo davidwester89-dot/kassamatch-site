@@ -24,6 +24,7 @@ const GIDSEN = [
   ['/goedkoopste-pinautomaat/', 'Goedkoopste pinautomaat 2026', 'Wat kost pinnen bij weinig, gemiddeld en veel betalingen?'],
   ['/kassasysteem-kiezen/', 'Kassasysteem kiezen', 'Welke functies je nodig hebt en wat de Belastingdienst vraagt.'],
   ['/transactiekosten-vergelijken/', 'Transactiekosten vergelijken', 'Percentage of vast bedrag: waar ligt het omslagpunt?'],
+  ['/kassasysteem-horeca/', 'Kassasysteem horeca', 'Tafels, keukenbon en pinnen aan tafel: prijzen per maand.'],
 ];
 const NIET = {
   sumup: 'Aangepaste tarieven boven € 10.000 omzet per maand (op aanvraag).',
@@ -164,8 +165,9 @@ export const kassaVergelijk = {
   stamp: { checked: CHECKED, updated: '2026-10-28' }, schema: [faqSchema(kassaFaq)],
   body: `<h1>Kassasystemen vergelijken voor winkel en horeca</h1>${by()}
 <p class="lead">Een kassasysteem doet meer dan afrekenen: producten, voorraad, omzet per dag en soms tafels of een webshop. De prijzen lopen uiteen van € 0 tot een offerte op maat.</p>
-<div class="table-wrap"><table class="data stack"><caption class="sr-only">Kassasystemen naast elkaar</caption><thead><tr><th scope="col">Kassasysteem</th><th scope="col">Prijs</th><th scope="col">Hardware</th><th scope="col">Horeca</th><th scope="col">Winkel</th><th scope="col">Webshop of online</th></tr></thead><tbody>${KASSA_RIJ.map((id) => `<tr><th scope="row">${link(id)}</th><td data-l="Prijs">${esc(kassaPrijs(id))}</td><td data-l="Hardware">${esc(A[id].soort === 'pin' ? hwTekst(id) : A[id].hardwareNoot)}</td><td data-l="Horeca">${vlag(A[id].horeca ?? null)}</td><td data-l="Winkel">${vlag(A[id].winkel ?? null)}</td><td data-l="Webshop of online">${vlag(A[id].online.ja)}</td></tr>`).join('')}</tbody></table></div>
+<div class="table-wrap"><table class="data stack"><caption class="sr-only">Kassasystemen naast elkaar</caption><thead><tr><th scope="col">Kassasysteem</th><th scope="col">Prijs</th><th scope="col">Hardware</th><th scope="col"><a href="/kassasysteem-horeca/">Horeca</a></th><th scope="col">Winkel</th><th scope="col">Webshop of online</th></tr></thead><tbody>${KASSA_RIJ.map((id) => `<tr><th scope="row">${link(id)}</th><td data-l="Prijs">${esc(kassaPrijs(id))}</td><td data-l="Hardware">${esc(A[id].soort === 'pin' ? hwTekst(id) : A[id].hardwareNoot)}</td><td data-l="Horeca">${vlag(A[id].horeca ?? null)}</td><td data-l="Winkel">${vlag(A[id].winkel ?? null)}</td><td data-l="Webshop of online">${vlag(A[id].online.ja)}</td></tr>`).join('')}</tbody></table></div>
 <p class="sub">"Niet vermeld" betekent dat de aanbieder het niet noemt op de pagina die we controleerden. Volgorde: eerst de pinaanbieders met kassasoftware, dan de kassasystemen in alfabetische volgorde.</p>
+<p>Een kassa voor je café of restaurant? Tafels, keukenbon en pinnen aan tafel per systeem staan in <a href="/kassasysteem-horeca/">kassasysteem horeca</a>.</p>
 <h2>Lightspeed: retail en horeca</h2>
 <ul class="pkg-grid">${A.lightspeed.pakketten.map(([n, pr, w]) => `<li><div class="pkg-card"><h3>${esc(n)}</h3><p class="pkg-price"><strong>${esc(pr)}</strong></p><p class="pkg-facts">${esc(w)}</p></div></li>`).join('')}</ul>
 <p>Lightspeed meldt: "Prijzen kunnen variëren en extra servicekosten kunnen van toepassing zijn." De verwerkingskosten voor betalingen staan niet op de prijspagina.</p>
@@ -337,7 +339,71 @@ export const transactie = {
 ${faqHtml(transFaq)}
 ${matchCta('Wat kost pinnen bij jouw aantallen?', 'gids_match')}${bron(bronnenVan(...PIN_IDS))}</article>`,
 };
-export const guides = [goedkoopste, kiezen, transactie];
+// ---- Kassasysteem horeca (nieuw 3-11-2026, briefing SEO wk45) ----
+// Alleen de eigen horeca- en prijspagina's van Lightspeed, unTill en MplusKASSA, gerenderd 2-11-2026 vanaf een NL-IP (prijstoggle unTill Air: Jaarlijks/Maandelijks).
+const HORECA_UPD = '2026-11-03';
+const HORECA_CHECKED = '2026-11-02';
+const HORECA_BRONNEN = [
+  ['Lightspeed: prijzen horeca', 'https://www.lightspeedhq.nl/kassasysteem/restaurant/prijzen/'],
+  ['Lightspeed: Tableside', 'https://www.lightspeedhq.nl/kassasysteem/restaurant/tableside/'],
+  ['unTill Air: prijzen', 'https://untillair.nl/prijzen/'],
+  ['unTill Air: horeca', 'https://untillair.nl/horeca/'],
+  ['unTill: prijzen', 'https://untill.nl/tarieven/'],
+  ['unTill: betaaloplossing', 'https://untill.nl/oplossingen/betaaloplossing/'],
+  ['MplusKASSA: horeca', 'https://www.mpluskassa.nl/horeca'],
+  ['MplusKASSA: kassa samenstellen', 'https://www.mpluskassa.nl/kassa-samenstellen'],
+  ['MplusKASSA: site', 'https://www.mpluskassa.nl/'],
+];
+const horecaFaq = [
+  ['Wat kost een kassasysteem voor horeca per maand?', 'Bij Lightspeed Restaurant € 89 (Basic), € 159 (Core) of € 249 (Pro) per maand. unTill Air Horeca kost € 44,85 per maand bij een maandabonnement, of € 39 per maand bij jaarbetaling, excl. btw. MplusKASSA en unTill Prime werken op offerte.'],
+  ['Kan ik een horecakassa zonder abonnement krijgen?', 'Bij MplusKASSA betaal je volgens MplusKASSA eenmalig voor de hardware en software die je nodig hebt. Voor aanvullende service en online diensten kunnen maandelijkse kosten gelden. Lightspeed en unTill Air werken met een abonnement per maand.'],
+  ['Kan ik met een horecakassa de rekening splitsen?', 'Ja, bij alle drie. unTill Air splitst de rekening per artikel of in gelijke delen, MplusKASSA deelt het bedrag door het aantal personen of splitst een deel naar een andere tafel, en met Lightspeed Tableside splits je rekeningen op een iPhone.'],
+];
+export const horeca = {
+  ...article({ path: '/kassasysteem-horeca/', title: 'Kassasysteem horeca: prijzen en functies vergeleken', h1: 'Kassasysteem horeca: prijzen en functies vergeleken', description: 'Welk kassasysteem past bij je café of restaurant? Horecakassa\'s naast elkaar: prijs per maand, tafels en keukenbon, pinnen aan tafel en kopen of huren.', og: 'horeca', parents: [['/gidsen/', 'Gidsen']], date: HORECA_UPD, updated: HORECA_UPD, faq: horecaFaq }),
+  crumb: 'Kassasysteem horeca', stamp: { checked: HORECA_CHECKED, updated: HORECA_UPD },
+  body: `<article class="prose"><h1>Kassasysteem horeca: prijzen en functies vergeleken</h1>${by(HORECA_UPD)}
+<p class="lead">Een kassa voor je café of restaurant moet meer kunnen dan afrekenen. Denk aan tafels, bonnen voor de keuken en pinnen aan tafel. Hieronder zie je wat ${link('lightspeed')}, ${link('untill')} en ${link('mplus')} daarvoor bieden en wat het kost, met de prijzen van hun eigen sites.</p>
+<p>Alle kassasystemen naast elkaar, ook voor winkels, staan in <a href="/kassasysteem-vergelijken/">kassasysteem vergelijken</a>.</p>
+<h2>Wat moet een horecakassa kunnen?</h2>
+<ul><li><strong>Tafels en plattegrond.</strong> unTill Air Horeca heeft een tafelplan met tafelstatus: aan de kleur zie je of een tafel bezet is en met welke gang hij bezig is. MplusKASSA toont de tafels op een plattegrond die je zelf indeelt, of in een lijst.</li>
+<li><strong>Bonnen voor keuken en bar.</strong> Bij unTill Air print je keuken- en barbonnen vanaf het pakket Standaard. Lightspeed en MplusKASSA hebben ook een keukenscherm, zodat bestellingen digitaal in de keuken binnenkomen.</li>
+<li><strong>Rekening splitsen.</strong> unTill Air splitst per artikel of in gelijke delen, en een deel kan apart worden betaald. Bij MplusKASSA deel je het bedrag door het aantal personen, of splits je een deel van de bon naar een andere tafel.</li>
+<li><strong>Bestellen aan tafel (handheld).</strong> Lightspeed Tableside maakt van een iPhone een handheld kassa voor bestellingen en betalingen. MplusKASSA heeft handheld-software en de Sunmi L3 als handheld. Bij unTill Air gebruik je een smartphone als handheld, naast een tablet als vaste kassa.</li></ul>
+<h2>Prijzen per maand</h2>
+<p>Lightspeed en unTill Air tonen hun prijzen op de site. MplusKASSA en unTill Prime werken op offerte.</p>
+<div class="table-wrap"><table class="data stack"><caption class="sr-only">Horecakassa's: prijs per maand per pakket</caption><thead><tr><th scope="col">Kassasysteem en pakket</th><th scope="col">Prijs</th><th scope="col">Wat zit erin</th></tr></thead><tbody>
+<tr><th scope="row">Lightspeed Restaurant Basic</th><td data-l="Prijs">€ 89 per maand</td><td data-l="Wat zit erin">1 licentie (tabletkassa); veel horecafuncties als add-on</td></tr>
+<tr><th scope="row">Lightspeed Restaurant Core</th><td data-l="Prijs">€ 159 per maand</td><td data-l="Wat zit erin">2 licenties, onder meer QR-code bestellen en betalen, voorraadbeheer</td></tr>
+<tr><th scope="row">Lightspeed Restaurant Pro</th><td data-l="Prijs">€ 249 per maand</td><td data-l="Wat zit erin">3 licenties, multilocatiebeheer</td></tr>
+<tr><th scope="row">unTill Air Basis</th><td data-l="Prijs">€ 21,85 per maand; € 19 per maand bij jaarbetaling</td><td data-l="Wat zit erin">Bestellingen aanslaan, artikelen en prijzen beheren, rapportages</td></tr>
+<tr><th scope="row">unTill Air Standaard</th><td data-l="Prijs">€ 33,85 per maand; € 29 per maand bij jaarbetaling</td><td data-l="Wat zit erin">Plus rekeningen en keuken- en barbonnen printen</td></tr>
+<tr><th scope="row">unTill Air Horeca</th><td data-l="Prijs">€ 44,85 per maand; € 39 per maand bij jaarbetaling</td><td data-l="Wat zit erin">Plus tafelplan met tafelstatus, met gangen werken, menu's</td></tr>
+<tr><th scope="row">unTill Prime</th><td data-l="Prijs">Offerte op maat</td><td data-l="Wat zit erin">Inclusief hardware, installatie, training en service</td></tr>
+<tr><th scope="row">MplusKASSA</th><td data-l="Prijs">Prijsoverzicht op maat</td><td data-l="Wat zit erin">Je stelt modules samen, zoals tafelregistratie, handheld en keukenmanagement</td></tr>
+</tbody></table></div>
+<ul><li><strong>Lightspeed:</strong> een extra licentie kost € 49. Add-ons, zoals een bestelkiosk of Lightspeed Reservations, kosten volgens Lightspeed mogelijk extra. Of de prijzen voor maand- of jaarbetaling gelden, staat er niet bij.</li>
+<li><strong>unTill Air:</strong> alle prijzen zijn exclusief btw en exclusief hardware. Een abonnement geldt voor 1 apparaat. Extra schermen kosten € 11,50 bij maandelijks betalen of € 10 bij jaarlijks betalen, excl. btw. Je kunt unTill Air 14 dagen gratis proberen, zonder betaalmethode.</li></ul>
+<h2>Kopen, huren of abonnement</h2>
+<p>Bij deze drie kies je tussen een abonnement en eenmalig kopen:</p>
+<ul><li><strong>Abonnement per maand.</strong> Lightspeed en unTill Air. Bij unTill Air is € 39 voor Horeca de prijs van een jaarabonnement met maandfacturering; het maandabonnement kost € 44,85.</li>
+<li><strong>Eenmalig kopen.</strong> MplusKASSA schrijft: "Bij MplusKASSA betaal je eenmalig voor de hardware en software die je nodig hebt. Daarna is de kassa van jou." Voor aanvullende service en online diensten kunnen maandelijkse kosten gelden.</li>
+<li><strong>Op maat met hardware.</strong> Bij unTill Prime zitten hardware, installatie, training en service in de offerte. Een onderhoudscontract is volgens unTill niet verplicht, en je contract kun je opzeggen.</li></ul>
+<p>Welke kosten er bij een kassasysteem komen kijken, zet unTill zo op een rij: software, de hardware, een betaaloplossing met een tarief per periode of per transactie, en eventueel een onderhoudscontract en koppelingen.</p>
+<h2>Zonder abonnement: kan dat?</h2>
+<p>Ja: MplusKASSA werkt met een eenmalige aankoop. Reken wel op mogelijke maandkosten voor service en online diensten. Vraag daarom altijd een prijsoverzicht op maat met alle maandbedragen erin. Pinaanbieders met een gratis kassa-app vind je in <a href="/kassasysteem-vergelijken/">kassasysteem vergelijken</a>. Hulp bij de keuze lees je in <a href="/kassasysteem-kiezen/">kassasysteem kiezen</a>.</p>
+<h2>Pinnen aan tafel en transactiekosten</h2>
+<ul><li><strong>Lightspeed:</strong> Tableside werkt met Tap to Pay op iPhone. De verwerkingskosten noemt Lightspeed "Standaard" bij Basic en "Aangepast" bij Core en Pro; bedragen staan niet op de prijspagina.</li>
+<li><strong>unTill:</strong> het openstaande bedrag gaat vanuit de kassa naar de gekoppelde pinautomaat, en met Tap to Pay neem je betalingen aan op je smartphone.</li>
+<li><strong>MplusKASSA:</strong> heeft een eigen betaaloplossing, MplusKASSA Pay.</li></ul>
+<p>Wat pinnen per betaling kost bij de losse pinaanbieders, zie je in <a href="/transactiekosten-vergelijken/">transactiekosten vergelijken</a>. Met je eigen aantallen rekenen kan in <a href="/pinautomaat-vergelijken/">pinautomaat vergelijken</a>.</p>
+<h2>Zo kies je</h2>
+<ol><li>Werk je met tafels, kijk dan naar unTill Air Horeca, Lightspeed of MplusKASSA met tafelregistratie.</li><li>Tel hoeveel kassa's en handhelds je nodig hebt: bij Lightspeed en unTill Air betaal je per licentie of scherm extra.</li><li>Wil je vaste maandkosten of eenmalig betalen? Dat bepaalt of je bij een abonnement of bij MplusKASSA uitkomt.</li><li>Vraag ook naar de kosten per pinbetaling. Lightspeed noemt die bedragen niet op de prijspagina.</li></ol>
+${faqHtml(horecaFaq)}
+${matchCta('Welke kassa past bij jouw horecazaak?', 'gids_match')}
+<h2>Bronnen</h2><ul>${HORECA_BRONNEN.map(([t, u]) => `<li><a href="${u}" rel="noopener">${esc(t)}</a></li>`).join('')}</ul></article>`,
+};
+export const guides = [goedkoopste, kiezen, transactie, horeca];
 // Gidsen-hub: per thema een korte samenvatting + link (geen volledige antwoorden, om de gidsen zelf niet te beconcurreren).
 // Bedragen alleen uit AANBIEDERS (zelfde bronnen als de aanbiederpagina's).
 const pctT = (n) => n.toLocaleString('nl-NL') + '%';
@@ -385,6 +451,7 @@ export const bronnen = {
   body: `<article class="prose"><h1>Bronnen</h1><p class="lead">Elk bedrag op KassaMatch komt van de eigen site van de aanbieder. Hier staan alle pagina's die we gebruiken, met de datum van de laatste controle.</p>
 <div class="table-wrap"><table class="data stack"><thead><tr><th scope="col">Aanbieder</th><th scope="col">Bron</th><th scope="col">Gecontroleerd</th><th scope="col">Wat staat er niet</th></tr></thead><tbody>${IDS.map((id) => `<tr><th scope="row">${link(id)}</th><td data-l="Bron">${A[id].bronnen.map(([t, u]) => `<a href="${u}" rel="noopener">${esc(t)}</a>`).join('<br>')}</td><td data-l="Gecontroleerd"><time datetime="${checkedVan(id)}">${fmtDate(checkedVan(id))}</time></td><td data-l="Wat staat er niet">${esc(NIET[id])}</td></tr>`).join('')}</tbody></table></div>
 <h2>Regels en uitleg</h2><ul>${BD.map(([t, u]) => `<li><a href="${u}" rel="noopener">${esc(t)}</a></li>`).join('')}</ul>
+<h2>Extra bronnen voor de gids kassasysteem horeca</h2><ul>${HORECA_BRONNEN.filter(([, u]) => !IDS.some((id) => A[id].bronnen.some(([, v]) => v === u))).map(([t, u]) => `<li><a href="${u}" rel="noopener">${esc(t)}</a></li>`).join('')}</ul>
 <h2>Hoe we controleren</h2><ul><li>We lezen de openbare prijspagina's, zonder in te loggen en zonder formulieren in te vullen.</li><li>De site van Lightspeed blokkeert geautomatiseerde verzoeken van onze server. De bedragen van Lightspeed hebben we via een andere ophaalmethode op de eigen prijspagina van Lightspeed gelezen.</li><li>Shopify toont op de Nederlandse POS-prijspagina de prijzen in euro. Die bedragen nemen we over, met de datum van controle.</li><li>Ziet een aanbieder een fout, of veranderen tarieven? Mail <a href="mailto:${SITE.email}">${SITE.email}</a>, dan passen we het aan met bron.</li></ul></article>`,
 };
 
