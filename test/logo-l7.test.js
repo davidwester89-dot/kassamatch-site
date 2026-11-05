@@ -9,13 +9,15 @@ const PAGINAS = ['/', '/kassa-match/', '/pinautomaat-vergelijken/', '/kassasyste
 // 03-11: pagina's met de Zettle-prijs (L1/L4) zijn daarna opnieuw bijgewerkt; voor die pagina's geldt 2026-11-03 (build.mjs ZETTLE_PADEN).
 const ZETTLE = new Set(['/', '/kassa-match/', '/pinautomaat-vergelijken/', '/kassasysteem-vergelijken/', '/aanbieders/', '/aanbieders/zettle/', '/sumup-vs-zettle/', '/transactiekosten-vergelijken/', '/bronnen/', '/aanbieders/mollie/']);
 // /aanbieders/mollie/: Mollie-korting zonder einddatum weg (L4, 03-11), zie test/mollie-l4-0311.test.js.
+// 05-11: interne-links-exp (build.mjs LINKS_PADEN) — latere datum wint.
+const LINKS = new Set(['/sumup-vs-zettle/', '/aanbieders/ccv/', '/aanbieders/mypos/', '/aanbieders/']);
 
 test('L7 30-10: pagina\'s met logo\'s', () => {
   execSync('node build.mjs', { env: { ...process.env, BASE: '', PREVIEW: '' }, stdio: 'ignore' });
   const sm = readFileSync('dist/sitemap.xml', 'utf8');
   for (const p of PAGINAS) {
     const h = readFileSync(`dist${p}index.html`, 'utf8');
-    const d = ZETTLE.has(p) ? '2026-11-03' : '2026-10-30';
+    const d = LINKS.has(p) ? '2026-11-05' : ZETTLE.has(p) ? '2026-11-03' : '2026-10-30';
     assert.ok(h.includes(`bijgewerkt <time datetime="${d}">`), p);
     assert.doesNotMatch(h, new RegExp(`"dateModified": ?"(?!${d})`), p);
     assert.doesNotMatch(h, new RegExp(`article:modified_time" content="(?!${d})`), p);

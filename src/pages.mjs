@@ -248,7 +248,7 @@ const vsFaq = [
   ['Heeft Zettle een abonnement?', 'Nee. PayPal noemt geen contracten of terugkerende kosten voor Zettle (PayPal Point of Sale): je betaalt per transactie en voor de hardware.'],
 ];
 export const sumupVsZettle = {
-  ...article({ path: '/sumup-vs-zettle/', title: 'SumUp vs iZettle 2026: kosten per pinbetaling', h1: 'iZettle vs SumUp: wat is goedkoper voor jou?', description: 'SumUp vs iZettle (nu PayPal Point of Sale): SumUp 1,49%, iZettle 1,95% per pinbetaling. Apparaat, kassa-app en een rekenvoorbeeld per maand naast elkaar.', updated: '2026-10-26', og: 'vs-sumup-zettle', faq: vsFaq }),
+  ...article({ path: '/sumup-vs-zettle/', title: 'SumUp vs iZettle 2026: kosten per pinbetaling', h1: 'iZettle vs SumUp: wat is goedkoper voor jou?', description: 'SumUp vs iZettle (nu PayPal Point of Sale): SumUp 1,49%, iZettle 1,95% per pinbetaling. Apparaat, kassa-app en een rekenvoorbeeld per maand naast elkaar.', updated: '2026-11-05', og: 'vs-sumup-zettle', faq: vsFaq }),
   crumb: 'SumUp of Zettle',
   body: `<article class="prose"><h1>iZettle vs SumUp: wat is goedkoper voor jou?</h1>${by()}
 <p class="lead">SumUp en Zettle zijn allebei pinapparaten zonder verplicht abonnement. Het verschil zit in het tarief per betaling, de prijs van het apparaat en wat je aan kassasoftware krijgt.</p>
@@ -265,7 +265,8 @@ export const sumupVsZettle = {
 <p>Pin je weinig, dan is het verschil in tarief een paar euro per maand. Pin je meer, dan loopt het verschil snel op in het voordeel van SumUp. Ook het goedkoopste apparaat is bij SumUp goedkoper: ${eur(goedkoopsteHardware('sumup'))} tegen ${eur(goedkoopsteHardware('zettle'))} (excl. btw).</p>
 <h2>Kies SumUp als</h2><ul><li>je regelmatig pint: het tarief per betaling is lager (1,49% tegen 1,95%) en het goedkoopste apparaat kost minder;</li><li>je ook online betalingen wilt;</li><li>je later een kassa met twee schermen wilt (SumUp Kassa, € 399 excl. btw).</li></ul>
 <h2>Kies Zettle als</h2><ul><li>je één tarief wilt voor alle kaarten, ook American Express;</li><li>je al een zakelijke PayPal-rekening gebruikt.</li></ul>
-<p>Beide nog te duur bij jouw aantallen? Kijk naar <a href="/goedkoopste-pinautomaat/">de goedkoopste pinautomaat</a> of <a href="/pinautomaat-vergelijken/">vergelijk alle aanbieders</a>.</p>
+<p>Wil je pin en online bij één partij? Bekijk <a href="/aanbieders/mollie/">Mollie als je pin en online bij één partij wilt</a>.</p>
+<p>Beide nog te duur bij jouw aantallen? Kijk naar <a href="/goedkoopste-pinautomaat/">de goedkoopste pinautomaat</a>, <a href="/aanbieders/ccv/">CCV met een vast bedrag per pinbetaling</a> of <a href="/pinautomaat-vergelijken/">vergelijk alle aanbieders</a>.</p>
 ${faqHtml(vsFaq)}
 ${matchCta('Twijfel je nog?', 'vs_match')}${bron(A.sumup.bronnen, A.zettle.bronnen)}</article>`,
 };

@@ -33,9 +33,10 @@ test('horeca: interne links, link vanuit de horecakolom en vanuit /gidsen/', () 
   assert.doesNotMatch(h, /sponsored|reddit/i);
 });
 
-test('L7 3-11: nieuwe gids en hub /gidsen/ op de pushdatum', () => {
+test('L7 3-11: nieuwe gids (hub /gidsen/ later 5-11) op de pushdatum', () => {
   const sm = read('dist/sitemap.xml');
-  for (const p of ['/kassasysteem-horeca/', '/gidsen/', '/kassasysteem-vergelijken/', '/', '/bronnen/']) assert.match(sm, new RegExp(`<loc>https://kassamatch\\.nl${p.replace(/[/.]/g, '\\$&')}</loc><lastmod>2026-11-03</lastmod>`), p);
+  // /gidsen/ opnieuw 5-11 (interne-links-exp); datum test test/interne-links-0511.test.js.
+  for (const p of ['/kassasysteem-horeca/', '/kassasysteem-vergelijken/', '/', '/bronnen/']) assert.match(sm, new RegExp(`<loc>https://kassamatch\\.nl${p.replace(/[/.]/g, '\\$&')}</loc><lastmod>2026-11-03</lastmod>`), p);
   const h = read(H);
   assert.match(h, /"datePublished":"2026-11-03","dateModified":"2026-11-03"/);
   assert.match(h, /bijgewerkt <time datetime="2026-11-03">/i);

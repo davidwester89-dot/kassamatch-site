@@ -1,5 +1,5 @@
 // Groeiexperiment E3 (29-10): contextuele interne links in het pincluster. Test: /sumup-vs-zettle/ en /goedkoopste-pinautomaat/.
-// Controlegroep /aanbieders/ccv/, /aanbieders/sumup/, /aanbieders/zettle/ blijft onaangeroerd.
+// Controlegroep E3-ankers: /aanbieders/ccv/, /aanbieders/sumup/, /aanbieders/zettle/ krijgen geen E3-ankers (ccv body wel links-exp 5-11).
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync, existsSync } from 'node:fs';
