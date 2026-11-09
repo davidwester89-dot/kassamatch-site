@@ -12,7 +12,7 @@ const ZETTLE = new Set(['/', '/kassa-match/', '/pinautomaat-vergelijken/', '/kas
 // 05-11: interne-links-exp (build.mjs LINKS_PADEN) — latere datum wint.
 const LINKS = new Set(['/sumup-vs-zettle/', '/aanbieders/ccv/', '/aanbieders/mypos/', '/aanbieders/']);
 // 10-11: Shopify-winkeltarieven (build.mjs SHOPIFY_TARIEF_PADEN) — latere datum wint.
-const SHOPIFY = new Set(['/kassa-match/', '/pinautomaat-vergelijken/', '/kassasysteem-vergelijken/', '/aanbieders/', '/aanbieders/shopify-pos/', '/bronnen/']);
+const SHOPIFY = new Set(['/aanbieders/shopify-pos/', '/aanbieders/', '/gidsen/', '/kassasysteem-vergelijken/', '/kassasysteem-kiezen/', '/bronnen/']);
 
 test('L7 30-10: pagina\'s met logo\'s', () => {
   execSync('node build.mjs', { env: { ...process.env, BASE: '', PREVIEW: '' }, stdio: 'ignore' });
