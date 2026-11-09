@@ -36,7 +36,9 @@ test('horeca: interne links, link vanuit de horecakolom en vanuit /gidsen/', () 
 test('L7 3-11: nieuwe gids (hub /gidsen/ later 5-11) op de pushdatum', () => {
   const sm = read('dist/sitemap.xml');
   // /gidsen/ opnieuw 5-11 (interne-links-exp); datum test test/interne-links-0511.test.js.
-  for (const p of ['/kassasysteem-horeca/', '/kassasysteem-vergelijken/', '/', '/bronnen/']) assert.match(sm, new RegExp(`<loc>https://kassamatch\\.nl${p.replace(/[/.]/g, '\\$&')}</loc><lastmod>2026-11-03</lastmod>`), p);
+  for (const p of ['/kassasysteem-horeca/', '/']) assert.match(sm, new RegExp(`<loc>https://kassamatch\\.nl${p.replace(/[/.]/g, '\\$&')}</loc><lastmod>2026-11-03</lastmod>`), p);
+  // /kassasysteem-vergelijken/ en /bronnen/: 10-11 (Shopify-bronlink), zie test/logo-l7.test.js.
+  for (const p of ['/kassasysteem-vergelijken/', '/bronnen/']) assert.match(sm, new RegExp(`<loc>https://kassamatch\\.nl${p.replace(/[/.]/g, '\\$&')}</loc><lastmod>2026-11-10</lastmod>`), p);
   const h = read(H);
   assert.match(h, /"datePublished":"2026-11-03","dateModified":"2026-11-03"/);
   assert.match(h, /bijgewerkt <time datetime="2026-11-03">/i);

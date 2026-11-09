@@ -152,13 +152,15 @@ export const AANBIEDERS = {
     optieBijHoog: { naam: 'POS Pro', bedrag: 59, valuta: 'EUR', prijsBasis: 'jaarbetaling', peildatum: '2026-10-27', prijsBron: 'https://www.shopify.com/nl/pos/prijzen', reden: 'incl. POS Pro: € 79 per maand, of € 59 per maand bij jaarbetaling' },
     vanafTekst: 'vanaf € 28 per maand (maandelijks) of € 21 per maand bij jaarbetaling',
     hardware: null, hardwareNoot: 'Hardwareprijzen staan niet op de POS-prijspagina. Onbekend.',
-    transactie: 'Kaarttarieven in de winkel met Shopify Payments: 1,4% (Basic), 1,25% (Grow) of 1,1% (Advanced) + € 0,00 per betaling. Met een betaalprovider van derden rekent Shopify 2%, 1% of 0,6% extra.',
+    // Winkeltarieven: https://www.shopify.com/nl/prijzen?country=NL, gecontroleerd 9-11-2026.
+    // Fysieke betaalpas en creditcard per abonnement (Basic, Grow, Advanced, Plus), letterlijk van die pagina.
+    transactie: 'Kaarttarieven in de winkel met Shopify Payments, gecontroleerd 9-11-2026: betaalpas 0,75% + € 0,10 (Basic), 0,6% + € 0,10 (Grow), 0,5% + € 0,10 (Advanced) of 0,35% + € 0,10 (Plus); creditcard 1,9% + € 0,10 (Basic, Grow en Advanced) of 1,7% + € 0,10 (Plus). Met een betaalprovider van derden rekent Shopify 2%, 1% of 0,6% extra.',
     online: { ja: true, t: 'Webshop en kassa in één systeem.' },
     horeca: false, winkel: true,
     extra: ['De Nederlandse POS-prijspagina toont de prijzen in euro. Of btw is inbegrepen, staat er niet bij.', 'POS Pro: + € 79 per maand per locatie, of + € 59 per maand bij jaarbetaling.', 'Shopify bood op 27 oktober 2026 een proefperiode: 3 dagen gratis, daarna 3 maanden € 1 per maand.'],
-    bronnen: [['Shopify: POS-prijzen', 'https://www.shopify.com/nl/pos/prijzen'], ['Shopify: POS-betalingen', 'https://www.shopify.com/nl/pos/betalingen'], ['Shopify POS', 'https://www.shopify.com/nl/pos'], ['Shopify Help: landen met Shopify Payments', 'https://help.shopify.com/en/manual/payments/shopify-payments/supported-countries']],
+    bronnen: [['Shopify: POS-prijzen', 'https://www.shopify.com/nl/pos/prijzen'], ['Shopify: prijzen', 'https://www.shopify.com/nl/prijzen'], ['Shopify: POS-betalingen', 'https://www.shopify.com/nl/pos/betalingen'], ['Shopify POS', 'https://www.shopify.com/nl/pos'], ['Shopify Help: landen met Shopify Payments', 'https://help.shopify.com/en/manual/payments/shopify-payments/supported-countries']],
     domeinen: ['help.shopify.com'],
-    checked: '2026-10-27', updated: '2026-10-28',
+    checked: '2026-10-27', updated: '2026-11-10',
   },
   untill: {
     naam: 'unTill', slug: 'untill', soort: 'kassa', url: 'https://untill.com/',
