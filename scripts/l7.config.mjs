@@ -5,12 +5,15 @@ import { pathToFileURL } from 'node:url';
 
 // B1: een gewijzigd aanbieders.js telt alleen als de quiz (alle antwoordcombinaties) of de calculator echt anders wordt.
 const dektAanbieders = /(?:^|\/)js\/lib\/aanbieders\.js$/;
-function quizEnCalculator(outDir) {
+export function quizEnCalculator(outDir) {
   const lib = (f) => pathToFileURL(join(outDir, 'js/lib', f)).href;
   const code = `
 import { score, VRAGEN, REKEN } from ${JSON.stringify(lib('match.js'))};
 import { vergelijkPin } from ${JSON.stringify(lib('kosten.js'))};
 import { AANBIEDERS } from ${JSON.stringify(lib('aanbieders.js'))};
+// Elk nieuw veld in NIET_IN_QUIZ_OF_CALC heeft SC-OK nodig (zelfde regel als exempt/BEKEND_*).
+const NIET_IN_QUIZ_OF_CALC = new Set(['transactie', 'bronnen', 'checked', 'updated', 'domeinen']);
+const data = JSON.stringify(Object.fromEntries(Object.entries(AANBIEDERS).map(([id, p]) => [id, Object.fromEntries(Object.entries(p).filter(([k]) => !NIET_IN_QUIZ_OF_CALC.has(k)))])));
 const vals = VRAGEN.map((v) => v.opties.map((o) => o[0]));
 const combos = vals.reduce((acc, opt) => acc.flatMap((a) => opt.map((o) => a.concat(o))), [[]]);
 const quiz = combos.map((c) => {
@@ -24,7 +27,7 @@ const calc = [];
 for (const n of [...new Set([...Object.values(REKEN.aantal), 300])]) for (const b of Object.values(REKEN.bedrag)) for (const g of [false, true]) {
   calc.push(n + 'x' + b + (g ? 'z' : '') + '=' + vergelijkPin(n, b, { geenAbonnement: g }).map((r) => r.id + ':' + r.totaal + ':' + r.plan.naam).join(','));
 }
-console.log(['quiz', combos.length, ...quiz, 'calc', ...calc].join('\\n'));
+console.log(['data', data, 'quiz', combos.length, ...quiz, 'calc', ...calc].join('\\n'));
 `;
   return execFileSync(process.execPath, ['--input-type=module', '-e', code], { encoding: 'utf8', maxBuffer: 8 << 20 });
 }
