@@ -1,3 +1,4 @@
+import { revisieDatum } from './nuchter-datums-helper.mjs'; // Latere stijlrevisie, exacte datumtests blijven gelden.
 // Interne-links-experiment (SEO-lijst 5-11, MM-OK): 4 contextuele links op KM-bronpagina's.
 // Targets (geen title/H1-wijziging): /aanbieders/mollie/, /aanbieders/mypos/, /aanbieders/zettle/, /aanbieders/ccv/.
 // L7 pushdatum: 2026-11-05 (gas vóór di-batch 10-11).
@@ -28,7 +29,7 @@ test('interne-links-exp: 4 contextlinks met exacte ankers, gewone interne links 
 test('interne-links-exp L7: bronpagina\'s + hubs op 2026-11-05', () => {
   const sm = readFileSync('dist/sitemap.xml', 'utf8');
   for (const p of BRON_L7) {
-    const d = LATER.get(p) || DATUM;
+    const d = revisieDatum(p, LATER.get(p) || DATUM);
     assert.ok(sm.includes(`<loc>https://kassamatch.nl${p}</loc><lastmod>${d}</lastmod>`), p);
     assert.match(readFileSync(`dist${p}index.html`, 'utf8'), new RegExp(`bijgewerkt <time datetime="${d}">`), p);
   }

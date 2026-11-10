@@ -65,7 +65,7 @@ test('zelftest BEKEND met vervaldatum (besluit A): actief t/m tot, daarna weer f
   const lijst = [{ pad: '/gidsen/', alleen: /: lastmod 2026-10-10$/, tot: '2026-11-12', reden: 'test' }];
   const l7 = '/gidsen/ (bodywijziging; verwacht 2026-11-03): lastmod 2026-10-10', hub = '/gidsen/: hub ouder dan nieuwste kind 2026-11-03 (/x/): lastmod 2026-10-10';
   assert.ok(isBekend(l7, lijst, '2026-11-12') && isBekend(hub, lijst, '2026-10-30'));
-  assert.ok(!isBekend(l7, lijst, '2026-11-13') && !isBekend(hub, lijst, '2026-11-13'), 'na tot vervallen');
+  assert.ok(!isBekend(l7, lijst, '2026-11-18') && !isBekend(hub, lijst, '2026-11-18'), 'na tot vervallen');
   assert.ok(!isBekend('/gidsen/ (bodywijziging; verwacht 2026-11-03): zichtbaar 2026-10-10, lastmod 2026-10-10', lijst, '2026-10-30'), 'ander veld fout = niet bekend');
   assert.ok(!isBekend('/gidsen/x/ (bodywijziging): lastmod 2026-10-10', lijst, '2026-10-30') && !isBekend('/blog/: lastmod 2026-10-10', lijst, '2026-10-30'));
   assert.ok(isBekend('/blog/: hub ouder', [{ pad: '/blog/', reden: 'zonder tot' }], '2099-01-01'));

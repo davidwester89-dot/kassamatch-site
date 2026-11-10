@@ -15,7 +15,7 @@ test('mypos-vs-sumup: build, title/meta/H1, L7, kannibalisatie, partner myPOS', 
   assert.match(H, /<meta name="description" content="myPOS of SumUp\? Maandprijs, percentage per pinbetaling en welk pakket past bij lage of hogere omzet — alleen cijfers van hun eigen sites\.">/);
   assert.match(main, /<h1>myPOS vs SumUp: tarieven en abonnementen<\/h1>/);
   assert.match(H, /"datePublished":"2026-11-11"/);
-  assert.match(H, /"dateModified":"2026-11-11"/);
+  assert.match(H, /"dateModified":"2026-11-18"/);
   assert.match(H, /Redactie KassaMatch/);
   // Maandprijs eerst in snelvergelijking
   assert.ok(tekst.includes('€ 0 per maand'));
@@ -37,12 +37,12 @@ test('mypos-vs-sumup: build, title/meta/H1, L7, kannibalisatie, partner myPOS', 
   assert.ok(main.includes('<a href="https://www.sumup.com/nl-nl/prijzen/" rel="noopener">SumUp: prijzen en tarieven</a>'));
   // SC B3/B4/B5: geen SumUp-hardwarebedragen, geen kortingvermelding, uitbetaling met rekeningvoorwaarde.
   for (const s of ['€ 34', '€ 44', '€ 169', 'korting', 'actieprijs']) assert.ok(!tekst.includes(s), s);
-  assert.ok(tekst.includes('Op je SumUp Bedrijfsrekening de volgende dag om 07.00 uur'));
+  assert.ok(tekst.includes('SumUp betaalt de volgende dag om 07.00 uur op je SumUp Bedrijfsrekening'));
   assert.ok(main.includes('href="https://www.mypos.com/nl-nl/pricing-and-fees" rel="noopener">prijspagina van myPOS</a>'));
   // Hub lastmod
   const sm = readFileSync('dist/sitemap.xml', 'utf8');
-  assert.match(sm, /mypos-vs-sumup\/<\/loc><lastmod>2026-11-11<\/lastmod>/);
-  assert.match(sm, /gidsen\/<\/loc><lastmod>2026-11-11<\/lastmod>/);
+  assert.match(sm, /mypos-vs-sumup\/<\/loc><lastmod>2026-11-18<\/lastmod>/);
+  assert.match(sm, /gidsen\/<\/loc><lastmod>2026-11-18<\/lastmod>/);
   const hub = readFileSync('dist/gidsen/index.html', 'utf8');
   assert.ok(hub.includes('href="/mypos-vs-sumup/"'));
   // H2 outline

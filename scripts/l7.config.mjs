@@ -34,6 +34,8 @@ console.log(['data', data, 'quiz', combos.length, ...quiz, 'calc', ...calc].join
 const clientOutput = { covers: dektAanbieders, run: quizEnCalculator };
 
 export const CFG = {
+  // Geen datumlift door alleen een gewijzigd kind; bij eigen body geldt de gewone L7-plicht.
+  bodyOnlyHubs: ["/aanbieders/"],
   build: (dir, env) => { execSync('node build.mjs', { cwd: dir, env, stdio: 'ignore' }); return join(dir, 'dist'); },
   // Kinderen = gidsen/vergelijkingspagina's op één padsegment. /aanbieders/ en /kassa-match/ horen niet bij deze
   // hub: een eigen body/clientwijziging daar tilt /gidsen/ niet (L7: hub alleen bij eigen bodywijziging; 16-11).
