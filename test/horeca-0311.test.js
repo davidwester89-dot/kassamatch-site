@@ -1,3 +1,4 @@
+import { revisieDatum } from './nuchter-datums-helper.mjs'; // Latere stijlrevisie, exacte datumtests blijven gelden.
 // Gids /kassasysteem-horeca/ (nieuw, pushdatum 3-11-2026, briefing SEO wk45). Bedragen letterlijk van de eigen pagina's, gerenderd 2-11-2026 vanaf een NL-IP:
 // lightspeedhq.nl/kassasysteem/restaurant/prijzen/ (Basic 89, Core 159, Pro 249 "€ /maand", extra licentie €49),
 // untillair.nl/prijzen/ (Jaarlijks: € 19,00 / € 29,00 / € 39,00; Maandelijks: € 21,85 / € 33,85 / € 44,85; extra schermen € 10,00 / € 11,50, excl. btw).
@@ -36,11 +37,11 @@ test('horeca: interne links, link vanuit de horecakolom en vanuit /gidsen/', () 
 test('L7 3-11: nieuwe gids (hub /gidsen/ later 5-11) op de pushdatum', () => {
   const sm = read('dist/sitemap.xml');
   // /gidsen/ opnieuw 5-11 (interne-links-exp); datum test test/interne-links-0511.test.js.
-  for (const p of ['/kassasysteem-horeca/', '/']) assert.match(sm, new RegExp(`<loc>https://kassamatch\\.nl${p.replace(/[/.]/g, '\\$&')}</loc><lastmod>2026-11-03</lastmod>`), p);
+  for (const p of ['/kassasysteem-horeca/', '/']) assert.match(sm, new RegExp(`<loc>https://kassamatch\\.nl${p.replace(/[/.]/g, '\\$&')}</loc><lastmod>${revisieDatum(p, '2026-11-03')}</lastmod>`), p);
   // /kassasysteem-vergelijken/ en /bronnen/: 10-11 (Shopify-bronlink), zie test/logo-l7.test.js.
   for (const p of ['/kassasysteem-vergelijken/', '/bronnen/']) assert.match(sm, new RegExp(`<loc>https://kassamatch\\.nl${p.replace(/[/.]/g, '\\$&')}</loc><lastmod>2026-11-10</lastmod>`), p);
-  assert.match(sm, /<loc>https:\/\/kassamatch\.nl\/gidsen\/<\/loc><lastmod>2026-11-11<\/lastmod>/); // hub body: nieuwe kaart myPOS vs SumUp
+  assert.match(sm, /<loc>https:\/\/kassamatch\.nl\/gidsen\/<\/loc><lastmod>2026-11-18<\/lastmod>/); // hub body: nieuwe kaart myPOS vs SumUp
   const h = read(H);
-  assert.match(h, /"datePublished":"2026-11-03","dateModified":"2026-11-03"/);
-  assert.match(h, /bijgewerkt <time datetime="2026-11-03">/i);
+  assert.match(h, /"datePublished":"2026-11-03","dateModified":"2026-11-18"/);
+  assert.match(h, /bijgewerkt <time datetime="2026-11-18">/i);
 });

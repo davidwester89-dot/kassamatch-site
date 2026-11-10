@@ -1,3 +1,4 @@
+import { revisieDatum } from './nuchter-datums-helper.mjs'; // Latere stijlrevisie, exacte datumtests blijven gelden.
 // L7 30-10: pagina's waar logo's van de aanbieders bijkwamen hebben sitemap-lastmod, de zichtbare bijwerkdatum en (waar aanwezig) dateModified 30-10-2026.
 import test from 'node:test';
 import assert from 'node:assert/strict';
@@ -23,7 +24,7 @@ test('L7 30-10: pagina\'s met logo\'s', () => {
   const sm = readFileSync('dist/sitemap.xml', 'utf8');
   for (const p of PAGINAS) {
     const h = readFileSync(`dist${p}index.html`, 'utf8');
-    const d = NEUTRAAL.has(p) ? '2026-11-16' : MYPOS_VS.has(p) ? '2026-11-11' : SHOPIFY.has(p) ? '2026-11-10' : LINKS.has(p) ? '2026-11-05' : ZETTLE.has(p) ? '2026-11-03' : '2026-10-30';
+    const d = revisieDatum(p, NEUTRAAL.has(p) ? '2026-11-16' : MYPOS_VS.has(p) ? '2026-11-11' : SHOPIFY.has(p) ? '2026-11-10' : LINKS.has(p) ? '2026-11-05' : ZETTLE.has(p) ? '2026-11-03' : '2026-10-30');
     assert.ok(h.includes(`bijgewerkt <time datetime="${d}">`), p);
     assert.doesNotMatch(h, new RegExp(`"dateModified": ?"(?!${d})`), p);
     assert.doesNotMatch(h, new RegExp(`article:modified_time" content="(?!${d})`), p);
