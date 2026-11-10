@@ -24,7 +24,7 @@ test('Mollie: geen korting zonder einddatum, normale prijzen', () => {
 
 test('L7 03-11: /aanbieders/mollie/ op de pushdatum', () => {
   const h = readFileSync('dist/aanbieders/mollie/index.html', 'utf8');
-  assert.ok(h.includes('bijgewerkt <time datetime="2026-11-03">'));
-  assert.doesNotMatch(h, /"dateModified": ?"(?!2026-11-03)/);
-  assert.ok(readFileSync('dist/sitemap.xml', 'utf8').includes('/aanbieders/mollie/</loc><lastmod>2026-11-03</lastmod>'));
+  assert.ok(h.includes('bijgewerkt <time datetime="2026-11-13">'));
+  assert.doesNotMatch(h, /"dateModified": ?"(?!2026-11-13)/);
+  assert.ok(readFileSync('dist/sitemap.xml', 'utf8').includes('/aanbieders/mollie/</loc><lastmod>2026-11-13</lastmod>'));
 });
