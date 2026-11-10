@@ -36,6 +36,9 @@ const clientOutput = { covers: dektAanbieders, run: quizEnCalculator };
 export const CFG = {
   build: (dir, env) => { execSync('node build.mjs', { cwd: dir, env, stdio: 'ignore' }); return join(dir, 'dist'); },
   hubs: [{ hub: '/gidsen/', children: /^\/[^/]+\/$/ }],
+  // L7 11-11 (SEO+SC review 52ee166 B2): /aanbieders/ tilt niet mee op een kind. Alleen een eigen bodywijziging geeft een
+  // nieuwe datum; lastmod gaat nooit achteruit (test/l7-hub-aanbieders-1111.test.js). Wijziging vraagt SC-OK.
+  notHub: ['/aanbieders/'],
   // Alleen ONTBREKENDE velden die de template van deze pagina niet heeft. Een aanwezig veld moet altijd kloppen.
   exempt: {},
   clientOutput: { '/kassa-match/': clientOutput, '/pinautomaat-vergelijken/': clientOutput },

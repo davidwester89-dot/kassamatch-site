@@ -50,7 +50,7 @@ test('build (productie): pagina’s, sitemap, robots, IndexNow, regels', () => {
     assert.ok(!/<span class="partner">\s*partner ?link/i.test(s), `${f}: zichtbaar label partnerlink`);
   }
   // Belangrijke pagina's bestaan.
-  for (const p of ['kassa-match', 'pinautomaat-vergelijken', 'kassasysteem-vergelijken', 'aanbieders', 'goedkoopste-pinautomaat', 'kassasysteem-kiezen', 'transactiekosten-vergelijken', 'bronnen', 'privacy', 'disclaimer', 'contact', 'sumup-vs-zettle']) assert.ok(existsSync(`dist/${p}/index.html`), p);
+  for (const p of ['kassa-match', 'pinautomaat-vergelijken', 'kassasysteem-vergelijken', 'aanbieders', 'goedkoopste-pinautomaat', 'kassasysteem-kiezen', 'transactiekosten-vergelijken', 'bronnen', 'privacy', 'disclaimer', 'contact', 'sumup-vs-zettle', 'mypos-vs-sumup']) assert.ok(existsSync(`dist/${p}/index.html`), p);
   for (const id of Object.keys(AANBIEDERS)) assert.ok(existsSync(`dist/aanbieders/${AANBIEDERS[id].slug}/index.html`), id);
   // Bronnenpagina noemt elke bron-URL.
   const br = readFileSync('dist/bronnen/index.html', 'utf8');

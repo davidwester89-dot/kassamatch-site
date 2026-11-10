@@ -27,7 +27,14 @@ const LINKS_PADEN = new Set(['/sumup-vs-zettle/', '/aanbieders/ccv/', '/aanbiede
 // /aanbieders/ en /gidsen/ zijn hubs.
 const SHOPIFY_TARIEF_UPD = '2026-11-10';
 const SHOPIFY_TARIEF_PADEN = new Set(['/aanbieders/shopify-pos/', '/aanbieders/', '/gidsen/', '/kassasysteem-vergelijken/', '/kassasysteem-kiezen/', '/bronnen/']);
-export const pages = [P.home, P.quiz, P.pinVergelijk, P.kassaVergelijk, P.aanbiedersHub, ...P.aanbiederPages, P.sumupVsZettle, P.gidsHub, ...P.guides, P.bronnen, P.over, P.privacy, P.disclaimer, P.contact, P.notfound].map((p) => (LOGO_PADEN.has(p.path) ? bijgewerkt(p, LOGO_UPD) : p)).map((p) => (ZETTLE_PADEN.has(p.path) || MOLLIE_PADEN.has(p.path) ? bijgewerkt(p, ZETTLE_UPD) : p)).map((p) => (LINKS_PADEN.has(p.path) ? bijgewerkt(p, LINKS_UPD) : p)).map((p) => (SHOPIFY_TARIEF_PADEN.has(p.path) ? bijgewerkt(p, SHOPIFY_TARIEF_UPD) : p));
+
+// L7 11-11: nieuwe gids /mypos-vs-sumup/. Alleen pagina's met eigen bodywijziging: de gids, /gidsen/ (nieuwe kaart)
+// en /aanbieders/mypos/ + /aanbieders/sumup/ (RELATED-link). Hub /aanbieders/ blijft op 10-11 (geen eigen
+// bodywijziging; notHub in scripts/l7.config.mjs, SEO/SC-review 52ee166 B2).
+const MYPOS_VS_UPD = '2026-11-11';
+const MYPOS_VS_PADEN = new Set(['/mypos-vs-sumup/', '/gidsen/', '/aanbieders/mypos/', '/aanbieders/sumup/']);
+
+export const pages = [P.home, P.quiz, P.pinVergelijk, P.kassaVergelijk, P.aanbiedersHub, ...P.aanbiederPages, P.sumupVsZettle, P.myposVsSumup, P.gidsHub, ...P.guides, P.bronnen, P.over, P.privacy, P.disclaimer, P.contact, P.notfound].map((p) => (LOGO_PADEN.has(p.path) ? bijgewerkt(p, LOGO_UPD) : p)).map((p) => (ZETTLE_PADEN.has(p.path) || MOLLIE_PADEN.has(p.path) ? bijgewerkt(p, ZETTLE_UPD) : p)).map((p) => (LINKS_PADEN.has(p.path) ? bijgewerkt(p, LINKS_UPD) : p)).map((p) => (SHOPIFY_TARIEF_PADEN.has(p.path) ? bijgewerkt(p, SHOPIFY_TARIEF_UPD) : p)).map((p) => (MYPOS_VS_PADEN.has(p.path) ? bijgewerkt(p, MYPOS_VS_UPD) : p));
 for (const p of pages) write(p.path.endsWith('.html') ? join(OUT, p.path) : join(OUT, p.path, 'index.html'), partnerNoten(layout(p)));
 cpSync('src/assets/js', join(OUT, 'js'), { recursive: true });
 cpSync('src/lib', join(OUT, 'js/lib'), { recursive: true, filter: (p) => !/logo-(rechten|cellen)\.m?js$/.test(p) }); // alleen build-time, niet publiceren

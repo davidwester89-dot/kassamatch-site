@@ -12,14 +12,16 @@ const ZETTLE = new Set(['/', '/kassa-match/', '/pinautomaat-vergelijken/', '/kas
 // 05-11: interne-links-exp (build.mjs LINKS_PADEN) — latere datum wint.
 const LINKS = new Set(['/sumup-vs-zettle/', '/aanbieders/ccv/', '/aanbieders/mypos/', '/aanbieders/']);
 // 10-11: Shopify-winkeltarieven (build.mjs SHOPIFY_TARIEF_PADEN) — latere datum wint.
-const SHOPIFY = new Set(['/aanbieders/shopify-pos/', '/aanbieders/', '/gidsen/', '/kassasysteem-vergelijken/', '/kassasysteem-kiezen/', '/bronnen/']);
+const SHOPIFY = new Set(['/aanbieders/shopify-pos/', '/aanbieders/', '/kassasysteem-vergelijken/', '/kassasysteem-kiezen/', '/bronnen/']);
+// 11-11: RELATED-links myPOS/SumUp en /gidsen/ (myPOS vs SumUp-gids). Hub /aanbieders/ blijft 10-11 (notHub).
+const MYPOS_VS = new Set(['/aanbieders/mypos/', '/aanbieders/sumup/', '/gidsen/']);
 
 test('L7 30-10: pagina\'s met logo\'s', () => {
   execSync('node build.mjs', { env: { ...process.env, BASE: '', PREVIEW: '' }, stdio: 'ignore' });
   const sm = readFileSync('dist/sitemap.xml', 'utf8');
   for (const p of PAGINAS) {
     const h = readFileSync(`dist${p}index.html`, 'utf8');
-    const d = SHOPIFY.has(p) ? '2026-11-10' : LINKS.has(p) ? '2026-11-05' : ZETTLE.has(p) ? '2026-11-03' : '2026-10-30';
+    const d = MYPOS_VS.has(p) ? '2026-11-11' : SHOPIFY.has(p) ? '2026-11-10' : LINKS.has(p) ? '2026-11-05' : ZETTLE.has(p) ? '2026-11-03' : '2026-10-30';
     assert.ok(h.includes(`bijgewerkt <time datetime="${d}">`), p);
     assert.doesNotMatch(h, new RegExp(`"dateModified": ?"(?!${d})`), p);
     assert.doesNotMatch(h, new RegExp(`article:modified_time" content="(?!${d})`), p);

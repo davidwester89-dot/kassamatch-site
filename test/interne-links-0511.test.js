@@ -8,8 +8,8 @@ import { execSync } from 'node:child_process';
 
 const main = (p) => { const t = readFileSync(`dist${p}index.html`, 'utf8'); return (t.match(/<main[\s\S]*?<\/main>/) || [''])[0]; };
 const DATUM = '2026-11-05';
-// /aanbieders/ en /gidsen/ zijn 10-11 opnieuw gezet (Shopify-winkeltarieven, hub van een nieuwer kind).
-const HUB_1011 = new Set(['/aanbieders/', '/gidsen/']);
+// Latere datums: /aanbieders/ 10-11 (Shopify), /gidsen/ en /aanbieders/mypos/ 11-11 (myPOS vs SumUp, eigen bodywijziging).
+const LATER = new Map([['/aanbieders/', '2026-11-10'], ['/gidsen/', '2026-11-11'], ['/aanbieders/mypos/', '2026-11-11']]);
 const LINKS = [
   ['/sumup-vs-zettle/', '/aanbieders/mollie/', 'Mollie als je pin en online bij één partij wilt'],
   ['/aanbieders/ccv/', '/aanbieders/mypos/', 'myPOS Pro met een vast bedrag per pin'],
@@ -28,7 +28,7 @@ test('interne-links-exp: 4 contextlinks met exacte ankers, gewone interne links 
 test('interne-links-exp L7: bronpagina\'s + hubs op 2026-11-05', () => {
   const sm = readFileSync('dist/sitemap.xml', 'utf8');
   for (const p of BRON_L7) {
-    const d = HUB_1011.has(p) ? '2026-11-10' : DATUM;
+    const d = LATER.get(p) || DATUM;
     assert.ok(sm.includes(`<loc>https://kassamatch.nl${p}</loc><lastmod>${d}</lastmod>`), p);
     assert.match(readFileSync(`dist${p}index.html`, 'utf8'), new RegExp(`bijgewerkt <time datetime="${d}">`), p);
   }

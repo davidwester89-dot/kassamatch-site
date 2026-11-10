@@ -192,9 +192,9 @@ ${matchCta()}`,
 };
 
 const RELATED = {
-  sumup: [['/sumup-vs-zettle/', 'SumUp of Zettle'], ['/goedkoopste-pinautomaat/', 'Goedkoopste pinautomaat']],
+  sumup: [['/sumup-vs-zettle/', 'SumUp of Zettle'], ['/mypos-vs-sumup/', 'myPOS of SumUp'], ['/goedkoopste-pinautomaat/', 'Goedkoopste pinautomaat']],
   zettle: [['/sumup-vs-zettle/', 'SumUp of Zettle'], ['/transactiekosten-vergelijken/', 'Transactiekosten vergelijken']],
-  mypos: [['/transactiekosten-vergelijken/', 'Transactiekosten vergelijken'], ['/goedkoopste-pinautomaat/', 'Goedkoopste pinautomaat']],
+  mypos: [['/mypos-vs-sumup/', 'myPOS of SumUp'], ['/transactiekosten-vergelijken/', 'Transactiekosten vergelijken'], ['/goedkoopste-pinautomaat/', 'Goedkoopste pinautomaat']],
   mollie: [['/transactiekosten-vergelijken/', 'Transactiekosten vergelijken']],
   ccv: [['/goedkoopste-pinautomaat/', 'Goedkoopste pinautomaat'], ['/transactiekosten-vergelijken/', 'Transactiekosten vergelijken']],
   lightspeed: [['/kassasysteem-kiezen/', 'Kassasysteem kiezen']],
@@ -269,6 +269,55 @@ export const sumupVsZettle = {
 <p>Beide nog te duur bij jouw aantallen? Kijk naar <a href="/goedkoopste-pinautomaat/">de goedkoopste pinautomaat</a>, <a href="/aanbieders/ccv/">CCV met een vast bedrag per pinbetaling</a> of <a href="/pinautomaat-vergelijken/">vergelijk alle aanbieders</a>.</p>
 ${faqHtml(vsFaq)}
 ${matchCta('Twijfel je nog?', 'vs_match')}${bron(A.sumup.bronnen, A.zettle.bronnen)}</article>`,
+};
+
+
+
+// ---- myPOS of SumUp ----
+const msRows = [[50, 15], [200, 25], [800, 25]];
+const msFaq = [
+  ['Is myPOS of SumUp goedkoper zonder abonnement?', "Zonder abonnement rekenen beide 1,49% per betaling met een Nederlandse consumentenbetaalpas. Vergelijk daarnaast het apparaat en de uitbetaling; controleer de actuele hardwareprijzen op de officiële productpagina's."],
+  ['Wanneer loont een abonnement?', `SumUp noemt Betalingen Plus (€ 19 per maand, 0,99%) voordelig vanaf ongeveer € 4.645 omzet per maand. myPOS noemt Plus (€ 19 per maand, 0,99%) voordelig vanaf € 4.000 per maand. Pro bij myPOS (€ 39 per maand, € 0,06 per betaling) is bedoeld voor hogere volumes.`],
+  ['Waar vergelijk ik SumUp met Zettle?', 'SumUp naast iZettle/Zettle (PayPal Point of Sale) staat op <a href="/sumup-vs-zettle/">SumUp vs Zettle</a>. Dit stuk is de myPOS-hoek.'],
+];
+export const myposVsSumup = {
+  ...article({ path: '/mypos-vs-sumup/', title: 'myPOS vs SumUp: tarieven en abonnementen vergeleken', h1: 'myPOS vs SumUp: tarieven en abonnementen', description: 'myPOS of SumUp? Maandprijs, percentage per pinbetaling en welk pakket past bij lage of hogere omzet — alleen cijfers van hun eigen sites.', date: '2026-11-11', updated: '2026-11-11', og: 'vs-mypos-sumup', parents: [['/gidsen/', 'Gidsen']], faq: msFaq }),
+  crumb: 'myPOS of SumUp',
+  body: `<article class="prose"><h1>myPOS vs SumUp: tarieven en abonnementen</h1>${by('2026-11-11')}
+<p class="lead">myPOS en SumUp zijn allebei pinapparaten zonder verplicht abonnement. Hier zet je maandprijs, percentage per pinbetaling en hardware naast elkaar — alleen cijfers van hun eigen sites. SumUp naast Zettle staat apart in <a href="/sumup-vs-zettle/">SumUp vs Zettle</a>.</p>
+<h2>Snelvergelijking</h2>
+<div class="table-wrap"><table class="data side"><thead><tr><th scope="col"></th><th scope="col">myPOS</th><th scope="col">SumUp</th></tr></thead><tbody>
+<tr><th scope="row">Zonder abonnement</th><td data-l="myPOS">€ 0 per maand · 1,49% per NL-betaalpas (One)</td><td data-l="SumUp">€ 0 per maand · 1,49% per betaalpas (Betaal naar gebruik)</td></tr>
+<tr><th scope="row">Met abonnement</th><td data-l="myPOS">Plus: € 19 per maand · 0,99%; Pro: € 39 per maand · € 0,06 per betaling</td><td data-l="SumUp">Betalingen Plus: € 19 per maand · 0,99% (AMEX/premium 1,49%)</td></tr>
+<tr><th scope="row">Goedkoopste apparaat</th><td data-l="myPOS">Go 2 € 39 excl. btw</td><td data-l="SumUp">Solo Lite; actuele hardwareprijs: zie de officiële productpagina.</td></tr>
+<tr><th scope="row">Terminal / groter apparaat</th><td data-l="myPOS">Flex € 69 · Ultra met printer € 179 excl. btw</td><td data-l="SumUp">Terminal met printer; actuele hardwareprijs: zie de officiële productpagina.</td></tr>
+<tr><th scope="row">Kassasoftware</th><td data-l="myPOS">Kassasysteem-app bij Flex en Ultra (Plus en Pro)</td><td data-l="SumUp">Software € 0, of € 49 per maand voor POS Plus</td></tr>
+<tr><th scope="row">Online betalen</th><td data-l="myPOS">Betaallinks en QR; kaart-niet-aanwezig bij One 1,99% + € 0,20</td><td data-l="SumUp">2,50% per onlinebetaling</td></tr>
+<tr><th scope="row">Zakelijke rekening</th><td data-l="myPOS">myPOS-rekening met IBAN meegeleverd volgens myPOS</td><td data-l="SumUp">Op je SumUp Bedrijfsrekening de volgende dag om 07.00 uur; daarna kun je het naar een andere bankrekening overmaken, volgens SumUp.</td></tr>
+</tbody></table></div>
+<p>Diepere kostentabellen staan op de aanbiederpagina’s: <a href="/aanbieders/mypos/">myPOS kosten</a> en <a href="/aanbieders/sumup/">SumUp kosten</a>.</p>
+<h2>Zonder abonnement</h2>
+<p>Beide starten zonder maandkosten. myPOS One en SumUp Betaal naar gebruik rekenen allebei <strong>1,49%</strong> per betaling met een Nederlandse consumentenbetaalpas. Pin je weinig, dan blijft het verschil klein: je kiest vooral op apparaat, uitbetaling en of je een myPOS-rekening wilt.</p>
+<p>Voorbeeld: 50 betalingen van € 15. Transactiekosten zonder abonnement: 50 × 1,49% × € 15 = <strong>€ 11,18</strong> bij beide (onze rekensom met hun percentage). Controleer de actuele hardwareprijzen op de officiële productpagina’s.</p>
+<h2>Met abonnement / Plus-achtige plannen</h2>
+<p>Wil je een lager percentage, dan betalen beide € 19 per maand voor 0,99% op fysieke pinbetalingen met een NL-pas: myPOS Plus en SumUp Betalingen Plus. myPOS heeft daarnaast <strong>Pro</strong>: € 39 per maand en € 0,06 per betaling met een Nederlandse bankpas — handig als je veel pint en een vast bedrag per pin wilt.</p>
+<p>SumUp noemt op de prijspagina een omzet van minimaal € 4.645 per maand als punt waarop Betalingen Plus voordeliger is. myPOS noemt Plus voordelig vanaf € 4.000 per maand. Boven € 10.000 omzet per maand biedt SumUp aangepaste tarieven op aanvraag; myPOS noemt offertes op maat voor grote volumes.</p>
+<h2>Hardware</h2>
+<p>myPOS toont Go 2 voor € 39, Flex voor € 69 en Ultra voor € 179, exclusief btw. SumUp biedt onder meer Solo Lite, Terminal en Kassa met twee schermen; controleer de actuele hardwareprijzen op de officiële productpagina’s. Details en bronnen: <a href="/aanbieders/mypos/">myPOS</a> en <a href="/aanbieders/sumup/">SumUp</a>.</p>
+<p>Vergelijk de inbegrepen functies van One, Plus en Pro op de <a href="https://www.mypos.com/nl-nl/pricing-and-fees" rel="noopener">prijspagina van myPOS</a>.</p>
+<h2>Welke past wanneer</h2>
+<p>Kosten per maand met een Nederlandse betaalpas, goedkoopste plan bij dat volume (rekentool van KassaMatch, zelfde formules als elders op de site):</p>
+<div class="table-wrap"><table class="data stack"><thead><tr><th scope="col">Voorbeeld</th><th scope="col">myPOS</th><th scope="col">SumUp</th></tr></thead><tbody>${msRows.map(([n, b]) => { const m = besteplan('mypos', n, b); const s = besteplan('sumup', n, b); return `<tr><td data-l="Voorbeeld">${fmtN(n)} × ${eur(b)}</td><td class="n" data-l="myPOS">${fmtEur(m.totaal)} <span class="fnote">${esc(m.plan.naam)}</span></td><td class="n" data-l="SumUp">${fmtEur(s.totaal)} <span class="fnote">${esc(s.plan.naam)}</span></td></tr>`; }).join('')}</tbody></table></div>
+<ul>
+<li><strong>Lage omzet / af en toe pinnen:</strong> Beide zonder abonnement (1,49%). Vergelijk apparaat, uitbetaling en rekening; myPOS levert een zakelijke rekening erbij.</li>
+<li><strong>Rond of boven de € 4.000–€ 4.645 omzet per maand:</strong> Plus bij myPOS of Betalingen Plus bij SumUp (€ 19 / 0,99%) kan lonen — reken met jouw aantallen in <a href="/pinautomaat-vergelijken/">pinautomaat vergelijken</a>.</li>
+<li><strong>Hoge volumes met voorkeur voor een vast bedrag per pin:</strong> myPOS Pro (€ 39 + € 0,06). SumUp heeft in dit overzicht geen vast-bedrag-plan.</li>
+</ul>
+<p>Alle aanbieders naast elkaar: <a href="/transactiekosten-vergelijken/">transactiekosten vergelijken</a> of <a href="/goedkoopste-pinautomaat/">goedkoopste pinautomaat</a>. Klaar om te kiezen? Start de <a href="/kassa-match/">kassa-match</a>.</p>
+${faqHtml(msFaq)}
+<div class="actions">${knop('mypos', 'vs_mypos')}</div>
+<p>SumUp-tarieven: <a href="https://www.sumup.com/nl-nl/prijzen/" rel="noopener">SumUp: prijzen en tarieven</a>.</p>
+${matchCta('Twijfel je nog?', 'vs_mypos_sumup')}${bron(A.mypos.bronnen, A.sumup.bronnen)}</article>`,
 };
 
 // ---- Gidsen ----
@@ -419,7 +468,7 @@ export const gidsHub = {
   description: 'Welke pinautomaat of kassa past bij je zaak? Gidsen over kosten per pinbetaling, huren of kopen, een kassasysteem kiezen en wat de Belastingdienst vraagt.',
   schema: [faqSchema(hubFaq)],
   body: `<h1>Gidsen over pinautomaten en kassasystemen</h1><p class="lead">Uitleg en rekenvoorbeelden, met de tarieven van de aanbieders en de regels van de Belastingdienst.</p>
-<div class="grid cards">${[...GIDSEN, ['/sumup-vs-zettle/', 'SumUp of Zettle', 'Tarief, apparaat en kassa-app naast elkaar.']].map(([h, t, d]) => `<a class="card" href="${h}"><h2>${esc(t)}</h2><p>${esc(d)}</p><span class="more">Lees verder →</span></a>`).join('')}</div>
+<div class="grid cards">${[...GIDSEN, ['/sumup-vs-zettle/', 'SumUp of Zettle', 'Tarief, apparaat en kassa-app naast elkaar.'], ['/mypos-vs-sumup/', 'myPOS of SumUp', 'Maandprijs, percentage en welk plan bij lage of hogere omzet.']].map(([h, t, d]) => `<a class="card" href="${h}"><h2>${esc(t)}</h2><p>${esc(d)}</p><span class="more">Lees verder →</span></a>`).join('')}</div>
 <div class="prose">
 <h2>Waar begin je?</h2>
 <p>Begin bij je eigen vraag. Wil je alleen pinbetalingen aannemen, bijvoorbeeld op de markt of bij klanten thuis? Dan zoek je een pinautomaat, en draait het vooral om de kosten per betaling. Wil je ook producten, voorraad, tafels of personeel beheren? Dan zoek je een kassasysteem, met een pinkoppeling erbij.</p>

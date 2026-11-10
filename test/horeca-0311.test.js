@@ -39,6 +39,7 @@ test('L7 3-11: nieuwe gids (hub /gidsen/ later 5-11) op de pushdatum', () => {
   for (const p of ['/kassasysteem-horeca/', '/']) assert.match(sm, new RegExp(`<loc>https://kassamatch\\.nl${p.replace(/[/.]/g, '\\$&')}</loc><lastmod>2026-11-03</lastmod>`), p);
   // /kassasysteem-vergelijken/ en /bronnen/: 10-11 (Shopify-bronlink), zie test/logo-l7.test.js.
   for (const p of ['/kassasysteem-vergelijken/', '/bronnen/']) assert.match(sm, new RegExp(`<loc>https://kassamatch\\.nl${p.replace(/[/.]/g, '\\$&')}</loc><lastmod>2026-11-10</lastmod>`), p);
+  assert.match(sm, /<loc>https:\/\/kassamatch\.nl\/gidsen\/<\/loc><lastmod>2026-11-11<\/lastmod>/); // hub body: nieuwe kaart myPOS vs SumUp
   const h = read(H);
   assert.match(h, /"datePublished":"2026-11-03","dateModified":"2026-11-03"/);
   assert.match(h, /bijgewerkt <time datetime="2026-11-03">/i);
