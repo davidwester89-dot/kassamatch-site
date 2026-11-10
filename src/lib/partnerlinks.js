@@ -9,6 +9,17 @@ export const PARTNERLINKS = {
   mypos: 'https://mypos.sjv.io/c/7989613/3298511/42951',
 };
 
+// Geen betaalde publisherroute (besluit 10-11-2026). Geen CTA-knop, geen sponsored/ref/utm; alleen een gewone bronlink.
+export const NEUTRAAL = ['mollie', 'zettle', 'mplus', 'untill'];
+
+/** Gewone bronlink (rel=noopener), geen knop/CTA. Tekst en href volgens de opdracht 10-11. */
+export function bronlink(id) {
+  const p = AANBIEDERS[id];
+  if (!p) throw new Error('Onbekende aanbieder ' + id);
+  const kort = p.naam.split(' (')[0];
+  return `<a href="${p.url}" rel="noopener">Bron: ${kort}</a>`;
+}
+
 /** Uitgaande link: partnerlink (rel sponsored nofollow, zonder zichtbaar label) als die er is, anders de officiële site. */
 export function uitgaand(id, partnerlinks = PARTNERLINKS) {
   const p = AANBIEDERS[id];
@@ -19,6 +30,7 @@ export function uitgaand(id, partnerlinks = PARTNERLINKS) {
 
 /** Knop naar de aanbieder. Een partnerlink krijgt rel sponsored nofollow noopener, geen zichtbaar label (uitleg in de FAQ). */
 export function knop(id, pos, cls = 'btn', partnerlinks = PARTNERLINKS) {
+  if (NEUTRAAL.includes(id)) return bronlink(id);
   const o = uitgaand(id, partnerlinks);
   const kort = o.naam.split(' (')[0];
   return `<a class="${cls}" href="${o.href}" rel="${o.rel}" target="_blank" data-vendor="${id}" data-pos="${pos}" data-cta="outbound" data-partner-slot="${id}">Naar ${kort}</a>`;

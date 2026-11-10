@@ -35,7 +35,9 @@ const clientOutput = { covers: dektAanbieders, run: quizEnCalculator };
 
 export const CFG = {
   build: (dir, env) => { execSync('node build.mjs', { cwd: dir, env, stdio: 'ignore' }); return join(dir, 'dist'); },
-  hubs: [{ hub: '/gidsen/', children: /^\/[^/]+\/$/ }],
+  // Kinderen = gidsen/vergelijkingspagina's op één padsegment. /aanbieders/ en /kassa-match/ horen niet bij deze
+  // hub: een eigen body/clientwijziging daar tilt /gidsen/ niet (L7: hub alleen bij eigen bodywijziging; 16-11).
+  hubs: [{ hub: '/gidsen/', children: /^(?!\/(?:aanbieders|kassa-match)\/$)\/[^/]+\/$/ }],
   // L7 11-11 (SEO+SC review 52ee166 B2): /aanbieders/ tilt niet mee op een kind. Alleen een eigen bodywijziging geeft een
   // nieuwe datum; lastmod gaat nooit achteruit (test/l7-hub-aanbieders-1111.test.js). Wijziging vraagt SC-OK.
   notHub: ['/aanbieders/'],

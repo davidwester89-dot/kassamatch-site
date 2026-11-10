@@ -1,5 +1,5 @@
 // L4 03-11 (SC-review KM 7144454): de Mollie-korting 'Op 23 oktober 2026 gaf Mollie 50% korting ...' had geen einddatum en staat nergens meer op de site.
-// Alleen de normale prijzen (Tap-terminal € 95, mobiele en vaste POS-terminal € 350). L7: /aanbieders/mollie/ op 2026-11-03.
+// Alleen de normale prijzen (Tap-terminal € 95, mobiele en vaste POS-terminal € 350). L7: pagina later op 2026-11-16 (bronlink i.p.v. knop).
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync, readdirSync, statSync } from 'node:fs';
@@ -22,9 +22,9 @@ test('Mollie: geen korting zonder einddatum, normale prijzen', () => {
   assert.ok(h.includes('Normale prijzen zoals Mollie ze toont.'));
 });
 
-test('L7 03-11: /aanbieders/mollie/ op de pushdatum', () => {
+test('L7: /aanbieders/mollie/ op 2026-11-16 (bronlink; was 03-11 na L4)', () => {
   const h = readFileSync('dist/aanbieders/mollie/index.html', 'utf8');
-  assert.ok(h.includes('bijgewerkt <time datetime="2026-11-03">'));
-  assert.doesNotMatch(h, /"dateModified": ?"(?!2026-11-03)/);
-  assert.ok(readFileSync('dist/sitemap.xml', 'utf8').includes('/aanbieders/mollie/</loc><lastmod>2026-11-03</lastmod>'));
+  assert.ok(h.includes('bijgewerkt <time datetime="2026-11-16">'));
+  assert.doesNotMatch(h, /"dateModified": ?"(?!2026-11-16)/);
+  assert.ok(readFileSync('dist/sitemap.xml', 'utf8').includes('/aanbieders/mollie/</loc><lastmod>2026-11-16</lastmod>'));
 });

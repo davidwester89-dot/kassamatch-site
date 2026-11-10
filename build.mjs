@@ -34,7 +34,14 @@ const SHOPIFY_TARIEF_PADEN = new Set(['/aanbieders/shopify-pos/', '/aanbieders/'
 const MYPOS_VS_UPD = '2026-11-11';
 const MYPOS_VS_PADEN = new Set(['/mypos-vs-sumup/', '/gidsen/', '/aanbieders/mypos/', '/aanbieders/sumup/']);
 
-export const pages = [P.home, P.quiz, P.pinVergelijk, P.kassaVergelijk, P.aanbiedersHub, ...P.aanbiederPages, P.sumupVsZettle, P.myposVsSumup, P.gidsHub, ...P.guides, P.bronnen, P.over, P.privacy, P.disclaimer, P.contact, P.notfound].map((p) => (LOGO_PADEN.has(p.path) ? bijgewerkt(p, LOGO_UPD) : p)).map((p) => (ZETTLE_PADEN.has(p.path) || MOLLIE_PADEN.has(p.path) ? bijgewerkt(p, ZETTLE_UPD) : p)).map((p) => (LINKS_PADEN.has(p.path) ? bijgewerkt(p, LINKS_UPD) : p)).map((p) => (SHOPIFY_TARIEF_PADEN.has(p.path) ? bijgewerkt(p, SHOPIFY_TARIEF_UPD) : p)).map((p) => (MYPOS_VS_PADEN.has(p.path) ? bijgewerkt(p, MYPOS_VS_UPD) : p));
+// L7 16-11: onbetaalde knoppen Mollie, Zettle, MplusKASSA en unTill → bronlink (NEUTRAAL in partnerlinks.js).
+// Alleen pagina's met eigen body- of clientwijziging (quiz gebruikt knop()). Hub /aanbieders/ heeft hier
+// wél een eigen bodywijziging, dus 16-11; blijft notHub zodat latere kinderen hem niet tillen.
+// /gidsen/ heeft geen eigen bodywijziging en blijft 11-11 (kinderen-regex sluit /aanbieders/ en /kassa-match/ uit).
+const NEUTRAAL_UPD = '2026-11-16';
+const NEUTRAAL_PADEN = new Set(['/aanbieders/', '/aanbieders/mollie/', '/aanbieders/zettle/', '/aanbieders/mpluskassa/', '/aanbieders/untill/', '/kassa-match/']);
+
+export const pages = [P.home, P.quiz, P.pinVergelijk, P.kassaVergelijk, P.aanbiedersHub, ...P.aanbiederPages, P.sumupVsZettle, P.myposVsSumup, P.gidsHub, ...P.guides, P.bronnen, P.over, P.privacy, P.disclaimer, P.contact, P.notfound].map((p) => (LOGO_PADEN.has(p.path) ? bijgewerkt(p, LOGO_UPD) : p)).map((p) => (ZETTLE_PADEN.has(p.path) || MOLLIE_PADEN.has(p.path) ? bijgewerkt(p, ZETTLE_UPD) : p)).map((p) => (LINKS_PADEN.has(p.path) ? bijgewerkt(p, LINKS_UPD) : p)).map((p) => (SHOPIFY_TARIEF_PADEN.has(p.path) ? bijgewerkt(p, SHOPIFY_TARIEF_UPD) : p)).map((p) => (MYPOS_VS_PADEN.has(p.path) ? bijgewerkt(p, MYPOS_VS_UPD) : p)).map((p) => (NEUTRAAL_PADEN.has(p.path) ? bijgewerkt(p, NEUTRAAL_UPD) : p));
 for (const p of pages) write(p.path.endsWith('.html') ? join(OUT, p.path) : join(OUT, p.path, 'index.html'), partnerNoten(layout(p)));
 cpSync('src/assets/js', join(OUT, 'js'), { recursive: true });
 cpSync('src/lib', join(OUT, 'js/lib'), { recursive: true, filter: (p) => !/logo-(rechten|cellen)\.m?js$/.test(p) }); // alleen build-time, niet publiceren

@@ -8,8 +8,8 @@ import { execSync } from 'node:child_process';
 
 const main = (p) => { const t = readFileSync(`dist${p}index.html`, 'utf8'); return (t.match(/<main[\s\S]*?<\/main>/) || [''])[0]; };
 const DATUM = '2026-11-05';
-// Latere datums: /aanbieders/ 10-11 (Shopify), /gidsen/ en /aanbieders/mypos/ 11-11 (myPOS vs SumUp, eigen bodywijziging).
-const LATER = new Map([['/aanbieders/', '2026-11-10'], ['/gidsen/', '2026-11-11'], ['/aanbieders/mypos/', '2026-11-11']]);
+// Latere datums: /gidsen/ en /aanbieders/mypos/ 11-11 (myPOS vs SumUp); /aanbieders/ 16-11 (bronlinks Mollie/Zettle/MplusKASSA/unTill).
+const LATER = new Map([['/aanbieders/', '2026-11-16'], ['/gidsen/', '2026-11-11'], ['/aanbieders/mypos/', '2026-11-11']]);
 const LINKS = [
   ['/sumup-vs-zettle/', '/aanbieders/mollie/', 'Mollie als je pin en online bij één partij wilt'],
   ['/aanbieders/ccv/', '/aanbieders/mypos/', 'myPOS Pro met een vast bedrag per pin'],
