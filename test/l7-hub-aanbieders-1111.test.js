@@ -1,3 +1,4 @@
+import { revisieDatum } from './nuchter-datums-helper.mjs';
 // L7: hub /aanbieders/ tilt niet mee op een gewijzigd kind (notHub). Eigen bodywijziging wél (16-11: bronlinks).
 // Bewaakt: geen sitemap-lastmod achteruit t.o.v. de parent-build, en een lastmod omhoog alleen bij eigen
 // bodywijziging of relevante client-JS (quiz-knop op /kassa-match/).
@@ -13,7 +14,7 @@ import { CFG } from '../scripts/l7.config.mjs';
 
 const ROOT = fileURLToPath(new URL('..', import.meta.url));
 const BASIS = 'c5a602dd7a13293cfe25e4a7b7fd487bfc473784';
-const D = '2026-11-16';
+const D = '2026-11-18';
 const env = { ...process.env, BASE: '', PREVIEW: '', GO_LIVE: '1', BUILD_DATE: D, PUSH_DATE: D };
 
 const jsChanged = (bOut, tOut, f) => {
@@ -56,13 +57,13 @@ test('lastmod >= parent-build en alleen omhoog bij eigen body- of clientwijzigin
       }
     }
     assert.deepEqual(fout, []);
-    assert.equal(tSm.get('/aanbieders/'), D);
+    assert.equal(tSm.get('/aanbieders/'), '2026-11-16');
     assert.match(readFileSync(join(tOut, 'aanbieders/index.html'), 'utf8'), /bijgewerkt <time datetime="2026-11-16">/);
     for (const p of ['/aanbieders/mollie/', '/aanbieders/zettle/', '/aanbieders/mpluskassa/', '/aanbieders/untill/', '/kassa-match/']) {
       assert.equal(tSm.get(p), D, p);
     }
     // Ongewijzigde myPOS-vs-SumUp-keten en /gidsen/ blijven 11-11.
-    for (const p of ['/mypos-vs-sumup/', '/gidsen/', '/aanbieders/mypos/', '/aanbieders/sumup/']) assert.equal(tSm.get(p), '2026-11-11', p);
+    for (const p of ['/mypos-vs-sumup/', '/gidsen/', '/aanbieders/mypos/', '/aanbieders/sumup/']) assert.equal(tSm.get(p), revisieDatum(p, '2026-11-11'), p);
     assert.deepEqual(hubAudit(tOut, CFG), []);
   } finally { rmSync(tmp, { recursive: true, force: true }); }
 });
