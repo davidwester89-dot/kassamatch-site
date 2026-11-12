@@ -17,8 +17,10 @@ const VERWACHT = {
 };
 
 test('NEUTRAAL: vier merken, niet in PARTNERLINKS, knop() is exact de bronlink', () => {
-  assert.deepEqual([...NEUTRAAL], ['mollie', 'zettle', 'mplus', 'untill']);
-  for (const id of NEUTRAAL) {
+  // 19-11: SumUp, CCV en Lightspeed kwamen erbij (test/bronlinks-2-1911.test.js); deze vier blijven voorop.
+  assert.deepEqual([...NEUTRAAL].slice(0, 4), ['mollie', 'zettle', 'mplus', 'untill']);
+  for (const id of Object.keys(VERWACHT)) {
+    assert.ok(NEUTRAAL.includes(id), id);
     assert.ok(!(id in PARTNERLINKS), id);
     const html = bronlink(id);
     assert.equal(html, `<a href="${VERWACHT[id].href}" rel="noopener">${VERWACHT[id].tekst}</a>`);
@@ -51,9 +53,8 @@ test('sitewide: deze vier merken krijgen nergens een CTA of sponsored-link', () 
   for (const { href, tekst } of Object.values(VERWACHT)) {
     assert.ok(hub.includes(`<a href="${href}" rel="noopener">${tekst}</a>`), tekst);
   }
-  // Andere merken: knoppen blijven (sanity).
-  assert.match(hub, /data-vendor="ccv"[^>]*>Naar CCV</);
-  assert.match(hub, /data-vendor="sumup"[^>]*>Naar SumUp</);
+  // Betaalde merken: knoppen blijven (sanity). CCV/SumUp zijn sinds 19-11 bronlink (test/bronlinks-2-1911.test.js).
   assert.match(hub, /data-vendor="mypos"/);
+  assert.match(hub, /data-vendor="shopify"/);
   assert.match(hub, /href="https:\/\/mypos\.sjv\.io\/[^"]+"[^>]*rel="sponsored nofollow noopener"/);
 });

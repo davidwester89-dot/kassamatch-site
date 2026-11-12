@@ -10,7 +10,9 @@ export const PARTNERLINKS = {
 };
 
 // Geen betaalde publisherroute (besluit 10-11-2026). Geen CTA-knop, geen sponsored/ref/utm; alleen een gewone bronlink.
-export const NEUTRAAL = ['mollie', 'zettle', 'mplus', 'untill'];
+// 12-11-2026: SumUp, CCV en Lightspeed erbij (geen goedgekeurde betaalde route; deadline Partnermanager 11-11 17:00 verstreken
+// zonder goedkeuring, sm-km-merken-2026-11-10.md 'Update 10-11 08:56'). myPOS en Shopify POS blijven betaalde knoppen.
+export const NEUTRAAL = ['mollie', 'zettle', 'mplus', 'untill', 'sumup', 'ccv', 'lightspeed'];
 
 /** Gewone bronlink (rel=noopener), geen knop/CTA. Tekst en href volgens de opdracht 10-11. */
 export function bronlink(id) {
