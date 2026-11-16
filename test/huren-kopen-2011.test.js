@@ -23,8 +23,13 @@ test('huren-of-kopen: build, title/meta/H1/H2, L7, links, alleen myPOS-knop, gee
   assert.match(sm, /pinautomaat-huren-of-kopen\/<\/loc><lastmod>2026-11-20<\/lastmod>/);
   assert.match(sm, /gidsen\/<\/loc><lastmod>2026-11-20<\/lastmod>/);
   assert.match(sm, /bronnen\/<\/loc><lastmod>2026-11-20<\/lastmod>/);
+  assert.match(sm, /goedkoopste-pinautomaat\/<\/loc><lastmod>2026-11-20<\/lastmod>/);
   assert.ok(readFileSync('dist/bronnen/index.html', 'utf8').includes('href="https://www.ccv.eu/nl/betaaloplossingen/apps-diensten/tap-to-pay"'));
   assert.ok(readFileSync('dist/gidsen/index.html', 'utf8').includes('href="/pinautomaat-huren-of-kopen/"'));
+  const goedkoop = readFileSync('dist/goedkoopste-pinautomaat/index.html', 'utf8');
+  assert.match(goedkoop, /<a href="\/pinautomaat-huren-of-kopen\/">pinautomaat huren of kopen<\/a>/);
+  assert.match(goedkoop, /"dateModified":"2026-11-20"/);
+  assert.match(goedkoop, /Laatst bijgewerkt <time datetime="2026-11-20">20 november 2026<\/time>/);
   for (const l of ['/goedkoopste-pinautomaat/', '/transactiekosten-vergelijken/', '/aanbieders/mypos/', '/aanbieders/sumup/', '/aanbieders/ccv/', '/mypos-vs-sumup/', '/sumup-vs-zettle/', '/kassa-match/', '/pinautomaat-vergelijken/']) assert.ok(main.includes(`href="${l}"`), l);
   // Alleen de bestaande myPOS-knop; overige merken als gewone bronlink.
   const sponsored = [...main.matchAll(/rel="sponsored[^"]*"/g)];
