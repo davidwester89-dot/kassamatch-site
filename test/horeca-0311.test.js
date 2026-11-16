@@ -39,8 +39,9 @@ test('L7 3-11: nieuwe gids (hub /gidsen/ later 5-11) op de pushdatum', () => {
   // /gidsen/ opnieuw 5-11 (interne-links-exp); datum test test/interne-links-0511.test.js.
   for (const p of ['/kassasysteem-horeca/', '/']) assert.match(sm, new RegExp(`<loc>https://kassamatch\\.nl${p.replace(/[/.]/g, '\\$&')}</loc><lastmod>${revisieDatum(p, '2026-11-03')}</lastmod>`), p);
   // /kassasysteem-vergelijken/ en /bronnen/: 10-11 (Shopify-bronlink), zie test/logo-l7.test.js.
-  for (const p of ['/kassasysteem-vergelijken/', '/bronnen/']) assert.match(sm, new RegExp(`<loc>https://kassamatch\\.nl${p.replace(/[/.]/g, '\\$&')}</loc><lastmod>2026-11-10</lastmod>`), p);
-  assert.match(sm, /<loc>https:\/\/kassamatch\.nl\/gidsen\/<\/loc><lastmod>2026-11-18<\/lastmod>/); // hub body: nieuwe kaart myPOS vs SumUp
+  for (const p of ['/kassasysteem-vergelijken/']) assert.match(sm, new RegExp(`<loc>https://kassamatch\\.nl${p.replace(/[/.]/g, '\\$&')}</loc><lastmod>2026-11-10</lastmod>`), p);
+  assert.match(sm, /<loc>https:\/\/kassamatch\.nl\/bronnen\/<\/loc><lastmod>2026-11-20<\/lastmod>/); // 20-11: bron CCV Tap to Pay (gids huren of kopen)
+  assert.match(sm, /<loc>https:\/\/kassamatch\.nl\/gidsen\/<\/loc><lastmod>2026-11-20<\/lastmod>/); // hub body: nieuwe kaart myPOS vs SumUp (18-11), daarna kaart huren of kopen (20-11)
   const h = read(H);
   assert.match(h, /"datePublished":"2026-11-03","dateModified":"2026-11-18"/);
   assert.match(h, /bijgewerkt <time datetime="2026-11-18">/i);
