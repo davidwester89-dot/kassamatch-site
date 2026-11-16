@@ -70,7 +70,8 @@ ${HERO_ART}
 <h2>Wat kost pinnen per maand?</h2>
 <p class="sub">Voorbeeld: 300 pinbetalingen per maand van gemiddeld € 25 met een Nederlandse betaalpas. Per aanbieder het goedkoopste plan bij dit volume, goedkoopste eerst. Het pinapparaat betaal je eenmalig.</p>
 ${pinVoorbeeld(300, 25)}
-<p>Bij dit voorbeeld is ${link(ex[0].id)} het goedkoopst per maand${ex[0].id === 'ccv' ? ', maar CCV publiceert de prijs van de betaalautomaat niet' : ''}. Met andere aantallen kan de volgorde omdraaien. <a href="/pinautomaat-vergelijken/">Reken het uit met je eigen aantallen →</a></p>
+<p>Bij dit voorbeeld is ${link(ex[0].id)} het goedkoopst per maand${ex[0].id === 'ccv' ? ', maar een CCV-automaat koop je vanaf € 399, plus maandelijkse kosten vanaf € 16' : ''}. Met andere aantallen kan de volgorde omdraaien. <a href="/pinautomaat-vergelijken/">Reken het uit met je eigen aantallen →</a></p>
+${ex[0].id === 'ccv' ? bron([['CCV: pinautomaat kopen', 'https://www.ccv.eu/nl/betaaloplossingen/pinautomaten/pinautomaat-kopen']]) : ''}
 </section>
 <section class="sec tint">
 <h2>Kassasystemen op een rij</h2>
@@ -137,7 +138,7 @@ export const pinVergelijk = {
 <p class="sub">Je invoer blijft in je browser.</p>
 </form>
 <div id="k-out" aria-live="polite">${pinVoorbeeld(300, 25)}</div>
-<p class="sub">Rekenmethode: vaste kosten per maand + aantal betalingen × (vast bedrag + percentage × gemiddeld bedrag), met de tarieven voor een Nederlandse consumentenbetaalpas. Het pinapparaat betaal je eenmalig; CCV publiceert die prijs niet. Wat de apparaten kosten, zie je bij <a href="/goedkoopste-pinautomaat/">wat een pinautomaat in totaal kost</a>.</p>
+<p class="sub">Rekenmethode: vaste kosten per maand + aantal betalingen × (vast bedrag + percentage × gemiddeld bedrag), met de tarieven voor een Nederlandse consumentenbetaalpas. Het pinapparaat betaal je eenmalig; bij CCV koop je vanaf € 399, plus maandelijkse kosten vanaf € 16. Wat de apparaten kosten, zie je bij <a href="/goedkoopste-pinautomaat/">wat een pinautomaat in totaal kost</a>.</p>
 <h2>Alle tarieven per plan</h2>
 ${tarievenTabel()}
 <h2>Waar je verder op let</h2>

@@ -3,6 +3,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { execSync } from 'node:child_process';
 import { readFileSync, existsSync } from 'node:fs';
+import { revisieDatum } from './nuchter-datums-helper.mjs';
 
 test('mypos-vs-sumup: build, title/meta/H1, L7, kannibalisatie, partner myPOS', () => {
   execSync('node build.mjs', { env: { ...process.env, BASE: '', PREVIEW: '', GO_LIVE: '1', GA_ID: '' } });
@@ -42,7 +43,7 @@ test('mypos-vs-sumup: build, title/meta/H1, L7, kannibalisatie, partner myPOS', 
   // Hub lastmod
   const sm = readFileSync('dist/sitemap.xml', 'utf8');
   assert.match(sm, /mypos-vs-sumup\/<\/loc><lastmod>2026-11-18<\/lastmod>/);
-  assert.match(sm, /gidsen\/<\/loc><lastmod>2026-11-20<\/lastmod>/); // 20-11: kaart pinautomaat huren of kopen
+  assert.match(sm, new RegExp(`gidsen/</loc><lastmod>${revisieDatum('/gidsen/', '2026-11-20')}</lastmod>`)); // 23-11: hub van /pinautomaat-vergelijken/ (CCV-koop)
   const hub = readFileSync('dist/gidsen/index.html', 'utf8');
   assert.ok(hub.includes('href="/mypos-vs-sumup/"'));
   // H2 outline

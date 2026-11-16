@@ -3,6 +3,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { execSync } from 'node:child_process';
 import { readFileSync, existsSync } from 'node:fs';
+import { revisieDatum } from './nuchter-datums-helper.mjs';
 
 test('huren-of-kopen: build, title/meta/H1/H2, L7, links, alleen myPOS-knop, geen L4/SumUp-hardware', () => {
   execSync('node build.mjs', { env: { ...process.env, BASE: '', PREVIEW: '', GO_LIVE: '1', GA_ID: '' } });
@@ -21,7 +22,7 @@ test('huren-of-kopen: build, title/meta/H1/H2, L7, links, alleen myPOS-knop, gee
   assert.match(H, /Redactie KassaMatch/);
   const sm = readFileSync('dist/sitemap.xml', 'utf8');
   assert.match(sm, /pinautomaat-huren-of-kopen\/<\/loc><lastmod>2026-11-20<\/lastmod>/);
-  assert.match(sm, /gidsen\/<\/loc><lastmod>2026-11-20<\/lastmod>/);
+  assert.match(sm, new RegExp(`gidsen/</loc><lastmod>${revisieDatum('/gidsen/', '2026-11-20')}</lastmod>`));
   assert.match(sm, /bronnen\/<\/loc><lastmod>2026-11-20<\/lastmod>/);
   assert.match(sm, /goedkoopste-pinautomaat\/<\/loc><lastmod>2026-11-20<\/lastmod>/);
   assert.ok(readFileSync('dist/bronnen/index.html', 'utf8').includes('href="https://www.ccv.eu/nl/betaaloplossingen/apps-diensten/tap-to-pay"'));
