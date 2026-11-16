@@ -21,12 +21,15 @@ test('CCV-koopprijs: / en /pinautomaat-vergelijken/ noemen kopen vanaf € 399, 
   }
 });
 
-test('L7 23-11: lastmod en zichtbaar bijgewerkt op /, /pinautomaat-vergelijken/ en hub /gidsen/', () => {
+test('L7 23-11: lastmod en zichtbaar bijgewerkt op / en /pinautomaat-vergelijken/; /gidsen/ blijft 20-11', () => {
   const sm = readFileSync('dist/sitemap.xml', 'utf8');
   const d = '2026-11-23';
-  for (const p of [...PADEN, '/gidsen/']) {
+  for (const p of PADEN) {
     assert.equal(revisieDatum(p, '2026-11-03'), d, p);
     assert.match(sm, new RegExp(`<loc>https://kassamatch\\.nl${p.replace(/[/.]/g, '\\$&')}</loc><lastmod>${d}</lastmod>`), p);
     assert.match(html(p), new RegExp(`Laatst bijgewerkt <time datetime="${d}">`));
   }
+  assert.equal(revisieDatum('/gidsen/', '2026-11-20'), '2026-11-20');
+  assert.match(sm, /<loc>https:\/\/kassamatch\.nl\/gidsen\/<\/loc><lastmod>2026-11-20<\/lastmod>/);
+  assert.match(html('/gidsen/'), /Laatst bijgewerkt <time datetime="2026-11-20">/);
 });
