@@ -4,6 +4,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync, existsSync } from 'node:fs';
 import { execSync } from 'node:child_process';
+import { revisieDatum } from './nuchter-datums-helper.mjs';
 
 const main = (p) => { const t = readFileSync(`dist${p}index.html`, 'utf8'); return (t.match(/<main[\s\S]*?<\/main>/) || [''])[0]; };
 const count = (html, href) => (html.match(new RegExp(`href="${href.replace(/\//g, '\\/')}"`, 'g')) || []).length;
@@ -39,16 +40,18 @@ test('E3: controlegroep heeft geen links naar de nieuwe ankers en geen wijziging
   }
 });
 
-test('E3 L7: de 3 bronpagina\'s hebben lastmod, zichtbaar bijgewerkt (en dateModified bij artikelen); /goedkoopste-pinautomaat/ sinds 03-11 (Zettle L1/L4) 2026-11-03', () => {
+test('E3 L7: de 3 bronpagina\'s hebben lastmod, zichtbaar bijgewerkt (en dateModified bij artikelen); /goedkoopste-pinautomaat/ later herzien (inlink huren/kopen 20-11)', () => {
   const sm = readFileSync('dist/sitemap.xml', 'utf8');
   // /pinautomaat-vergelijken/ en /transactiekosten-vergelijken/ zijn op 30-10 opnieuw bijgewerkt (logo's); die datum test test/logo-l7.test.js.
+  const d = revisieDatum('/goedkoopste-pinautomaat/', '2026-11-03');
+  const nl = new Intl.DateTimeFormat('nl-NL', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'Europe/Amsterdam' }).format(new Date(d + 'T12:00:00Z'));
   for (const p of ['/goedkoopste-pinautomaat/']) {
-    assert.ok(sm.includes(`<loc>https://kassamatch.nl${p}</loc><lastmod>2026-11-03</lastmod>`), p);
-    assert.match(readFileSync(`dist${p}index.html`, 'utf8'), /Laatst bijgewerkt <time datetime="2026-11-03">3 november 2026<\/time>/, p);
+    assert.ok(sm.includes(`<loc>https://kassamatch.nl${p}</loc><lastmod>${d}</lastmod>`), p);
+    assert.match(readFileSync(`dist${p}index.html`, 'utf8'), new RegExp(`Laatst bijgewerkt <time datetime="${d}">${nl}</time>`), p);
   }
   for (const p of ['/goedkoopste-pinautomaat/']) {
     const t = readFileSync(`dist${p}index.html`, 'utf8');
-    assert.match(t, /"dateModified":"2026-11-03"/, p);
-    assert.match(t, /article:modified_time" content="2026-11-03"/, p);
+    assert.match(t, new RegExp(`"dateModified":"${d}"`), p);
+    assert.match(t, new RegExp(`article:modified_time" content="${d}"`), p);
   }
 });
