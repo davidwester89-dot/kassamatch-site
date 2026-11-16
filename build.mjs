@@ -48,9 +48,10 @@ const BRONLINK2_UPD = '2026-11-19';
 const BRONLINK2_PADEN = new Set(['/aanbieders/', '/aanbieders/sumup/', '/aanbieders/ccv/', '/aanbieders/lightspeed/', '/kassa-match/']);
 // L7 20-11: nieuwe gids /pinautomaat-huren-of-kopen/ (eigen datum 20-11 in pages.mjs). /gidsen/ heeft een eigen bodywijziging
 // (nieuwe kaart + verwijzing in 'Huren of kopen'), dus 20-11. /bronnen/ krijgt de nieuwe bron (CCV Tap to Pay), dus ook 20-11.
+// /goedkoopste-pinautomaat/ krijgt een inhoudelijke inlink naar de nieuwe gids, dus ook 20-11.
 // Geen andere pagina's: geen eigen bodywijziging.
 const HUREN_KOPEN_UPD = '2026-11-20';
-const HUREN_KOPEN_PADEN = new Set(['/gidsen/', '/bronnen/']);
+const HUREN_KOPEN_PADEN = new Set(['/gidsen/', '/bronnen/', '/goedkoopste-pinautomaat/']);
 
 export const pages = [P.home, P.quiz, P.pinVergelijk, P.kassaVergelijk, P.aanbiedersHub, ...P.aanbiederPages, P.sumupVsZettle, P.myposVsSumup, P.hurenKopen, P.gidsHub, ...P.guides, P.bronnen, P.over, P.privacy, P.disclaimer, P.contact, P.notfound].map((p) => (LOGO_PADEN.has(p.path) ? bijgewerkt(p, LOGO_UPD) : p)).map((p) => (ZETTLE_PADEN.has(p.path) || MOLLIE_PADEN.has(p.path) ? bijgewerkt(p, ZETTLE_UPD) : p)).map((p) => (LINKS_PADEN.has(p.path) ? bijgewerkt(p, LINKS_UPD) : p)).map((p) => (SHOPIFY_TARIEF_PADEN.has(p.path) ? bijgewerkt(p, SHOPIFY_TARIEF_UPD) : p)).map((p) => (MYPOS_VS_PADEN.has(p.path) ? bijgewerkt(p, MYPOS_VS_UPD) : p)).map((p) => (NEUTRAAL_PADEN.has(p.path) ? bijgewerkt(p, NEUTRAAL_UPD) : p)).map((p) => (BRONLINK2_PADEN.has(p.path) ? bijgewerkt(p, BRONLINK2_UPD) : p)).map((p) => (HUREN_KOPEN_PADEN.has(p.path) ? bijgewerkt(p, HUREN_KOPEN_UPD) : p)).map(nuchterDatum);
 for (const p of pages) write(p.path.endsWith('.html') ? join(OUT, p.path) : join(OUT, p.path, 'index.html'), partnerNoten(layout(p)));
