@@ -320,6 +320,82 @@ ${faqHtml(msFaq)}
 ${matchCta('Twijfel je nog?', 'vs_mypos_sumup')}${bron(A.mypos.bronnen, A.sumup.bronnen)}</article>`,
 };
 
+// ---- Pinautomaat huren of kopen (wk47, 20-11) ----
+// Huur- en koopbedragen CCV: ccv.eu/nl huur- en koopsite, gecontroleerd 16-11-2026 (zelfde bedragen als A.ccv.hardwareNoot).
+// myPOS Go 2: normale prijs € 39 excl. btw (A.mypos.hardware). Tijdelijke kortingen noemen we niet (L4).
+// SumUp-hardwarebedragen niet tonen (SC B3: actieprijzen). Geen banken noemen.
+const HK_DATE = '2026-11-20';
+const CCV_HUUR = [['Clover Flex Pocket', 25], ['Clover Flex', 28], ['Clover Mini', 30]];
+const CCV_KOOP = [['Clover Flex Pocket', 399], ['Clover Flex', 499], ['Clover Mini', 599]];
+const CCV_KOOP_MAAND = 16;
+const CCV_TTP = 0.25;
+const CCV_TTP_URL = 'https://www.ccv.eu/nl/betaaloplossingen/apps-diensten/tap-to-pay';
+const GO2 = A.mypos.hardware.find(([n]) => /Go 2/.test(n))[1];
+const ccvPl = A.ccv.plannen[0];
+const r2 = (n) => Math.round(n * 100) / 100;
+// Rekenvoorbeeld: eerste jaar (12 maanden), alleen betalingen met een Nederlandse consumentenbetaalpas.
+const hkJaar = (n, b) => {
+  const ccvTrans = n * ccvPl.vast;
+  const my = besteplan('mypos', n, b);
+  const su = besteplan('sumup', n, b, { geenAbonnement: true });
+  return [
+    ['CCV huren (Clover Flex Pocket)', r2(12 * (CCV_HUUR[0][1] + ccvTrans)), `${eur(CCV_HUUR[0][1])} per maand + ${eur(ccvPl.vast)} per betaling`],
+    ['CCV kopen (Clover Flex Pocket)', r2(CCV_KOOP[0][1] + 12 * (CCV_KOOP_MAAND + ccvPl.maand + ccvTrans)), `${eur(CCV_KOOP[0][1])} eenmalig + vanaf ${eur(CCV_KOOP_MAAND)} + ${eur(ccvPl.maand)} per maand + ${eur(ccvPl.vast)} per betaling`],
+    [`myPOS Go 2 kopen (${my.plan.naam})`, r2(GO2 + 12 * my.totaal), `${eur(GO2)} eenmalig excl. btw + ${fmtEur(my.totaal)} per maand`],
+    ['SumUp zonder abonnement', r2(12 * su.totaal), `${fmtEur(su.totaal)} per maand, plus het apparaat`],
+    ['CCV Tap to Pay (eigen Android-telefoon)', r2(12 * n * CCV_TTP), `${eur(CCV_TTP)} per betaling, geen vaste kosten`],
+  ];
+};
+const HK_VB = [[30, 20], [150, 25]];
+const HK_BRONNEN = (() => { const seen = new Set(); return [...A.ccv.bronnen.filter(([, u]) => /huren|kopen|tarieven/.test(u)), ['CCV: Tap to Pay', CCV_TTP_URL], ...A.mypos.bronnen, A.sumup.bronnen[0], A.zettle.bronnen[0]].filter(([, u]) => (seen.has(u) ? false : seen.add(u))); })();
+const hkFaq = [
+  ['Is een pinautomaat huren of kopen goedkoper?', `Dat hangt af van je aantal betalingen. In ons rekenvoorbeeld is kopen zonder abonnement goedkoper bij 30 betalingen per maand: je betaalt eenmalig voor het apparaat en daarna alleen per betaling. Bij 150 betalingen per maand valt huur met een vast bedrag per betaling in het eerste jaar goedkoper uit.`],
+  ['Hoe lang loopt een huurcontract voor een pinautomaat?', `Bij CCV loopt een huurovereenkomst 12 maanden. Opzeggen kan tot uiterlijk drie maanden voor het einde. Doe je dat niet, dan loopt de huur door voor onbepaalde tijd, met opnieuw een opzegtermijn van drie maanden.`],
+  ['Kan ik een pinautomaat voor één dag huren?', `In ons overzicht publiceert geen aanbieder een prijs voor dagverhuur. Voor één dag of een evenement kun je een los apparaat zonder abonnement kopen, of Tap to Pay op je telefoon gebruiken.`],
+  ['Wat kost een pinautomaat kopen zonder abonnement?', `myPOS toont de Go 2 voor ${eur(GO2)} excl. btw, met ${A.mypos.plannen[0].pct.toLocaleString('nl-NL')}% per betaling en geen vaste kosten in het plan One. SumUp rekent zonder abonnement ${A.sumup.plannen[0].pct.toLocaleString('nl-NL')}% per betaling; de actuele apparaatprijs staat op de site van SumUp.`],
+];
+export const hurenKopen = {
+  ...article({ path: '/pinautomaat-huren-of-kopen/', title: 'Pinautomaat huren of kopen: wat is goedkoper?', h1: 'Pinautomaat huren of kopen: wat is goedkoper?', description: 'Pinautomaat huren of kopen? Wat je kwijt bent aan aanschaf, huur per maand en transactiekosten, en wanneer kopen zonder abonnement goedkoper is dan huur.', date: HK_DATE, updated: HK_DATE, og: 'pin', parents: [['/gidsen/', 'Gidsen']], faq: hkFaq }),
+  crumb: 'Huren of kopen',
+  stamp: { checked: CHECKED, updated: HK_DATE }, // L7: zichtbare 'Laatst bijgewerkt' = pushdatum
+  body: `<article class="prose"><h1>Pinautomaat huren of kopen: wat is goedkoper?</h1>${by(HK_DATE)}
+<p class="lead">Een pinautomaat kun je huren, kopen met een servicecontract of kopen zonder abonnement. Wat het goedkoopst is, hangt af van hoeveel je pint en hoe lang je het apparaat gebruikt. Hier staan de drie vormen naast elkaar, met de bedragen van de aanbieders zelf.</p>
+<h2>Huren, kopen of kopen zonder abonnement</h2>
+<p><strong>Huren.</strong> Je betaalt een vast bedrag per maand en het apparaat blijft van de aanbieder. In ons overzicht verhuurt alleen ${link('ccv')} pinautomaten. Een huurovereenkomst loopt daar 12 maanden. CCV rekent de transactieverwerking bij huur in de huurprijs; per betaling betaal je daarnaast transactiekosten. Inruilen voor een ander CCV-model kan tijdens de looptijd.</p>
+<p><strong>Kopen met servicecontract.</strong> Je betaalt eenmalig voor het apparaat en daarna maandelijks voor service en transactieverwerking. Ook dat kan bij CCV.</p>
+<p><strong>Kopen zonder abonnement.</strong> Je koopt een los apparaat en betaalt daarna alleen per betaling, zonder vaste kosten per maand. Zo werken onder meer ${link('mypos')}, ${link('sumup')} en ${link('zettle')}. myPOS en SumUp hebben daarnaast een plan met vaste maandkosten en een lager tarief, dat je zelf kiest.</p>
+<h2>Kosten naast elkaar</h2>
+<div class="table-wrap"><table class="data side"><thead><tr><th scope="col"></th><th scope="col">Apparaat</th><th scope="col">Per maand</th><th scope="col">Per betaling (NL-betaalpas)</th></tr></thead><tbody>
+<tr><th scope="row">CCV huren</th><td data-l="Apparaat">geen aanschaf</td><td data-l="Per maand">${CCV_HUUR.map(([n, p]) => `${esc(n)} ${eur(p)}`).join(' · ')}</td><td data-l="Per betaling">${eur(ccvPl.vast)}</td></tr>
+<tr><th scope="row">CCV kopen</th><td data-l="Apparaat">${CCV_KOOP.map(([n, p]) => `${esc(n)} ${eur(p)}`).join(' · ')}</td><td data-l="Per maand">vanaf ${eur(CCV_KOOP_MAAND)} plus ${eur(ccvPl.maand)} transactieverwerking</td><td data-l="Per betaling">${eur(ccvPl.vast)}</td></tr>
+<tr><th scope="row">myPOS kopen</th><td data-l="Apparaat">Go 2 ${eur(GO2)} excl. btw</td><td data-l="Per maand">${A.mypos.plannen.map((p) => `${esc(p.naam)} ${eur(p.maand)}`).join(' · ')}</td><td data-l="Per betaling">${A.mypos.plannen.map((p) => esc(p.tarief)).join(' · ')}</td></tr>
+<tr><th scope="row">SumUp kopen</th><td data-l="Apparaat">actuele prijs: zie de productpagina van SumUp</td><td data-l="Per maand">${A.sumup.plannen.map((p) => eur(p.maand)).join(' of ')}</td><td data-l="Per betaling">${A.sumup.plannen.map((p) => esc(p.tarief)).join(' of ')}</td></tr>
+<tr><th scope="row">Zettle kopen</th><td data-l="Apparaat">${esc(hwTekst('zettle'))}</td><td data-l="Per maand">${eur(0)}</td><td data-l="Per betaling">${esc(A.zettle.plannen[0].tarief)}</td></tr>
+</tbody></table></div>
+<p>CCV vermeldt bij de huur- en koopprijzen niet of btw inbegrepen is; myPOS toont zijn apparaatprijzen exclusief btw. De volledige tarieven per aanbieder staan op ${link('ccv')}, ${link('mypos')} en ${link('sumup')}. Alleen het percentage of vaste bedrag per betaling vergelijken? Kijk dan bij <a href="/transactiekosten-vergelijken/">transactiekosten vergelijken</a>.</p>
+<h2>Rekenvoorbeeld per maand</h2>
+<p><em>Rekenvoorbeeld van KassaMatch</em> met de tarieven hierboven: kosten voor het eerste jaar (12 maanden), alleen betalingen met een Nederlandse consumentenbetaalpas. Bij myPOS nemen we het goedkoopste plan bij dat aantal betalingen.</p>
+${HK_VB.map(([n, b]) => `<h3>${fmtN(n)} betalingen van ${eur(b)} per maand</h3>
+<div class="table-wrap"><table class="data stack"><thead><tr><th scope="col">Vorm</th><th scope="col">Eerste jaar</th><th scope="col">Opbouw</th></tr></thead><tbody>${hkJaar(n, b).map(([v, t, o]) => `<tr><td data-l="Vorm">${esc(v)}</td><td class="n" data-l="Eerste jaar">${fmtEur(t)}</td><td data-l="Opbouw">${esc(o)}</td></tr>`).join('')}</tbody></table></div>`).join('\n')}
+<p>Bij weinig betalingen wint kopen zonder abonnement, of Tap to Pay als je een geschikte telefoon hebt. Bij veel betalingen maakt het vaste bedrag per betaling bij CCV het verschil, en dan kan huren goedkoper uitvallen dan kopen met een percentage. Na het eerste jaar valt bij kopen de aanschaf weg, bij huren niet. Reken met je eigen aantallen in <a href="/pinautomaat-vergelijken/">pinautomaat vergelijken</a>, of zie drie voorbeelden in <a href="/goedkoopste-pinautomaat/">de goedkoopste pinautomaat</a>.</p>
+<h2>Eén dag of evenement</h2>
+<p>Geen van de aanbieders in ons overzicht publiceert een prijs voor dagverhuur. Huur bij CCV loopt 12 maanden, dus voor één markt of evenement past dat niet.</p>
+<p>Voor korte inzet heb je twee opties. Je koopt een los apparaat zonder abonnement en betaalt alleen per betaling. Of je gebruikt Tap to Pay op je telefoon: CCV rekent ${eur(CCV_TTP)} per betaling zonder vaste kosten, op een Android-telefoon. Zettle biedt Tap to Pay op je telefoon zonder extra hardware.</p>
+<h2>Zo kies je</h2>
+<ul>
+<li><strong>Je pint af en toe of seizoensgebonden:</strong> kopen zonder abonnement, zoals myPOS One of SumUp Betaal naar gebruik. Geen vaste kosten in maanden zonder omzet.</li>
+<li><strong>Je pint veel en wilt een vast bedrag per betaling:</strong> vergelijk CCV huren met myPOS Pro (${eur(A.mypos.plannen[2].maand)} per maand en ${eur(A.mypos.plannen[2].vast)} per betaling).</li>
+<li><strong>Je wilt snel een vervangend apparaat bij een storing:</strong> bij een gehuurde Clover van CCV krijg je binnen 1 dag een vervangend apparaat als telefonische hulp niet helpt. Bij koop kies je zelf of je maandelijks voor service betaalt. Meer op ${link('ccv')}.</li>
+<li><strong>Je wilt geen contract:</strong> myPOS vraagt geen contract, en SumUp kun je opzeggen wanneer je wilt.</li>
+</ul>
+<p>myPOS en SumUp naast elkaar: <a href="/mypos-vs-sumup/">myPOS vs SumUp</a>. SumUp naast Zettle: <a href="/sumup-vs-zettle/">SumUp vs Zettle</a>. Twijfel je nog? <a href="/kassa-match/">Doe de kassa-match</a>.</p>
+${faqHtml(hkFaq)}
+<div class="actions">${knop('mypos', 'huren_kopen')}</div>
+${matchCta('Twijfel je nog?', 'huren_kopen')}
+<h2>Bronnen</h2>
+<ul class="src">${HK_BRONNEN.map(([t, u]) => `<li><a href="${u}" rel="noopener">${esc(t)}</a></li>`).join('')}</ul></article>`,
+};
+
 // ---- Gidsen ----
 const wk = (n, b) => { const r = top(n, b); return `${link(r.id)} (${esc(r.plan.naam)}, ${fmtEur(r.totaal)} per maand)`; };
 const wk0 = (n, b) => { const r = top(n, b, { geenAbonnement: true }); return `${link(r.id)} (${fmtEur(r.totaal)} per maand)`; };
@@ -468,7 +544,7 @@ export const gidsHub = {
   description: 'Welke pinautomaat of kassa past bij je zaak? Gidsen over kosten per pinbetaling, huren of kopen, een kassasysteem kiezen en wat de Belastingdienst vraagt.',
   schema: [faqSchema(hubFaq)],
   body: `<h1>Gidsen over pinautomaten en kassasystemen</h1><p class="lead">Uitleg en rekenvoorbeelden, met de tarieven van de aanbieders en de regels van de Belastingdienst.</p>
-<div class="grid cards">${[...GIDSEN, ['/sumup-vs-zettle/', 'SumUp of Zettle', 'Tarief, apparaat en kassa-app naast elkaar.'], ['/mypos-vs-sumup/', 'myPOS of SumUp', 'Maandprijs, percentage en welk plan bij lage of hogere omzet.']].map(([h, t, d]) => `<a class="card" href="${h}"><h2>${esc(t)}</h2><p>${esc(d)}</p><span class="more">Lees verder →</span></a>`).join('')}</div>
+<div class="grid cards">${[...GIDSEN, ['/sumup-vs-zettle/', 'SumUp of Zettle', 'Tarief, apparaat en kassa-app naast elkaar.'], ['/mypos-vs-sumup/', 'myPOS of SumUp', 'Maandprijs, percentage en welk plan bij lage of hogere omzet.'], ['/pinautomaat-huren-of-kopen/', 'Huren of kopen', 'Huur, aanschaf en kosten per betaling naast elkaar.']].map(([h, t, d]) => `<a class="card" href="${h}"><h2>${esc(t)}</h2><p>${esc(d)}</p><span class="more">Lees verder →</span></a>`).join('')}</div>
 <div class="prose">
 <h2>Waar begin je?</h2>
 <p>Begin bij je eigen vraag. Wil je alleen pinbetalingen aannemen, bijvoorbeeld op de markt of bij klanten thuis? Dan zoek je een pinautomaat, en draait het vooral om de kosten per betaling. Wil je ook producten, voorraad, tafels of personeel beheren? Dan zoek je een kassasysteem, met een pinkoppeling erbij.</p>
@@ -480,7 +556,7 @@ export const gidsHub = {
 <p>Zonder abonnement betaal je een percentage per betaling, bijvoorbeeld ${pctT(A.sumup.plannen[0].pct)} bij SumUp of ${pctT(A.zettle.plannen[0].pct)} bij Zettle. Met een abonnement betaal je een vast bedrag per maand en minder per betaling. Bij myPOS Pro is dat ${eur(A.mypos.plannen[2].maand)} per maand en ${eur(A.mypos.plannen[2].vast)} per betaling, bij CCV ${eur(A.ccv.plannen[0].maand)} per maand en ${eur(A.ccv.plannen[0].vast)} per betaling.</p>
 <p>Pin je weinig, dan is een percentage meestal goedkoper. Pin je veel of hoge bedragen, dan wint vaak een vast bedrag. Waar dat omslagpunt ligt, lees je in <a href="/transactiekosten-vergelijken/">transactiekosten vergelijken</a>.</p>
 <h2>Huren of kopen</h2>
-<p>De meeste pinaanbieders verkopen het apparaat. CCV laat je kiezen: huren kan vanaf € 25 per maand, met de transactieverwerking in de huurprijs. Kopen kan vanaf € 399 eenmalig plus maandelijkse kosten vanaf € 16. Wat voor jou goedkoper is, hangt af van hoe lang je het apparaat gebruikt. Alle bedragen per model staan op de pagina over <a href="/aanbieders/ccv/">CCV</a>.</p>
+<p>De meeste pinaanbieders verkopen het apparaat. CCV laat je kiezen: huren kan vanaf € 25 per maand, met de transactieverwerking in de huurprijs. Kopen kan vanaf € 399 eenmalig plus maandelijkse kosten vanaf € 16. Wat voor jou goedkoper is, hangt af van hoe lang je het apparaat gebruikt. Alle bedragen per model staan op de pagina over <a href="/aanbieders/ccv/">CCV</a>. Een rekenvoorbeeld voor huren en kopen staat in <a href="/pinautomaat-huren-of-kopen/">pinautomaat huren of kopen</a>.</p>
 <h2>Een kassasysteem kiezen</h2>
 <p>Een kassasysteem kies je op wat je zaak nodig heeft: tafels en een keuken in de horeca, voorraad en een webshop in een winkel. Sommige pinaanbieders hebben een eenvoudige kassa-app erbij. Uitgebreide systemen werken met een abonnement per maand of op offerte.</p>
 <p>Welke functies je nodig hebt, lees je in <a href="/kassasysteem-kiezen/">kassasysteem kiezen</a>. Alle systemen naast elkaar staan in <a href="/kassasysteem-vergelijken/">kassasysteem vergelijken</a>, en alleen pinautomaten in <a href="/pinautomaat-vergelijken/">pinautomaat vergelijken</a>. Alle aanbieders op een rij vind je bij <a href="/aanbieders/">aanbieders</a>.</p>
@@ -502,6 +578,7 @@ export const bronnen = {
 <div class="table-wrap"><table class="data stack"><thead><tr><th scope="col">Aanbieder</th><th scope="col">Bron</th><th scope="col">Gecontroleerd</th><th scope="col">Wat staat er niet</th></tr></thead><tbody>${IDS.map((id) => `<tr><th scope="row">${link(id)}</th><td data-l="Bron">${A[id].bronnen.map(([t, u]) => `<a href="${u}" rel="noopener">${esc(t)}</a>`).join('<br>')}</td><td data-l="Gecontroleerd"><time datetime="${checkedVan(id)}">${fmtDate(checkedVan(id))}</time></td><td data-l="Wat staat er niet">${esc(NIET[id])}</td></tr>`).join('')}</tbody></table></div>
 <h2>Regels en uitleg</h2><ul>${BD.map(([t, u]) => `<li><a href="${u}" rel="noopener">${esc(t)}</a></li>`).join('')}</ul>
 <h2>Extra bronnen voor de gids kassasysteem horeca</h2><ul>${HORECA_BRONNEN.filter(([, u]) => !IDS.some((id) => A[id].bronnen.some(([, v]) => v === u))).map(([t, u]) => `<li><a href="${u}" rel="noopener">${esc(t)}</a></li>`).join('')}</ul>
+<h2>Extra bronnen voor de gids pinautomaat huren of kopen</h2><ul>${HK_BRONNEN.filter(([, u]) => !IDS.some((id) => A[id].bronnen.some(([, v]) => v === u))).map(([t, u]) => `<li><a href="${u}" rel="noopener">${esc(t)}</a></li>`).join('')}</ul>
 <h2>Hoe we controleren</h2><ul><li>We lezen de openbare prijspagina's, zonder in te loggen en zonder formulieren in te vullen.</li><li>De site van Lightspeed blokkeert geautomatiseerde verzoeken van onze server. De bedragen van Lightspeed hebben we via een andere ophaalmethode op de eigen prijspagina van Lightspeed gelezen.</li><li>Shopify toont op de Nederlandse POS-prijspagina de prijzen in euro. Die bedragen nemen we over, met de datum van controle.</li><li>Ziet een aanbieder een fout, of veranderen tarieven? Mail <a href="mailto:${SITE.email}">${SITE.email}</a>, dan passen we het aan met bron.</li></ul></article>`,
 };
 
