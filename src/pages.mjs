@@ -402,7 +402,7 @@ const wk0 = (n, b) => { const r = top(n, b, { geenAbonnement: true }); return `$
 const goedkoopFaq = [
   ['Wat is de goedkoopste pinautomaat zonder abonnement?', `Bij 50 betalingen van € 20 per maand zijn SumUp en myPOS One even duur (1,49%). Het goedkoopste losse apparaat in ons overzicht is de SumUp Solo Lite (${eur(goedkoopsteHardware('sumup'))} excl. btw).`],
   ['Is een pinautomaat met vast bedrag per betaling goedkoper?', 'Bij hogere bedragen wel. CCV rekent € 0,068 en myPOS Pro € 0,06 per betaling met een Nederlandse pas, ongeacht het bedrag. Bij een percentage betaal je meer naarmate het bedrag stijgt.'],
-  ['Wat kost een pinautomaat eenmalig?', `Van ${eur(Math.min(...PIN_IDS.map(goedkoopsteHardware).filter((x) => x != null)))} tot ${eur(Math.max(...PIN_IDS.map(goedkoopsteHardware).filter((x) => x != null)))} voor het goedkoopste apparaat per aanbieder, volgens hun eigen sites. CCV publiceert de prijs van de automaat niet.`],
+  ['Wat kost een pinautomaat eenmalig?', `Van ${eur(Math.min(...PIN_IDS.map(goedkoopsteHardware).filter((x) => x != null)))} tot ${eur(Math.max(...PIN_IDS.map(goedkoopsteHardware).filter((x) => x != null)))} voor het goedkoopste losse apparaat per aanbieder, volgens hun eigen sites. CCV toont op de kooppagina een eenmalige prijs vanaf € 399 plus maandelijkse kosten vanaf € 16.`],
 ];
 export const goedkoopste = {
   ...article({ path: '/goedkoopste-pinautomaat/', title: 'Goedkoopste pinautomaat 2026: wat kost een pinautomaat?', h1: 'Goedkoopste pinautomaat 2026: wat kost een pinautomaat echt?', description: 'Wat kost een pinautomaat per maand? Rekenvoorbeelden bij 50, 300 en 1.000 betalingen met de tarieven van SumUp, myPOS, Zettle, Mollie en CCV.', og: 'goedkoopste', parents: [['/gidsen/', 'Gidsen']], updated: '2026-10-29', faq: goedkoopFaq }),
@@ -416,7 +416,7 @@ ${pinVoorbeeld(50, 20)}
 ${pinVoorbeeld(300, 25)}
 <h2>Veel pinnen: 1.000 betalingen van € 25</h2><p>Goedkoopst per maand: ${wk(1000, 25)}. Zonder abonnement: ${wk0(1000, 25)}.</p>
 ${pinVoorbeeld(1000, 25)}
-<h2>Let op bij CCV</h2><p>CCV is in deze voorbeelden vaak het goedkoopst per maand, omdat je een vast bedrag van € 0,068 per betaling betaalt. CCV publiceert de prijs van de betaalautomaat alleen niet op de tarievenpagina. Vraag die prijs op voordat je vergelijkt over een heel jaar.</p>
+<h2>Let op bij CCV</h2><p>CCV is in deze voorbeelden vaak het goedkoopst per maand, omdat je een vast bedrag van € 0,068 per betaling betaalt. De eenmalige koopprijs staat niet op de tarievenpagina, maar wel op de CCV-pagina over pinautomaat kopen: vanaf € 399 plus maandelijkse kosten vanaf € 16. Reken die aanschaf of de huur mee als je over een heel jaar vergelijkt.</p>
 <h2>Zo kies je</h2><ol><li>Tel hoeveel pinbetalingen je per maand verwacht en wat een gemiddeld bedrag is.</li><li>Vul dat in bij <a href="/pinautomaat-vergelijken/">pinautomaat vergelijken</a>.</li><li>Tel het apparaat erbij op voor het eerste jaar.</li><li>Kijk of je ook online betalingen of een kassa nodig hebt.</li></ol>
 ${faqHtml(goedkoopFaq)}
 ${matchCta('Welke pinautomaat past bij jouw aantallen?', 'gids_match')}${bron(bronnenVan(...PIN_IDS))}</article>`,
