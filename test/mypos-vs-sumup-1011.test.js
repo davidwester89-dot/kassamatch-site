@@ -43,7 +43,7 @@ test('mypos-vs-sumup: build, title/meta/H1, L7, kannibalisatie, partner myPOS', 
   // Hub lastmod
   const sm = readFileSync('dist/sitemap.xml', 'utf8');
   assert.match(sm, /mypos-vs-sumup\/<\/loc><lastmod>2026-11-18<\/lastmod>/);
-  assert.match(sm, new RegExp(`gidsen/</loc><lastmod>${revisieDatum('/gidsen/', '2026-11-20')}</lastmod>`)); // 23-11: hub van /pinautomaat-vergelijken/ (CCV-koop)
+  assert.match(sm, new RegExp(`gidsen/</loc><lastmod>${revisieDatum('/gidsen/', '2026-11-20')}</lastmod>`)); // 20-11: kaart pinautomaat huren of kopen; geen lift 23-11 (geen eigen bodywijziging)
   const hub = readFileSync('dist/gidsen/index.html', 'utf8');
   assert.ok(hub.includes('href="/mypos-vs-sumup/"'));
   // H2 outline
