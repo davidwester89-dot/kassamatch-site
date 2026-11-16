@@ -35,7 +35,9 @@ const clientOutput = { covers: dektAanbieders, run: quizEnCalculator };
 
 export const CFG = {
   // Geen datumlift door alleen een gewijzigd kind; bij eigen body geldt de gewone L7-plicht.
-  bodyOnlyHubs: ["/aanbieders/"],
+  // /gidsen/: zelfde regel (SC a1e4b61). Zonder deze regel eist l7check regel 4 de kinddatum 23-11
+  // als /pinautomaat-vergelijken/ wijzigt, ook als de hub zelf ongewijzigd blijft.
+  bodyOnlyHubs: ["/aanbieders/", "/gidsen/"],
   build: (dir, env) => { execSync('node build.mjs', { cwd: dir, env, stdio: 'ignore' }); return join(dir, 'dist'); },
   // Kinderen = gidsen/vergelijkingspagina's op één padsegment. /aanbieders/ en /kassa-match/ horen niet bij deze
   // hub: een eigen body/clientwijziging daar tilt /gidsen/ niet (L7: hub alleen bij eigen bodywijziging; 16-11).
