@@ -9,7 +9,7 @@ test('stijlrelease 18-11: exacte bijgewerkt-/lastmod-/dateModified-datums, uitsl
   for (const pad of STIJL_PADEN) {
     const file = pad.endsWith('.html') ? out + pad : out + pad + 'index.html';
     const fields = dateFields(readFileSync(file, 'utf8'));
-    const d = revisieDatum(pad, '2026-11-18'); // 24-11 alleen op BRONLINK2_PADEN (eigen bodywijziging), anders exact 18-11
+    const d = revisieDatum(pad, '2026-11-18'); // 23-11 op /pinautomaat-vergelijken/ en hub /gidsen/ (CCV-koop), 24-11 op BRONLINK2_PADEN, anders 18-11
     assert.equal(fields.visible, d, pad + ': zichtbaar');
     assert.equal(sitemap.get(pad), d, pad + ': sitemap');
     for (const date of [...fields.ld, ...fields.og]) assert.equal(date, d, pad + ': dateModified');
