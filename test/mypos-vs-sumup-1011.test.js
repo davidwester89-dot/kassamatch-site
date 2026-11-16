@@ -42,7 +42,7 @@ test('mypos-vs-sumup: build, title/meta/H1, L7, kannibalisatie, partner myPOS', 
   // Hub lastmod
   const sm = readFileSync('dist/sitemap.xml', 'utf8');
   assert.match(sm, /mypos-vs-sumup\/<\/loc><lastmod>2026-11-18<\/lastmod>/);
-  assert.match(sm, /gidsen\/<\/loc><lastmod>2026-11-18<\/lastmod>/);
+  assert.match(sm, /gidsen\/<\/loc><lastmod>2026-11-20<\/lastmod>/); // 20-11: kaart pinautomaat huren of kopen
   const hub = readFileSync('dist/gidsen/index.html', 'utf8');
   assert.ok(hub.includes('href="/mypos-vs-sumup/"'));
   // H2 outline
