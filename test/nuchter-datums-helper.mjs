@@ -16,6 +16,6 @@ export const STIJL_PADEN = new Set([
   "/mypos-vs-sumup/",
   "/pinautomaat-vergelijken/"
 ]);
-// 19-11 (bronlinks SumUp/CCV/Lightspeed): eigen body- of clientwijziging; latere datum wint van de stijlrelease.
+// 24-11 (bronlinks SumUp/CCV/Lightspeed): eigen body- of clientwijziging; latere datum wint van de stijlrelease.
 export const BRONLINK2_PADEN = new Set(['/aanbieders/', '/aanbieders/sumup/', '/aanbieders/ccv/', '/aanbieders/lightspeed/', '/kassa-match/']);
-export const revisieDatum = (pad, vorige) => BRONLINK2_PADEN.has(pad) ? '2026-11-19' : STIJL_PADEN.has(pad) ? '2026-11-18' : vorige;
+export const revisieDatum = (pad, vorige) => BRONLINK2_PADEN.has(pad) ? '2026-11-24' : STIJL_PADEN.has(pad) ? '2026-11-18' : vorige;

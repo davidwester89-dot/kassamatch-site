@@ -20,7 +20,27 @@ const ZETTLE_PADEN = new Set(['/', '/kassa-match/', '/pinautomaat-vergelijken/',
 // L4 03-11: Mollie-korting van 23-10 zonder einddatum weg (hardwareNoot, tekst en FAQ op /aanbieders/mollie/; hardwareNoot wordt verder nergens getoond).
 const MOLLIE_PADEN = new Set(['/aanbieders/mollie/']);
 const LOGO_PADEN = new Set(['/', '/kassa-match/', '/pinautomaat-vergelijken/', '/kassasysteem-vergelijken/', '/aanbieders/', '/aanbieders/ccv/', '/aanbieders/mollie/', '/aanbieders/mpluskassa/', '/aanbieders/mypos/', '/aanbieders/sumup/', '/aanbieders/untill/', '/aanbieders/lightspeed/', '/aanbieders/shopify-pos/', '/aanbieders/zettle/', '/sumup-vs-zettle/', '/transactiekosten-vergelijken/', '/bronnen/']);
-const bijgewerkt = (pg, upd) => ({ ...pg, lastmod: upd, stamp: { ...pg.stamp, updated: upd }, ...(pg.article ? { article: { ...pg.article, updated: upd } } : {}), ...(pg.schema ? { schema: pg.schema.map((x) => ('dateModified' in x ? { ...x, dateModified: upd } : x)) } : {}) });
+// Elke lastmod-lift vanaf de inhaallagen (pushdagen ≥ 24-11) krijgt dateModified (SEO-les 23-11),
+// ook als het template die nog niet had. Oudere lifts blijven ongemoeid (geen extra schema).
+const COLLECTION_PADEN = new Set(['/aanbieders/', '/gidsen/', '/bronnen/']);
+const PAGE_TYPES_WITH_DM = new Set(['WebPage', 'CollectionPage', 'Blog', 'WebApplication', 'AboutPage', 'ContactPage', 'Article', 'BlogPosting']);
+const pageSchema = (type, path, name, description, dateModified) => ({
+  '@context': 'https://schema.org', '@type': type, name, url: SITE.domain + path,
+  ...(description ? { description } : {}), inLanguage: 'nl-NL', dateModified,
+});
+const ensureDateModified = (pg, upd) => {
+  const schema = [...(pg.schema || [])].map((x) => ('dateModified' in x ? { ...x, dateModified: upd } : x));
+  if (schema.some((x) => 'dateModified' in x)) return schema;
+  const idx = schema.findIndex((x) => PAGE_TYPES_WITH_DM.has(x['@type']));
+  if (idx >= 0) return schema.map((x, i) => (i === idx ? { ...x, dateModified: upd } : x));
+  const type = COLLECTION_PADEN.has(pg.path) ? 'CollectionPage' : 'WebPage';
+  return [...schema, pageSchema(type, pg.path, pg.h1 || pg.title || pg.path, pg.description, upd)];
+};
+const bijgewerkt = (pg, upd) => ({
+  ...pg, lastmod: upd, stamp: { ...pg.stamp, updated: upd },
+  ...(pg.article ? { article: { ...pg.article, updated: upd } } : {}),
+  schema: upd >= '2026-11-24' ? ensureDateModified(pg, upd) : (pg.schema ? pg.schema.map((x) => ('dateModified' in x ? { ...x, dateModified: upd } : x)) : pg.schema),
+});
 // L7 05-11: interne-links-experiment — bodywijziging op bronpagina's + hubs (regel D: max van kinderen).
 const LINKS_UPD = '2026-11-05';
 const LINKS_PADEN = new Set(['/sumup-vs-zettle/', '/aanbieders/ccv/', '/aanbieders/mypos/', '/aanbieders/', '/gidsen/']);
@@ -41,10 +61,10 @@ const MYPOS_VS_PADEN = new Set(['/mypos-vs-sumup/', '/gidsen/', '/aanbieders/myp
 // /gidsen/ heeft geen eigen bodywijziging en blijft 11-11 (kinderen-regex sluit /aanbieders/ en /kassa-match/ uit).
 const NEUTRAAL_UPD = '2026-11-16';
 const NEUTRAAL_PADEN = new Set(['/aanbieders/', '/aanbieders/mollie/', '/aanbieders/zettle/', '/aanbieders/mpluskassa/', '/aanbieders/untill/', '/kassa-match/']);
-// L7 19-11: onbetaalde knoppen SumUp, CCV en Lightspeed → bronlink (NEUTRAAL in partnerlinks.js). Alleen pagina's met eigen
+// L7 24-11: onbetaalde knoppen SumUp, CCV en Lightspeed → bronlink (NEUTRAAL in partnerlinks.js). Alleen pagina's met eigen
 // body- of clientwijziging: hub /aanbieders/ (eigen kaartknoppen), de drie aanbiederpagina's en /kassa-match/ (quiz gebruikt knop()).
 // /gidsen/ en /mypos-vs-sumup/ krijgen geen datum: geen eigen bodywijziging. Vóór nuchterDatum, zodat de stempeltekst meegaat.
-const BRONLINK2_UPD = '2026-11-19';
+const BRONLINK2_UPD = '2026-11-24';
 const BRONLINK2_PADEN = new Set(['/aanbieders/', '/aanbieders/sumup/', '/aanbieders/ccv/', '/aanbieders/lightspeed/', '/kassa-match/']);
 
 export const pages = [P.home, P.quiz, P.pinVergelijk, P.kassaVergelijk, P.aanbiedersHub, ...P.aanbiederPages, P.sumupVsZettle, P.myposVsSumup, P.gidsHub, ...P.guides, P.bronnen, P.over, P.privacy, P.disclaimer, P.contact, P.notfound].map((p) => (LOGO_PADEN.has(p.path) ? bijgewerkt(p, LOGO_UPD) : p)).map((p) => (ZETTLE_PADEN.has(p.path) || MOLLIE_PADEN.has(p.path) ? bijgewerkt(p, ZETTLE_UPD) : p)).map((p) => (LINKS_PADEN.has(p.path) ? bijgewerkt(p, LINKS_UPD) : p)).map((p) => (SHOPIFY_TARIEF_PADEN.has(p.path) ? bijgewerkt(p, SHOPIFY_TARIEF_UPD) : p)).map((p) => (MYPOS_VS_PADEN.has(p.path) ? bijgewerkt(p, MYPOS_VS_UPD) : p)).map((p) => (NEUTRAAL_PADEN.has(p.path) ? bijgewerkt(p, NEUTRAAL_UPD) : p)).map((p) => (BRONLINK2_PADEN.has(p.path) ? bijgewerkt(p, BRONLINK2_UPD) : p)).map(nuchterDatum);
