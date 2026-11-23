@@ -1,4 +1,4 @@
-// L7 23-11: CCV-koopprijs vanaf € 399 op / en /pinautomaat-vergelijken/ (officiële kooppagina).
+// L7 26-11: CCV-koopprijs vanaf € 399 op / en /pinautomaat-vergelijken/ (officiële kooppagina).
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
@@ -21,15 +21,15 @@ test('CCV-koopprijs: / en /pinautomaat-vergelijken/ noemen kopen vanaf € 399, 
   }
 });
 
-test('L7 23-11: lastmod en zichtbaar bijgewerkt op / en /pinautomaat-vergelijken/; /gidsen/ blijft 20-11', () => {
+test('L7 26-11: lastmod en zichtbaar bijgewerkt op / en /pinautomaat-vergelijken/; /gidsen/ blijft 25-11', () => {
   const sm = readFileSync('dist/sitemap.xml', 'utf8');
-  const d = '2026-11-23';
+  const d = '2026-11-26';
   for (const p of PADEN) {
     assert.equal(revisieDatum(p, '2026-11-03'), d, p);
     assert.match(sm, new RegExp(`<loc>https://kassamatch\\.nl${p.replace(/[/.]/g, '\\$&')}</loc><lastmod>${d}</lastmod>`), p);
     assert.match(html(p), new RegExp(`Laatst bijgewerkt <time datetime="${d}">`));
   }
-  assert.equal(revisieDatum('/gidsen/', '2026-11-20'), '2026-11-20');
-  assert.match(sm, /<loc>https:\/\/kassamatch\.nl\/gidsen\/<\/loc><lastmod>2026-11-20<\/lastmod>/);
-  assert.match(html('/gidsen/'), /Laatst bijgewerkt <time datetime="2026-11-20">/);
+  assert.equal(revisieDatum('/gidsen/', '2026-11-25'), '2026-11-25');
+  assert.match(sm, /<loc>https:\/\/kassamatch\.nl\/gidsen\/<\/loc><lastmod>2026-11-25<\/lastmod>/);
+  assert.match(html('/gidsen/'), /Laatst bijgewerkt <time datetime="2026-11-25">/);
 });
