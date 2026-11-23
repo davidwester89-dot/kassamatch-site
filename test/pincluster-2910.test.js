@@ -40,7 +40,7 @@ test('E3: controlegroep heeft geen links naar de nieuwe ankers en geen wijziging
   }
 });
 
-test('E3 L7: de 3 bronpagina\'s hebben lastmod, zichtbaar bijgewerkt (en dateModified bij artikelen); /goedkoopste-pinautomaat/ later herzien (inlink huren/kopen 20-11)', () => {
+test('E3 L7: de 3 bronpagina\'s hebben lastmod, zichtbaar bijgewerkt (en dateModified bij artikelen); /goedkoopste-pinautomaat/ later herzien (inlink huren/kopen 25-11)', () => {
   const sm = readFileSync('dist/sitemap.xml', 'utf8');
   // /pinautomaat-vergelijken/ en /transactiekosten-vergelijken/ zijn op 30-10 opnieuw bijgewerkt (logo's); die datum test test/logo-l7.test.js.
   const d = revisieDatum('/goedkoopste-pinautomaat/', '2026-11-03');
