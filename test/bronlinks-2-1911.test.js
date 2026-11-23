@@ -1,4 +1,4 @@
-// 19-11: SumUp, CCV en Lightspeed hebben geen goedgekeurde betaalde route → gewone bronlink, sitewide (statisch + quiz-knop()).
+// 24-11: SumUp, CCV en Lightspeed hebben geen goedgekeurde betaalde route → gewone bronlink, sitewide (statisch + quiz-knop()).
 // myPOS en Shopify POS blijven betaalde knoppen. Matchbasisregel: 0 onbetaalde CTA's in de top 3, bij elke antwoordcombinatie.
 import test from 'node:test';
 import assert from 'node:assert/strict';

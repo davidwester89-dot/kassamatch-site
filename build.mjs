@@ -41,10 +41,10 @@ const MYPOS_VS_PADEN = new Set(['/mypos-vs-sumup/', '/gidsen/', '/aanbieders/myp
 // /gidsen/ heeft geen eigen bodywijziging en blijft 11-11 (kinderen-regex sluit /aanbieders/ en /kassa-match/ uit).
 const NEUTRAAL_UPD = '2026-11-16';
 const NEUTRAAL_PADEN = new Set(['/aanbieders/', '/aanbieders/mollie/', '/aanbieders/zettle/', '/aanbieders/mpluskassa/', '/aanbieders/untill/', '/kassa-match/']);
-// L7 19-11: onbetaalde knoppen SumUp, CCV en Lightspeed → bronlink (NEUTRAAL in partnerlinks.js). Alleen pagina's met eigen
+// L7 24-11: onbetaalde knoppen SumUp, CCV en Lightspeed → bronlink (NEUTRAAL in partnerlinks.js). Alleen pagina's met eigen
 // body- of clientwijziging: hub /aanbieders/ (eigen kaartknoppen), de drie aanbiederpagina's en /kassa-match/ (quiz gebruikt knop()).
 // /gidsen/ en /mypos-vs-sumup/ krijgen geen datum: geen eigen bodywijziging. Vóór nuchterDatum, zodat de stempeltekst meegaat.
-const BRONLINK2_UPD = '2026-11-19';
+const BRONLINK2_UPD = '2026-11-24';
 const BRONLINK2_PADEN = new Set(['/aanbieders/', '/aanbieders/sumup/', '/aanbieders/ccv/', '/aanbieders/lightspeed/', '/kassa-match/']);
 
 export const pages = [P.home, P.quiz, P.pinVergelijk, P.kassaVergelijk, P.aanbiedersHub, ...P.aanbiederPages, P.sumupVsZettle, P.myposVsSumup, P.gidsHub, ...P.guides, P.bronnen, P.over, P.privacy, P.disclaimer, P.contact, P.notfound].map((p) => (LOGO_PADEN.has(p.path) ? bijgewerkt(p, LOGO_UPD) : p)).map((p) => (ZETTLE_PADEN.has(p.path) || MOLLIE_PADEN.has(p.path) ? bijgewerkt(p, ZETTLE_UPD) : p)).map((p) => (LINKS_PADEN.has(p.path) ? bijgewerkt(p, LINKS_UPD) : p)).map((p) => (SHOPIFY_TARIEF_PADEN.has(p.path) ? bijgewerkt(p, SHOPIFY_TARIEF_UPD) : p)).map((p) => (MYPOS_VS_PADEN.has(p.path) ? bijgewerkt(p, MYPOS_VS_UPD) : p)).map((p) => (NEUTRAAL_PADEN.has(p.path) ? bijgewerkt(p, NEUTRAAL_UPD) : p)).map((p) => (BRONLINK2_PADEN.has(p.path) ? bijgewerkt(p, BRONLINK2_UPD) : p)).map(nuchterDatum);

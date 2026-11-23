@@ -57,7 +57,7 @@ test('lastmod >= parent-build en alleen omhoog bij eigen body- of clientwijzigin
       }
     }
     assert.deepEqual(fout, []);
-    // 19-11: /aanbieders/ heeft een eigen bodywijziging (kaartknoppen SumUp/CCV/Lightspeed → bronlink).
+    // 24-11: /aanbieders/ heeft een eigen bodywijziging (kaartknoppen SumUp/CCV/Lightspeed → bronlink).
     const hubD = revisieDatum('/aanbieders/', '2026-11-16');
     assert.equal(tSm.get('/aanbieders/'), hubD);
     assert.match(readFileSync(join(tOut, 'aanbieders/index.html'), 'utf8'), new RegExp(`bijgewerkt <time datetime="${hubD}">`));
