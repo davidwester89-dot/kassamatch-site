@@ -29,7 +29,9 @@ test('L7 26-11: lastmod en zichtbaar bijgewerkt op / en /pinautomaat-vergelijken
     assert.match(sm, new RegExp(`<loc>https://kassamatch\\.nl${p.replace(/[/.]/g, '\\$&')}</loc><lastmod>${d}</lastmod>`), p);
     assert.match(html(p), new RegExp(`Laatst bijgewerkt <time datetime="${d}">`));
   }
-  assert.equal(revisieDatum('/gidsen/', '2026-11-25'), '2026-11-25');
-  assert.match(sm, /<loc>https:\/\/kassamatch\.nl\/gidsen\/<\/loc><lastmod>2026-11-25<\/lastmod>/);
-  assert.match(html('/gidsen/'), /Laatst bijgewerkt <time datetime="2026-11-25">/);
+  // /gidsen/ tilt niet mee met 26-11 (geen eigen bodywijziging). 27-11 krijgt de hub een eigen bodywijziging (kaart kassasysteem winkel).
+  const g = revisieDatum('/gidsen/', '2026-11-25');
+  assert.notEqual(g, d);
+  assert.match(sm, new RegExp(`<loc>https://kassamatch\\.nl/gidsen/</loc><lastmod>${g}</lastmod>`));
+  assert.match(html('/gidsen/'), new RegExp(`Laatst bijgewerkt <time datetime="${g}">`));
 });

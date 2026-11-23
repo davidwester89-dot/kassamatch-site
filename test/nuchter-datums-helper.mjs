@@ -22,4 +22,6 @@ export const BRONLINK2_PADEN = new Set(['/aanbieders/', '/aanbieders/sumup/', '/
 export const HUREN_KOPEN_PADEN = new Set(['/gidsen/', '/bronnen/', '/goedkoopste-pinautomaat/']);
 // 26-11: CCV-koopprijs op home en /pinautomaat-vergelijken/. /gidsen/ blijft 25-11 (geen eigen bodywijziging).
 export const CCV_KOOP_PADEN = new Set(['/', '/pinautomaat-vergelijken/']);
-export const revisieDatum = (pad, vorige) => CCV_KOOP_PADEN.has(pad) ? '2026-11-26' : HUREN_KOPEN_PADEN.has(pad) ? '2026-11-25' : BRONLINK2_PADEN.has(pad) ? '2026-11-24' : STIJL_PADEN.has(pad) ? '2026-11-18' : vorige;
+// 27-11 (nieuwe gids kassasysteem winkel): /gidsen/ (nieuwe kaart) en /kassasysteem-horeca/ (inlink) hebben een eigen bodywijziging.
+export const WINKEL_PADEN = new Set(['/gidsen/', '/kassasysteem-horeca/']);
+export const revisieDatum = (pad, vorige) => WINKEL_PADEN.has(pad) ? '2026-11-27' : CCV_KOOP_PADEN.has(pad) ? '2026-11-26' : HUREN_KOPEN_PADEN.has(pad) ? '2026-11-25' : BRONLINK2_PADEN.has(pad) ? '2026-11-24' : STIJL_PADEN.has(pad) ? '2026-11-18' : vorige;

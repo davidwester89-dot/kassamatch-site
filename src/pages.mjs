@@ -491,7 +491,7 @@ export const horeca = {
   crumb: 'Kassasysteem horeca', stamp: { checked: HORECA_CHECKED, updated: HORECA_UPD },
   body: `<article class="prose"><h1>Kassasysteem horeca: prijzen en functies vergeleken</h1>${by(HORECA_UPD)}
 <p class="lead">Een kassa voor je café of restaurant moet meer kunnen dan afrekenen. Denk aan tafels, bonnen voor de keuken en pinnen aan tafel. Hieronder zie je wat ${link('lightspeed')}, ${link('untill')} en ${link('mplus')} daarvoor bieden en wat het kost, met de prijzen van hun eigen sites.</p>
-<p>Alle kassasystemen naast elkaar, ook voor winkels, staan in <a href="/kassasysteem-vergelijken/">kassasysteem vergelijken</a>.</p>
+<p>Alle kassasystemen naast elkaar, ook voor winkels, staan in <a href="/kassasysteem-vergelijken/">kassasysteem vergelijken</a>. Heb je een winkel? Lees dan <a href="/kassasysteem-winkel/">kassasysteem winkel</a>.</p>
 <h2>Wat moet een horecakassa kunnen?</h2>
 <ul><li><strong>Tafels en plattegrond.</strong> unTill Air Horeca heeft een tafelplan met tafelstatus: aan de kleur zie je of een tafel bezet is en met welke gang hij bezig is. MplusKASSA toont de tafels op een plattegrond die je zelf indeelt, of in een lijst.</li>
 <li><strong>Bonnen voor keuken en bar.</strong> Bij unTill Air print je keuken- en barbonnen vanaf het pakket Standaard. Lightspeed en MplusKASSA hebben ook een keukenscherm, zodat bestellingen digitaal in de keuken binnenkomen.</li>
@@ -530,7 +530,62 @@ ${faqHtml(horecaFaq)}
 ${matchCta('Welke kassa past bij jouw horecazaak?', 'gids_match')}
 <h2>Bronnen</h2><ul>${HORECA_BRONNEN.map(([t, u]) => `<li><a href="${u}" rel="noopener">${esc(t)}</a></li>`).join('')}</ul></article>`,
 };
-export const guides = [goedkoopste, kiezen, transactie, horeca];
+// ---- Kassasysteem winkel (nieuw 27-11-2026, briefing SEO wk48) ----
+// Alle bedragen en functies uit AANBIEDERS (dezelfde data als /kassasysteem-vergelijken/); bewaarplicht uit de Belastingdienst-bronnen (BD).
+// Partner: alleen de bestaande knoppen van Shopify POS en myPOS (knop()); geen CTA-component (E-CTA-1 golf 3).
+export const WINKEL_DATE = '2026-11-27';
+const WINKEL_IDS = ['sumup', 'zettle', 'mypos', 'lightspeed', 'shopify', 'mplus'];
+const lsRetail = A.lightspeed.pakketten.filter(([n]) => n.startsWith('Retail'));
+const LS_WINKEL = 'Retail ' + A.lightspeed.vanafTekst.match(/€ 129 per maand maandelijks of € 99 per maand bij jaarbetaling/)[0];
+const winkelFaq = [
+  ['Wat kost een kassasysteem voor een winkel per maand?', `Van € 0 voor de kassasoftware van SumUp of Zettle tot ${esc(lsRetail.at(-1)[1])} voor ${esc(lsRetail.at(-1)[0])} van Lightspeed. Shopify POS kost ${esc(A.shopify.vanafTekst)}. MplusKASSA werkt op offerte. Daarbovenop komen hardware en kosten per pinbetaling.`],
+  ['Kan ik mijn winkelkassa koppelen aan mijn webshop?', 'Ja. Bij Shopify POS delen winkel en webshop producten, voorraad en klanten. De retailpakketten van Lightspeed hebben Lightspeed eCom ingebouwd. MplusKASSA koppelt via partners met onder meer WooCommerce en Magento.'],
+  ['Hoe lang moet ik de gegevens uit mijn kassa bewaren?', 'Zeven jaar. De gegevens in je kassasysteem horen bij je administratie, en die bewaar je zeven jaar, schrijft de Belastingdienst.'],
+];
+const WINKEL_BRONNEN = (() => { const seen = new Set(); return [...bronnenVan(...WINKEL_IDS), ...BD].filter(([, u]) => (seen.has(u) ? false : seen.add(u))); })();
+export const winkel = {
+  ...article({ path: '/kassasysteem-winkel/', title: 'Kassasysteem winkel: kosten, webshopkoppeling en kiezen', h1: 'Kassasysteem winkel: kosten, webshopkoppeling en kiezen', description: 'Welk kassasysteem past bij je winkel? Wat het per maand kost, kopen of huren, koppelen met je webshop en voorraad, en wanneer een pinautomaat genoeg is.', og: 'kassa', parents: [['/gidsen/', 'Gidsen']], date: WINKEL_DATE, updated: WINKEL_DATE, faq: winkelFaq }),
+  crumb: 'Kassasysteem winkel', stamp: { updated: WINKEL_DATE },
+  body: `<article class="prose"><h1>Kassasysteem winkel: kosten, webshopkoppeling en kiezen</h1>${by(WINKEL_DATE)}
+<p class="lead">In een winkel draait je kassa om producten, voorraad en snel afrekenen. Verkoop je ook online, dan wil je dat winkel en webshop dezelfde voorraad zien. Hieronder zie je wat de kassasystemen voor winkels kosten en kunnen, met de bedragen van de aanbieders zelf.</p>
+<p>Alle kassasystemen naast elkaar, ook voor horeca, staan in <a href="/kassasysteem-vergelijken/">kassasysteem vergelijken</a>. Heb je een café of restaurant? Lees dan <a href="/kassasysteem-horeca/">kassasysteem horeca</a>.</p>
+<h2>Wat een winkelkassa moet kunnen</h2>
+<ul><li><strong>Producten en voorraad.</strong> ${link('zettle')} noemt bij de gratis kassasoftware producten, voorraad, cadeaubonnen en omzetrapporten. Bij ${link('lightspeed')} zitten voorraadbeheer en rapporten in elk retailpakket.</li>
+<li><strong>Barcodes scannen.</strong> Bij ${link('sumup')} zit de barcodescanner in POS Plus (€ 49 per maand), samen met een boekhoudkoppeling.</li>
+<li><strong>Klantgegevens.</strong> Bij ${link('shopify')} delen winkel en webshop dezelfde klanten, producten en voorraad.</li>
+<li><strong>Afrekenen met pin.</strong> SumUp, Zettle en myPOS leveren de pinautomaat zelf. Bij MplusKASSA koppel je onder meer Pay., CCV of Worldline.</li></ul>
+<h2>Kassa en webshop koppelen</h2>
+<ul><li><strong>Shopify POS:</strong> ${esc(A.shopify.online.t)} Je hebt een Shopify-abonnement nodig.</li>
+<li><strong>Lightspeed:</strong> ${esc(A.lightspeed.online.t)}</li>
+<li><strong>MplusKASSA:</strong> ${esc(A.mplus.online.t)}</li>
+<li><strong>SumUp en myPOS:</strong> geen webshopkoppeling genoemd, wel online betalingen (SumUp 2,50% per transactie) of betaallinks en QR-codes (myPOS).</li></ul>
+<p>Nog geen webshop? Hoe Shopify werkt en wat het kost, lees je op <a href="https://shopmatch.nl/platformen/shopify/">ShopMatch</a>. Meer over Shopify als kassa staat op <a href="/aanbieders/shopify-pos/">Shopify POS</a>.</p>
+<div class="actions">${knop('shopify', 'winkel_webshop')}</div>
+<h2>Kosten per maand</h2>
+<p>Zoals de aanbieders het tonen, voor de software of het pakket. Hardware en pinkosten komen erbij.</p>
+<div class="table-wrap"><table class="data stack"><caption class="sr-only">Kassasystemen voor de winkel: prijs</caption><thead><tr><th scope="col">Kassasysteem</th><th scope="col">Prijs</th><th scope="col">Hardware</th></tr></thead><tbody>${WINKEL_IDS.map((id) => `<tr><th scope="row">${link(id)}</th><td data-l="Prijs">${esc(id === 'lightspeed' ? LS_WINKEL : kassaPrijs(id))}</td><td data-l="Hardware">${esc(A[id].soort === 'pin' ? hwTekst(id) : A[id].hardwareNoot)}</td></tr>`).join('')}</tbody></table></div>
+<ul><li><strong>Lightspeed Retail:</strong> ${lsRetail.map(([n, pr]) => `${esc(n.replace('Retail ', ''))} ${esc(pr)}`).join(', ')}, bij jaarbetaling. Betaal je Basis per maand, dan is het € 129. Lightspeed: "Prijzen kunnen variëren en extra servicekosten kunnen van toepassing zijn."</li>
+<li><strong>Shopify POS:</strong> ${A.shopify.pakketten.map(([n, pr]) => `${esc(n)} ${esc(pr)}`).join(', ')}. In de winkel betaal je met Shopify Payments 0,75% + € 0,10 per betaalpas op Basic.</li>
+<li><strong>MplusKASSA:</strong> geen prijzen op de site; je krijgt een prijsoverzicht op maat.</li></ul>
+<h2>Kopen of huren</h2>
+<ul><li><strong>Abonnement:</strong> Lightspeed en Shopify POS rekenen per maand. Bij SumUp betaal je alleen voor POS Plus per maand.</li>
+<li><strong>Eenmalig kopen:</strong> bij MplusKASSA betaal je eenmalig voor hardware en software. Voor service en online diensten kunnen maandkosten gelden.</li>
+<li><strong>Losse hardware:</strong> de SumUp Kassa kost € 399 en de PayPal Terminal van Zettle € 199, beide excl. btw. Lightspeed en Shopify noemen geen hardwareprijzen op hun prijspagina.</li></ul>
+<p>Een pinautomaat kun je bij CCV ook huren, vanaf € 25 per maand. Wat dan goedkoper is, lees je in <a href="/pinautomaat-huren-of-kopen/">pinautomaat huren of kopen</a>.</p>
+<h2>Kleine winkel: is een pinautomaat genoeg?</h2>
+<p>Verkoop je weinig producten en hoef je geen voorraad bij te houden, dan kan een pinautomaat met kassa-app genoeg zijn. De kassasoftware van SumUp en Zettle kost € 0. ${link('mypos')} heeft een kassa-app op de Flex (€ 69) en de Ultra (€ 179), excl. btw.</p>
+<p>Je betaalt dan vooral per pinbetaling. Welke aanbieder bij jouw aantallen het goedkoopst is, zie je in <a href="/goedkoopste-pinautomaat/">de goedkoopste pinautomaat</a> en <a href="/transactiekosten-vergelijken/">transactiekosten vergelijken</a>.</p>
+<div class="actions">${knop('mypos', 'winkel_pin')}</div>
+<h2>Wat de Belastingdienst vraagt</h2>
+<ul><li>Gebruik je een kassasysteem, dan horen de gegevens daarin bij je administratie.</li><li>Je bewaart die administratie zeven jaar.</li><li>Een keurmerkkassa is niet verplicht. Met een keurmerkkassa mag je ervan uitgaan dat je kassa-administratie aan de eisen voldoet.</li></ul>
+<p>Welke functies je verder nodig hebt, lees je in <a href="/kassasysteem-kiezen/">kassasysteem kiezen</a>.</p>
+<h2>Zo kies je</h2>
+<ol><li>Verkoop je ook online, begin dan bij de webshop: Shopify POS of Lightspeed Retail houden één voorraad bij.</li><li>Heb je een klein assortiment, kijk dan eerst of een pinautomaat met gratis kassa-app genoeg is.</li><li>Wil je liever eenmalig betalen dan per maand, vraag dan een prijsoverzicht bij MplusKASSA.</li><li>Tel de kosten per pinbetaling mee, want die betaal je bij elke verkoop.</li></ol>
+${faqHtml(winkelFaq)}
+${matchCta('Welke kassa past bij jouw winkel?', 'gids_match')}
+<h2>Bronnen</h2><ul>${WINKEL_BRONNEN.map(([t, u]) => `<li><a href="${u}" rel="noopener">${esc(t)}</a></li>`).join('')}</ul></article>`,
+};
+export const guides = [goedkoopste, kiezen, transactie, horeca, winkel];
 // Gidsen-hub: per thema een korte samenvatting + link (geen volledige antwoorden, om de gidsen zelf niet te beconcurreren).
 // Bedragen alleen uit AANBIEDERS (zelfde bronnen als de aanbiederpagina's).
 const pctT = (n) => n.toLocaleString('nl-NL') + '%';
@@ -543,9 +598,10 @@ const hubFaq = [
 export const gidsHub = {
   path: '/gidsen/', title: 'Gidsen: pinautomaat en kassasysteem kiezen | KassaMatch', h1: 'Gidsen over pinautomaten en kassasystemen', crumb: 'Gidsen', og: 'gidsen',
   description: 'Welke pinautomaat of kassa past bij je zaak? Gidsen over kosten per pinbetaling, huren of kopen, een kassasysteem kiezen en wat de Belastingdienst vraagt.',
-  schema: [faqSchema(hubFaq)],
+  // 27-11: CollectionPage met dateModified, zodat de JSON-LD meegaat met lastmod en de zichtbare datum (L7; bijgewerkt() zet hem per laag).
+  schema: [{ '@context': 'https://schema.org', '@type': 'CollectionPage', name: 'Gidsen', url: `${SITE.domain}/gidsen/`, dateModified: WINKEL_DATE, publisher: ORG, inLanguage: 'nl' }, faqSchema(hubFaq)],
   body: `<h1>Gidsen over pinautomaten en kassasystemen</h1><p class="lead">Uitleg en rekenvoorbeelden, met de tarieven van de aanbieders en de regels van de Belastingdienst.</p>
-<div class="grid cards">${[...GIDSEN, ['/sumup-vs-zettle/', 'SumUp of Zettle', 'Tarief, apparaat en kassa-app naast elkaar.'], ['/mypos-vs-sumup/', 'myPOS of SumUp', 'Maandprijs, percentage en welk plan bij lage of hogere omzet.'], ['/pinautomaat-huren-of-kopen/', 'Huren of kopen', 'Huur, aanschaf en kosten per betaling naast elkaar.']].map(([h, t, d]) => `<a class="card" href="${h}"><h2>${esc(t)}</h2><p>${esc(d)}</p><span class="more">Lees verder →</span></a>`).join('')}</div>
+<div class="grid cards">${[...GIDSEN, ['/sumup-vs-zettle/', 'SumUp of Zettle', 'Tarief, apparaat en kassa-app naast elkaar.'], ['/mypos-vs-sumup/', 'myPOS of SumUp', 'Maandprijs, percentage en welk plan bij lage of hogere omzet.'], ['/pinautomaat-huren-of-kopen/', 'Huren of kopen', 'Huur, aanschaf en kosten per betaling naast elkaar.'], ['/kassasysteem-winkel/', 'Kassasysteem winkel', 'Voorraad, webshopkoppeling en kosten per maand voor je winkel.']].map(([h, t, d]) => `<a class="card" href="${h}"><h2>${esc(t)}</h2><p>${esc(d)}</p><span class="more">Lees verder →</span></a>`).join('')}</div>
 <div class="prose">
 <h2>Waar begin je?</h2>
 <p>Begin bij je eigen vraag. Wil je alleen pinbetalingen aannemen, bijvoorbeeld op de markt of bij klanten thuis? Dan zoek je een pinautomaat, en draait het vooral om de kosten per betaling. Wil je ook producten, voorraad, tafels of personeel beheren? Dan zoek je een kassasysteem, met een pinkoppeling erbij.</p>
