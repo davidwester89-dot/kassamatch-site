@@ -72,9 +72,9 @@ const BRONLINK2_PADEN = new Set(['/aanbieders/', '/aanbieders/sumup/', '/aanbied
 // Geen andere pagina's: geen eigen bodywijziging.
 const HUREN_KOPEN_UPD = '2026-11-25';
 const HUREN_KOPEN_PADEN = new Set(['/gidsen/', '/bronnen/', '/goedkoopste-pinautomaat/']);
-// L7 23-11: CCV-koopprijs (vanaf € 399) op / en /pinautomaat-vergelijken/, officiële kooppagina als bron.
-// /gidsen/ tilt niet mee: geen eigen bodywijziging (SC a1e4b61); blijft 20-11.
-const CCV_KOOP_UPD = '2026-11-23';
+// L7 26-11: CCV-koopprijs (vanaf € 399) op / en /pinautomaat-vergelijken/, officiële kooppagina als bron.
+// /gidsen/ tilt niet mee: geen eigen bodywijziging (SC a1e4b61); blijft 25-11.
+const CCV_KOOP_UPD = '2026-11-26';
 const CCV_KOOP_PADEN = new Set(['/', '/pinautomaat-vergelijken/']);
 
 export const pages = [P.home, P.quiz, P.pinVergelijk, P.kassaVergelijk, P.aanbiedersHub, ...P.aanbiederPages, P.sumupVsZettle, P.myposVsSumup, P.hurenKopen, P.gidsHub, ...P.guides, P.bronnen, P.over, P.privacy, P.disclaimer, P.contact, P.notfound].map((p) => (LOGO_PADEN.has(p.path) ? bijgewerkt(p, LOGO_UPD) : p)).map((p) => (ZETTLE_PADEN.has(p.path) || MOLLIE_PADEN.has(p.path) ? bijgewerkt(p, ZETTLE_UPD) : p)).map((p) => (LINKS_PADEN.has(p.path) ? bijgewerkt(p, LINKS_UPD) : p)).map((p) => (SHOPIFY_TARIEF_PADEN.has(p.path) ? bijgewerkt(p, SHOPIFY_TARIEF_UPD) : p)).map((p) => (MYPOS_VS_PADEN.has(p.path) ? bijgewerkt(p, MYPOS_VS_UPD) : p)).map((p) => (NEUTRAAL_PADEN.has(p.path) ? bijgewerkt(p, NEUTRAAL_UPD) : p)).map((p) => (BRONLINK2_PADEN.has(p.path) ? bijgewerkt(p, BRONLINK2_UPD) : p)).map((p) => (HUREN_KOPEN_PADEN.has(p.path) ? bijgewerkt(p, HUREN_KOPEN_UPD) : p)).map((p) => (CCV_KOOP_PADEN.has(p.path) ? bijgewerkt(p, CCV_KOOP_UPD) : p)).map(nuchterDatum);
