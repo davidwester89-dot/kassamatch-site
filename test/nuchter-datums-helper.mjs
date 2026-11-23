@@ -18,6 +18,6 @@ export const STIJL_PADEN = new Set([
 ]);
 // 24-11 (bronlinks SumUp/CCV/Lightspeed): eigen body- of clientwijziging; latere datum wint van de stijlrelease.
 export const BRONLINK2_PADEN = new Set(['/aanbieders/', '/aanbieders/sumup/', '/aanbieders/ccv/', '/aanbieders/lightspeed/', '/kassa-match/']);
-// 20-11 (nieuwe gids pinautomaat huren of kopen): /gidsen/ (kaart + verwijzing), /bronnen/ (nieuwe bron) en /goedkoopste-pinautomaat/ (inlink) hebben een eigen bodywijziging.
+// 25-11 (nieuwe gids pinautomaat huren of kopen): /gidsen/ (kaart + verwijzing), /bronnen/ (nieuwe bron) en /goedkoopste-pinautomaat/ (inlink) hebben een eigen bodywijziging.
 export const HUREN_KOPEN_PADEN = new Set(['/gidsen/', '/bronnen/', '/goedkoopste-pinautomaat/']);
-export const revisieDatum = (pad, vorige) => HUREN_KOPEN_PADEN.has(pad) ? '2026-11-20' : BRONLINK2_PADEN.has(pad) ? '2026-11-24' : STIJL_PADEN.has(pad) ? '2026-11-18' : vorige;
+export const revisieDatum = (pad, vorige) => HUREN_KOPEN_PADEN.has(pad) ? '2026-11-25' : BRONLINK2_PADEN.has(pad) ? '2026-11-24' : STIJL_PADEN.has(pad) ? '2026-11-18' : vorige;

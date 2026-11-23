@@ -320,11 +320,11 @@ ${faqHtml(msFaq)}
 ${matchCta('Twijfel je nog?', 'vs_mypos_sumup')}${bron(A.mypos.bronnen, A.sumup.bronnen)}</article>`,
 };
 
-// ---- Pinautomaat huren of kopen (wk47, 20-11) ----
+// ---- Pinautomaat huren of kopen (wk47, 25-11) ----
 // Huur- en koopbedragen CCV: ccv.eu/nl huur- en koopsite, gecontroleerd 16-11-2026 (zelfde bedragen als A.ccv.hardwareNoot).
 // myPOS Go 2: normale prijs € 39 excl. btw (A.mypos.hardware). Tijdelijke kortingen noemen we niet (L4).
 // SumUp-hardwarebedragen niet tonen (SC B3: actieprijzen). Geen banken noemen.
-const HK_DATE = '2026-11-20';
+const HK_DATE = '2026-11-25';
 const CCV_HUUR = [['Clover Flex Pocket', 25], ['Clover Flex', 28], ['Clover Mini', 30]];
 const CCV_KOOP = [['Clover Flex Pocket', 399], ['Clover Flex', 499], ['Clover Mini', 599]];
 const CCV_KOOP_MAAND = 16;
